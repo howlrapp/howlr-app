@@ -1,0 +1,23 @@
+node_modules/**/*
+.expo/*
+npm-debug.*
+.c9
+web
+.cache
+dist
+*~
+.DS_Store
+web-build
+yarn-error.log
+
+
+# @generated: @expo/electron-adapter@0.0.27
+/.expo/*
+# Expo Web
+/web-build/*
+# electron-webpack
+/dist
+# @end @expo/electron-adapter
+
+google-services.json
+app.json

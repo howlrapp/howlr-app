@@ -1,0 +1,101 @@
+import React from 'react';
+
+import { Menu, Divider } from '@ui-kitten/components';
+
+import ScreenTopNavigation from '../components/ScreenTopNavigation';
+
+import DistanceUnitForm from '../components/settings/DistanceUnitForm';
+import NotificationForm from '../components/settings/NotificationForm';
+
+import MaximumDistanceForm from '../components/settings/MaximumDistanceForm';
+import HideCityForm from '../components/settings/HideCityForm';
+import HideLikesForm from '../components/settings/HideLikesForm';
+import ShareOnlineStatusForm from '../components/settings/ShareOnlineStatusForm';
+import HideNotCommonGroupsForm from '../components/settings/HideNotCommonGroupsForm';
+
+import BlockedUsersForm from '../components/settings/BlockedUsersForm';
+import LogoutLink from '../components/settings/LogoutLink';
+import RemoveAccountLink from '../components/settings/RemoveAccountLink';
+import DataConservationLink from '../components/settings/DataConservationLink';
+
+import TermsAndConditionsLink from '../components/settings/TermsAndConditionsLink';
+import PrivacyPolicyLink from '../components/settings/PrivacyPolicyLink';
+
+import WebsiteLink from '../components/settings/WebsiteLink';
+
+import MenuSeparator from '../components/MenuSeparator';
+import MenuSection from '../components/MenuSection';
+import ResponsiveLayout from '../components/ResponsiveLayout';
+
+const Settings = () => {
+  return (
+    <>
+      <ScreenTopNavigation title="Settings" />
+        <Menu
+          contentInsetAdjustmentBehavior="automatic"
+        >
+        <ResponsiveLayout>
+          <MenuSeparator />
+
+          <MenuSection>
+            <DistanceUnitForm />
+            <Divider />
+            <NotificationForm />
+          </MenuSection>
+
+          <MenuSeparator />
+
+          <MenuSection>
+            <MaximumDistanceForm />
+            <Divider />
+            <HideCityForm />
+            <Divider />
+            <HideLikesForm />
+            <Divider />
+            <ShareOnlineStatusForm />
+            <Divider />
+            <HideNotCommonGroupsForm />
+          </MenuSection>
+
+          <MenuSeparator />
+
+          <MenuSection>
+            <BlockedUsersForm />
+          </MenuSection>
+
+          <MenuSeparator />
+
+          <MenuSection>
+            <TermsAndConditionsLink />
+            <Divider />
+            <PrivacyPolicyLink />
+          </MenuSection>
+
+          <MenuSeparator />
+
+          <MenuSection>
+            <LogoutLink />
+            <Divider />
+            <RemoveAccountLink />
+          </MenuSection>
+
+          <MenuSeparator />
+
+          <Divider />
+          <WebsiteLink />
+          <Divider />
+
+          <MenuSeparator />
+
+          <MenuSection>
+          <DataConservationLink />
+          </MenuSection>
+
+          <MenuSeparator />
+        </ResponsiveLayout>
+      </Menu>
+    </>
+  )
+}
+
+export default React.memo(Settings);
