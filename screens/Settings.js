@@ -22,6 +22,7 @@ import TermsAndConditionsLink from '../components/settings/TermsAndConditionsLin
 import PrivacyPolicyLink from '../components/settings/PrivacyPolicyLink';
 
 import WebsiteLink from '../components/settings/WebsiteLink';
+import SourceCodeLink from '../components/settings/SourceCodeLink';
 
 import MenuSeparator from '../components/MenuSeparator';
 import MenuSection from '../components/MenuSection';
@@ -66,14 +67,6 @@ const Settings = () => {
           <MenuSeparator />
 
           <MenuSection>
-            <TermsAndConditionsLink />
-            <Divider />
-            <PrivacyPolicyLink />
-          </MenuSection>
-
-          <MenuSeparator />
-
-          <MenuSection>
             <LogoutLink />
             <Divider />
             <RemoveAccountLink />
@@ -81,15 +74,25 @@ const Settings = () => {
 
           <MenuSeparator />
 
-          <Divider />
-          <WebsiteLink />
-          <Divider />
+          <MenuSection>
+          <DataConservationLink />
+          </MenuSection>
 
           <MenuSeparator />
 
           <MenuSection>
-          <DataConservationLink />
+            <TermsAndConditionsLink />
+            <Divider />
+            <PrivacyPolicyLink />
           </MenuSection>
+
+          <MenuSeparator />
+
+          <Divider />
+          <WebsiteLink />
+          <Divider />
+          <SourceCodeLink />
+          <Divider />
 
           <MenuSeparator />
         </ResponsiveLayout>
