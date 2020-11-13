@@ -34,7 +34,7 @@
     "@ui-kitten/eva-icons": "^5.0.0",
     "@welldone-software/why-did-you-render": "^4.3.2",
     "date-fns": "^2.16.1",
-    "electron": "^6.0.12",
+    "electron": "^7.2.4",
     "expo": "^39.0.0",
     "expo-asset": "~8.2.0",
     "expo-av": "~8.6.0",
