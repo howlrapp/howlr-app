@@ -116,7 +116,9 @@ const LikeItem = ({
     <UserAvatar user={like.user} size={height} />
   ), [like.user]);
 
-  const distanceSentence = useDistance(like.user.distance);
+  const distanceSentence = useDistance(like.user.distance, (distance, unit) => (
+    `About ${distance} ${unit} away`
+  ));
 
   const handleGoToUser = useCallback(() => (
     navigation.navigate('User', { id: like.user.id })

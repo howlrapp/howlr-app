@@ -1,8 +1,11 @@
 import useViewer from './useViewer';
 
-const useDistance = (distance, defaultDistanceUnit) => {
-  const { distanceUnit: viewerDistanceUnit } = useViewer();
-  const distanceUnit = defaultDistanceUnit || viewerDistanceUnit;
+const DEFAULT_FORMATTER = (distance, unit) => (
+  `${distance} ${unit}`
+)
+
+const useDistance = (distance, format = DEFAULT_FORMATTER) => {
+  const { distanceUnit } = useViewer();
 
   if (distance === 0) {
     return ("Near you");
@@ -10,12 +13,12 @@ const useDistance = (distance, defaultDistanceUnit) => {
 
   if (distanceUnit === 'miles') {
     return (
-      `${Math.ceil(distance * 0.621371)} ${distanceUnit}`
+      format(Math.ceil(distance * 0.621371), distanceUnit)
     );
   }
 
   return (
-    `${distance} ${distanceUnit}`
+    format(distance, distanceUnit)
   )
 }
 
