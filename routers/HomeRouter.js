@@ -1,8 +1,8 @@
 import React, { useMemo, useEffect } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { BottomNavigation, BottomNavigationTab, Icon, useTheme } from '@ui-kitten/components';
+import { BottomNavigation, BottomNavigationTab, Icon, Text, useTheme } from '@ui-kitten/components';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Host } from 'react-native-portalize';
 import * as Notifications from 'expo-notifications';
 
@@ -57,23 +57,40 @@ const BottomTabBar = ({ navigation, state, withTitle }) => {
         >
           <BottomNavigationTab
             title={withTitle && 'Search'}
-            icon={(props) => <Icon {...props} name='search-outline' />}
+            icon={(props) => <Icon {...props} name='search' />}
           />
           <BottomNavigationTab
             title={withTitle && 'Events'}
-            icon={(props) => <Icon {...props} name='calendar-outline' />}
+            icon={(props) => <Icon {...props} name='calendar' />}
           />
           <BottomNavigationTab
             title={withTitle && 'Likes'}
-            icon={(props) => <Icon {...props} name='heart-outline' />}
+            icon={(props) => <Icon {...props} name='heart' />}
           />
           <BottomNavigationTab
             title={withTitle && 'Groups'}
-            icon={(props) => <Icon {...props} name='people-outline' />}
+            icon={(props) => <Icon {...props} name='people' />}
           />
           <BottomNavigationTab
-            title={withTitle && 'Chats'}
-            icon={(props) => <Icon {...props} name={unreadChats.length > 0 ? 'message-circle' : 'message-circle-outline'} />}
+            title={(props) => (
+              withTitle && (
+                <>
+                  <Text {...props}>Chats</Text>
+                  {
+                    unreadChats.length > 0 && (
+                      <View
+                        style={styles.badgeContainer}
+                      >
+                        <View
+                          style={[ styles.badge, { backgroundColor: theme['color-danger-500'], borderColor: theme['background-basic-color-1'] } ]}
+                        />
+                      </View>
+                    )
+                  }
+                </>
+              )
+           )}
+            icon={(props) => <Icon {...props} name={'message-circle'} />}
           />
         </BottomNavigation>
       </View>
@@ -98,5 +115,24 @@ const HomeRouter = () => {
     </Host>
   )
 }
+
+const styles = StyleSheet.create({
+  badgeContainer: {
+    position: "absolute",
+    alignSelf: 'center',
+    top: 1,
+    paddingLeft: 18,
+  },
+  badge: {
+    alignSelf: 'center',
+    width: 12,
+    height: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    borderWidth: 2,
+  }
+})
 
 export default React.memo(HomeRouter);
