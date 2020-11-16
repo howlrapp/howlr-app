@@ -32,9 +32,10 @@ const Settings = () => {
   return (
     <>
       <ScreenTopNavigation title="Settings" />
-        <Menu
-          contentInsetAdjustmentBehavior="automatic"
-        >
+      <Divider />
+      <Menu
+        contentInsetAdjustmentBehavior="automatic"
+      >
         <ResponsiveLayout>
           <MenuSeparator />
 
