@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback } from 'react';
 import { View, KeyboardAvoidingView, StyleSheet, Platform } from 'react-native';
-import { useTheme } from '@ui-kitten/components';
+import { Divider, useTheme } from '@ui-kitten/components';
 import {
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
@@ -74,6 +74,7 @@ const Chat = ({ route: { params: { id } }}) => {
       style={[ styles.root, { paddingBottom: bottom } ]}
     >
       <ChatTopNavigation chat={chat} />
+      <Divider />
       {
         !chat && <ChatLoader />
       }

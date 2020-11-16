@@ -131,6 +131,7 @@ const ChatInput = ({
             <Button
               disabled
               status="basic"
+              style={styles.button}
             >
               Waiting confirmation
             </Button>
@@ -142,6 +143,7 @@ const ChatInput = ({
               status="success"
               disabled={acceptChatLoading}
               onPress={handleAcceptChat}
+              style={styles.button}
             >
               Accept
             </Button>
@@ -155,6 +157,9 @@ const ChatInput = ({
 const styles = StyleSheet.create({
   accessory: {
     alignSelf: 'flex-start'
+  },
+  button: {
+    marginBottom: 5,
   }
 })
 
