@@ -6,14 +6,21 @@ import {
   useResponsiveWidth,
 } from "react-native-responsive-dimensions";
 import { format, differenceInHours } from 'date-fns';
+import { useActionSheet } from '@expo/react-native-action-sheet'
 
 import ParsedText from 'react-native-parsed-text';
 import * as WebBrowser from 'expo-web-browser';
 
+import { GET_CHATS } from '../../hooks/useGetChats';
+import { GET_CHAT } from '../../hooks/useGetChat';
+
 import useViewer from '../../hooks/useViewer';
+import useRemoveMessage from '../../hooks/useRemoveMessage';
+import showTransactionMessage from '../../utils/showTransactionMessage';
 
 const ChatBubble = React.memo(({
-  message
+  message,
+  chatId
 }) => {
   const viewer = useViewer();
   const theme = useTheme();
@@ -40,6 +47,38 @@ const ChatBubble = React.memo(({
     }
   }, [message.createdAt]);
 
+  const { showActionSheetWithOptions } = useActionSheet();
+  const [ removeMessage ] = useRemoveMessage();
+  const handleShowOptions = useCallback(() => {
+    showActionSheetWithOptions(
+      {
+        options: ['Delete message', 'Cancel'],
+        destructiveButtonIndex: 0,
+        cancelButtonIndex: 1,
+        title: "Select action",
+      },
+      (buttonIndex) => {
+        if (buttonIndex === 0) {
+          showTransactionMessage(
+            { message: "Deleting message" },
+            () => (
+              removeMessage({
+                variables: {
+                  input: { messageId: message.id }
+                },
+                awaitRefetchQueries: true,
+                refetchQueries: [
+                  { query: GET_CHATS },
+                  { query: GET_CHAT, variables: { id: chatId } }
+                ]
+              })
+            )
+          );
+        }
+      }
+    )
+  }, [showActionSheetWithOptions, message, chatId, removeMessage ]);
+
   return (
     <>
       {
@@ -53,6 +92,7 @@ const ChatBubble = React.memo(({
                 styles.bubble,
                 { backgroundColor: isMe ? theme['color-primary-600'] : theme['color-basic-transparent-100'] }
               ]}
+              onLongPress={handleShowOptions}
             >
               <Text
                 category="p1"
