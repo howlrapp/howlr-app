@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Text } from '@ui-kitten/components';
+import { truncate } from 'lodash';
 
 import ButtonAction from './ButtonAction';
 
@@ -36,11 +37,10 @@ const CancellableButton = React.forwardRef(({
       {
         ({ style, ...props }) => (
           <Text
-            {...props}
             numberOfLines={1}
-            style={[ style, { maxWidth: hasValue ? '75%' : '100%' } ]}
+            style={[ style ]}
           >
-            {label}
+            {truncate(label, { length: 12 })}
           </Text>
         )
       }
