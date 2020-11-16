@@ -1,10 +1,16 @@
 import React, { useCallback, useMemo } from 'react';
 import { ListItem, Button } from '@ui-kitten/components';
 import { StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
+import { useActionSheet } from '@expo/react-native-action-sheet'
 
 import useViewer from '../../hooks/useViewer';
 import useApp from '../../hooks/useApp';
 import useUpdateViewer from '../../hooks/useUpdateViewer';
+import useSetUsersSearchCriteria from '../../hooks/useSetUsersSearchCriteria';
+
+import { DEFAULT_USERS_SEARCH_CRITERIA } from '../../graphql/apolloClient';
 
 const usersCountString = (usersCount) => {
   if (usersCount == 0) {
@@ -48,7 +54,33 @@ const GroupItem = ({ group }) => {
         }
       }
     })
-  }, [updateViewer, group.id, groupIds])
+  }, [updateViewer, group.id, groupIds]);
+
+  const { showActionSheetWithOptions } = useActionSheet();
+  const [ setUsersSearchCriteria ] = useSetUsersSearchCriteria();
+  const navigation = useNavigation();
+  const handleOpenGroupMenu = useCallback(() => {
+    showActionSheetWithOptions(
+      {
+        options: ['See members', 'Cancel'],
+        cancelButtonIndex: 1,
+        title: group.name,
+      },
+      async (buttonIndex) => {
+        if (buttonIndex === 0) {
+          await setUsersSearchCriteria({
+            variables: {
+              usersSearchCriteria: {
+                ...DEFAULT_USERS_SEARCH_CRITERIA,
+                groupIds: [group.id]
+              }
+            }
+          });
+          navigation.navigate("Users");
+        }
+      }
+    )
+  }, [group, showActionSheetWithOptions, setUsersSearchCriteria, navigation]);
 
   const renderAction = useCallback(() => {
     if (groupIds.includes(group.id)) {
@@ -82,6 +114,7 @@ const GroupItem = ({ group }) => {
 
   return (
     <ListItem
+      onPress={handleOpenGroupMenu}
       title={group.name}
       description={`${groupCategoryLabel} - ${usersCountString(group.usersCount)}`}
       accessoryRight={renderAction}
