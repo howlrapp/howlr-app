@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
 import { TopNavigation, TopNavigationAction, Icon } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
-import { Platform } from 'react-native';
+import { Platform, View } from 'react-native';
 import {
-  SafeAreaView,
+  useSafeAreaInsets,
 } from 'react-native-safe-area-context';
 
 const renderCloseIcon = (props) => (
@@ -28,17 +28,22 @@ const renderBackLink = () => {
 const ScreenTopNavigation = ({
   ...props
 }) => {
+  const { right, top, left } = useSafeAreaInsets();
 
   return (
-    <SafeAreaView
-      edges={['right', 'top', 'left']}
+    <View
+      style={{
+        paddingLeft: left,
+        paddingTop: top,
+        paddingRight: right
+      }}
     >
       <TopNavigation
         alignment='center'
         accessoryLeft={renderBackLink}
         {...props}
       />
-    </SafeAreaView>
+    </View>
   );
 }
 

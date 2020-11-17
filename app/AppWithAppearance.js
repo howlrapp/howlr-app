@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider, initialWindowMetrics } from 'react-native-safe-area-context';
 
 import * as eva from '@eva-design/eva';
 import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
@@ -35,7 +35,7 @@ const AppWithApperance = () => {
   }, [fontsLoaded]);
 
   return (
-    <SafeAreaProvider>
+    <SafeAreaProvider initialMetrics={initialWindowMetrics}>
       <IconRegistry icons={EvaIconsPack} />
       <ApplicationProvider
         {...eva}

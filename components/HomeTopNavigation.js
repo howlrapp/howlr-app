@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
 import { TopNavigation, TopNavigationAction, Icon } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import {
-  SafeAreaView,
+  useSafeAreaInsets,
 } from 'react-native-safe-area-context';
 
 import UserAvatar from './UserAvatar';
@@ -54,10 +54,15 @@ const renderSettingsLink = () => {
 const HomeTopNavigation = ({
   ...props
 }) => {
+  const { right, top, left } = useSafeAreaInsets();
 
   return (
-    <SafeAreaView
-      edges={['right', 'top', 'left']}
+    <View
+      style={{
+        paddingLeft: left,
+        paddingTop: top,
+        paddingRight: right
+      }}
     >
       <TopNavigation
         alignment='center'
@@ -65,7 +70,7 @@ const HomeTopNavigation = ({
         accessoryRight={renderProfileLink}
         {...props}
       />
-    </SafeAreaView>
+    </View>
   );
 }
 
