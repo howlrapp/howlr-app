@@ -25,7 +25,7 @@ const Chat = ({ route: { params: { id } }}) => {
 
   usePreventMessageNotifications(id);
 
-  const { data, refetch: refetchChat } = useGetChat({ variables: { id } });
+  const { data, refetch: refetchChat } = useGetChat({ variables: { id }, fetchPolicy: "cache-and-network" });
   const chat = data?.viewer?.chat;
 
   const [ readChat ] = useReadChat();
@@ -39,7 +39,7 @@ const Chat = ({ route: { params: { id } }}) => {
         input: { chatId: chat.id }
       }
     })
-  }, [chat]);
+  }, [chat?.updatedAt]);
 
   const { data: messageChannelData } = useActionCableChannel({
     channel: "MessageChannel",
@@ -64,8 +64,8 @@ const Chat = ({ route: { params: { id } }}) => {
   ), [chat]);
 
   const renderItem = useCallback(({ item }) => (
-    <ChatBubble message={item} />
-  ), []);
+    <ChatBubble message={item} chatId={chat?.id} />
+  ), [chat?.id]);
 
   const keyExtractor = useCallback(({ id }) => id, []);
 
