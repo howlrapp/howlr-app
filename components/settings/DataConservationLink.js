@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { MenuItem } from '@ui-kitten/components';
 import { Alert, Clipboard } from 'react-native';
-import { GET_VIEWER_DEEP } from '../../hooks/useGetViewerDeep';
 import { useLazyQuery } from '@apollo/client';
 import { showMessage } from "react-native-flash-message";
+
+import { GET_VIEWER_DEEP } from '../../hooks/useGetViewerDeep';
 
 const DataConservationLink = () => {
   const [ getViewerDeep, { loading: getViewerDeepLoading, data }] = useLazyQuery(GET_VIEWER_DEEP, {
