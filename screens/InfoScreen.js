@@ -1,15 +1,26 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { List, ListItem, Divider } from '@ui-kitten/components';
+import { List, ListItem, Divider, Text } from '@ui-kitten/components';
 
 import ScreenTopNavigation from '../components/ScreenTopNavigation';
 import MenuSeparator from '../components/MenuSeparator';
 import ResponsiveLayout from '../components/ResponsiveLayout';
 
-const renderItem = ({ item: { text } }) => {
+const renderItem = ({ item: { text, description } }) => {
   return (
     <ListItem
       title={text}
+      description={({ style, ...props }) => {
+        if (!description) {
+          return (null);
+        }
+
+        return (
+          <Text style={[style, styles.subtitle]} {...props}>
+            {description}
+          </Text>
+        )
+      }}
     />
   );
 }
@@ -63,6 +74,9 @@ const styles = StyleSheet.create({
   },
   contentContainerStyle: {
     paddingBottom: 74,
+  },
+  subtitle: {
+    marginTop: 10
   }
 });
 

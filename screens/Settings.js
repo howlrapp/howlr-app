@@ -23,6 +23,7 @@ import PrivacyPolicyLink from '../components/settings/PrivacyPolicyLink';
 
 import WebsiteLink from '../components/settings/WebsiteLink';
 import SourceCodeLink from '../components/settings/SourceCodeLink';
+import ChangelogLink from '../components/settings/ChangelogLink';
 
 import MenuSeparator from '../components/MenuSeparator';
 import MenuSection from '../components/MenuSection';
@@ -91,6 +92,8 @@ const Settings = () => {
 
           <Divider />
           <WebsiteLink />
+          <Divider />
+          <ChangelogLink />
           <Divider />
           <SourceCodeLink />
           <Divider />

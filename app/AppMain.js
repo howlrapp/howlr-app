@@ -18,6 +18,7 @@ import User from '../screens/User';
 import Chat from '../screens/Chat';
 import TermsAndConditions from '../screens/TermsAndConditions';
 import PrivacyPolicy from '../screens/PrivacyPolicy';
+import Changelog from '../screens/Changelog';
 
 import useGetViewer from '../hooks/useGetViewer';
 import useGetLikes from '../hooks/useGetLikes';
@@ -257,6 +258,10 @@ const AppMain = () => {
                               <MainNavigator.Screen
                                 name="TermsAndConditions"
                                 component={TermsAndConditions}
+                              />
+                              <MainNavigator.Screen
+                                name="Changelog"
+                                component={Changelog}
                               />
                             </MainNavigator.Navigator>
                           </>
