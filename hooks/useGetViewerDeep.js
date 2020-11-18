@@ -10,7 +10,10 @@ export const VIEWER_FRAGMENT_DEEP = gql`
     chats {
       ...ChatFragmentWithMessages
     }
-    likes {
+    receivedLikes {
+      ...LikeFragment
+    }
+    sentLikes {
       ...LikeFragment
     }
   }
