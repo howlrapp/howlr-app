@@ -1,20 +1,25 @@
 import React from 'react';
 
-import { MenuItem } from '@ui-kitten/components';
+import { MenuItem, Icon } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 
+const ForwardIcon = (props) => (
+  <Icon {...props} name='arrow-ios-forward'/>
+);
+
 const MenuItemLink = ({
-  title,
   screen,
+  ...props
 }) => {
   const navigation = useNavigation();
 
   return (
     <MenuItem
-      title={title}
+      accessoryRight={ForwardIcon}
       onPress={() => {
         navigation.navigate(screen)
       }}
+      {...props}
     />
   );
 }

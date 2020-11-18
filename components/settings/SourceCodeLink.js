@@ -1,7 +1,9 @@
 import React from 'react';
-import { MenuItem, Text } from '@ui-kitten/components';
+import { Text } from '@ui-kitten/components';
 import Constants from 'expo-constants';
 import * as WebBrowser from 'expo-web-browser';
+
+import MenuItemLink from '../MenuItemLink';
 
 const SourceCodeLink = () => {
   const handleOpen = () => {
@@ -9,12 +11,8 @@ const SourceCodeLink = () => {
   }
 
   return (
-    <MenuItem
-      title={(props) => (
-        <Text {...props}>
-          Source code
-        </Text>
-      )}
+    <MenuItemLink
+      title={"Source code"}
       onPress={handleOpen}
     />
   );
