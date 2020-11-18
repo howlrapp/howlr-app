@@ -128,7 +128,7 @@ const AppMain = () => {
   // we clear the token
   const [ deleteToken ] = useDeleteToken();
   useEffect(() => {
-    if (sessionError) {
+    if (sessionError && !!sessionError.toString().match(/Not authorized/)) {
       deleteToken();
     }
   }, [sessionError])
