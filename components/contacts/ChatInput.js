@@ -87,7 +87,7 @@ const ChatInput = ({
         style={styles.accessory}
         disabled={addMessageLoading || disabled}
       >
-        <Icon name="checkmark-circle-2" style={style} />
+        <Icon name={disabled ? "arrow-circle-up-outline" : "arrow-circle-up"} style={style} />
       </TouchableOpacity>
     );
   }, [addMessageLoading, handleSendMessage, body]);
