@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   touchableOpacity: {
-    padding: 5,
+    paddingVertical: 5,
   }
 });
 
