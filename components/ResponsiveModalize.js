@@ -35,4 +35,4 @@ const ResponsiveModalize = React.forwardRef(({ modalStyle, ...props }, ref) => {
   )
 })
 
-export default ResponsiveModalize;
+export default React.memo(ResponsiveModalize);

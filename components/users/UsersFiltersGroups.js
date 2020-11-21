@@ -14,6 +14,7 @@ import useViewer from '../../hooks/useViewer';
 import EmptyListGroups from '../EmptyListGroups';
 import ResponsiveModalize from '../ResponsiveModalize';
 import FormTopNavigation from '../FormTopNavigation';
+import UnmanagedCheckbox from '../UnmanagedCheckbox';
 
 const UsersFiltersGroups = ({
   open,
@@ -28,29 +29,14 @@ const UsersFiltersGroups = ({
 
   const modalizeRef = useRef(null);
 
-  const [ tmpValue, setTmpValue ] = useState(value)
-  useEffect(() => (
-    setTmpValue(value)
-  ), [value]);
+  const tmpValue = useRef(value);
 
   const { groups } = useApp();
   const { groupIds } = useViewer();
 
-  const groupsWithValue = useMemo(() => (
-    groups.map((group) => {
-      const checked = tmpValue.includes(group.id);
-
-      if (checked !== group.checked) {
-        return ({ ...group, checked });
-      }
-
-      return (group);
-    })
-  ), [groups, tmpValue]);
-
   const sortedGroups = useMemo(() => (
-    orderBy(groupsWithValue, 'name')
-  ), [groupsWithValue]);
+    orderBy(groups, 'name')
+  ), [groups]);
 
   const myGroups = useMemo(() => (
     sortedGroups.filter(({ id }) => groupIds.includes(id))
@@ -86,30 +72,30 @@ const UsersFiltersGroups = ({
     }
   }, [modalizeRef, onClose]);
 
-  const handleSave = () => {
+  const handleSave = useCallback(() => {
     if (onSave) {
-      onSave(tmpValue);
+      onSave(tmpValue.current)
     }
     handleClose();
-  }
+  }, [tmpValue]);
 
-  const handleChangeGroup = useCallback((group, enabled) => {
+  const handleChangeGroup = useCallback((id, enabled) => {
     if (enabled) {
-      setTmpValue(tmpValue => [ ...tmpValue, group.id ]);
+      tmpValue.current = [ ...tmpValue.current, id ];
     } else {
-      setTmpValue(tmpValue => without(tmpValue, group.id));
+      tmpValue.current = without(tmpValue.current, id);
     }
-  }, [setTmpValue]);
+  }, [tmpValue]);
 
   const renderItem = useCallback(({ item }) => (
-    <CheckBox
-      key={item.id}
+    <UnmanagedCheckbox
+      id={item.id}
       style={styles.checkbox}
-      checked={item.checked}
-      onChange={(checked) => handleChangeGroup(item, checked)}
+      defaultChecked={value.includes(item.id)}
+      onChange={handleChangeGroup}
     >
       {item.name}
-    </CheckBox>
+    </UnmanagedCheckbox>
   ), [handleChangeGroup]);
 
   const keyExtractor = useCallback(({ id }) => id, []);
@@ -150,6 +136,31 @@ const UsersFiltersGroups = ({
     );
   }, [noJoinedGroups]);
 
+  const modalStyle = useMemo(() => ({
+    backgroundColor: theme['background-basic-color-1']
+  }), [theme]);
+
+  const contentContainerStyle = useMemo(() => (
+    [ styles.contentContainer, { paddingBottom: bottom } ]
+  ), [bottom]);
+
+  const sectionListProps = useMemo(() => ({
+    sections,
+    keyExtractor,
+    renderItem,
+    ListEmptyComponent,
+    renderSectionHeader,
+    contentContainerStyle,
+    stickySectionHeadersEnabled: false,
+  }), [
+    sections,
+    keyExtractor,
+    renderItem,
+    ListEmptyComponent,
+    renderSectionHeader,
+    contentContainerStyle,
+  ])
+
   return (
     <Portal>
       <ResponsiveModalize
@@ -157,19 +168,10 @@ const UsersFiltersGroups = ({
         withHandle={false}
         panGestureEnabled={false}
         disableScrollIfPossible={true}
-        modalStyle={{ backgroundColor: theme['background-basic-color-1'] }}
+        modalStyle={modalStyle}
         onClose={onClose}
         HeaderComponent={HeaderComponent}
-        sectionListProps={{
-          sections,
-          initialNumToRender: 20,
-          keyExtractor,
-          renderItem,
-          ListEmptyComponent,
-          renderSectionHeader,
-          contentContainerStyle: [ styles.contentContainer, { paddingBottom: bottom } ],
-          stickySectionHeadersEnabled: false
-        }}
+        sectionListProps={sectionListProps}
       />
     </Portal>
   );
