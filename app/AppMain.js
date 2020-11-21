@@ -56,12 +56,6 @@ Notifications.setNotificationHandler({
   handleNotification: async () => DEFAULT_NOTIFICATIONS_BEHAVIOR
 });
 
-const VIEWER_POLL_INTERVAL = 5 * 60 * 1000;
-const LIKES_POLL_INTERVAL = 5 * 60 * 1000;
-const CHATS_POLL_INTERVAL = 5 * 60 * 1000;
-const EVENTS_POLL_INTERVAL = 5 * 60 * 1000;
-const SESSION_POLL_INTERVAL = 5 * 60 * 1000;
-
 const MainNavigator = createStackNavigator();
 
 const AppMain = () => {
@@ -72,34 +66,34 @@ const AppMain = () => {
      loading: viewerLoading,
      refetch: refetchViewer,
      error: viewerError,
-  } = useGetViewer({ pollInterval: VIEWER_POLL_INTERVAL });
+  } = useGetViewer();
 
   const {
      data: likesData,
      loading: likesLoading,
      refetch: refetchLikes,
      error: likesError,
-  } = useGetLikes({ pollInterval: LIKES_POLL_INTERVAL });
+  } = useGetLikes();
 
   const {
      data: chatsData,
      loading: chatsLoading,
      refetch: refetchChats,
      error: chatsError
-  } = useGetChats({ pollInterval: CHATS_POLL_INTERVAL });
+  } = useGetChats();
 
   const {
      data: eventsData,
      loading: eventsLoading,
      refetch: refetchEvents,
      error: eventsError
-  } = useGetEvents({ pollInterval: EVENTS_POLL_INTERVAL });
+  } = useGetEvents();
 
   const {
      data: sessionData,
      loading: sessionLoading,
      error: sessionError
-  } = useGetSession({ pollInterval: SESSION_POLL_INTERVAL });
+  } = useGetSession();
 
   const loading = sessionLoading || viewerLoading || likesLoading || chatsLoading || eventsLoading;
   const error = sessionError || viewerError || likesError || chatsError || eventsError;
