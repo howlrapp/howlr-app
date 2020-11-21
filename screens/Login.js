@@ -20,7 +20,7 @@ const Login = () => {
   const [ agreedToTerms, setAgreedToTerms ] = useState(false);
   const [ showDetails, setShowDetails ] = useState(true);
 
-  const { minimumAge, name, codeBotUsername } = useApp();
+  const { minimumAge, name, codeBotUsername, logo } = useApp();
 
   const [ setToken ] = useSetToken();
 
@@ -127,7 +127,7 @@ const Login = () => {
                     </Text>
                     <Avatar
                       size={"giant"}
-                      source={require("../assets/title.png")}
+                      source={{ uri: logo }}
                     />
                   </View>
                   <TouchableOpacity

@@ -14,6 +14,9 @@ export const APP_FRAGMENT = gql`
     eventsMaxPerWeek
     codeBotUsername
     maximumLikesCount
+    websiteLink
+    githubLink
+    logo
     changelogs {
       id
       createdAt
