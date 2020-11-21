@@ -22,6 +22,7 @@ const FormTopNavigation = ({
 
     return (
       <TouchableOpacity
+        style={styles.touchableOpacity}
         onPress={onCancel}
       >
         <Text
@@ -49,6 +50,7 @@ const FormTopNavigation = ({
     return (
       <TouchableOpacity
         onPress={onSave}
+        style={styles.touchableOpacity}
         disabled={disabled || invalid}
       >
         <Text
@@ -90,6 +92,9 @@ const styles = StyleSheet.create({
   },
   activityIndicatorContainer: {
     marginRight: 10,
+  },
+  touchableOpacity: {
+    padding: 5,
   }
 });
 
