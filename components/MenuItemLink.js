@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import { MenuItem, Icon } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
@@ -13,12 +13,14 @@ const MenuItemLink = ({
 }) => {
   const navigation = useNavigation();
 
+  const goToScreen = useCallback(() => {
+    navigation.navigate(screen);
+  }, [screen, navigation]);
+
   return (
     <MenuItem
       accessoryRight={ForwardIcon}
-      onPress={() => {
-        navigation.navigate(screen)
-      }}
+      onPress={goToScreen}
       {...props}
     />
   );

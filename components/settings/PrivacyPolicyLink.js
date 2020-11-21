@@ -2,12 +2,11 @@ import React from 'react';
 
 import MenuItemLink from '../MenuItemLink';
 
-const PrivacyPolicyLink = (props) => {
+const PrivacyPolicyLink = () => {
   return (
     <MenuItemLink
       title="Privacy policy"
       screen="PrivacyPolicy"
-      {...props}
     />
   );
 }

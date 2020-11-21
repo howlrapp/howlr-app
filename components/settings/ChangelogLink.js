@@ -2,12 +2,11 @@ import React from 'react';
 
 import MenuItemLink from '../MenuItemLink';
 
-const ChangelogLink = (props) => {
+const ChangelogLink = () => {
   return (
     <MenuItemLink
       title="Changelog"
       screen="Changelog"
-      {...props}
     />
   );
 }

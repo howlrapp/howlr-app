@@ -2,12 +2,11 @@ import React from 'react';
 
 import MenuItemLink from '../MenuItemLink';
 
-const TermsAndConditionsLink = (props) => {
+const TermsAndConditionsLink = () => {
   return (
     <MenuItemLink
       title="Terms of use"
       screen="TermsAndConditions"
-      {...props}
     />
   );
 }
