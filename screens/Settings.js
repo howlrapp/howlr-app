@@ -21,9 +21,10 @@ import DataConservationLink from '../components/settings/DataConservationLink';
 import TermsAndConditionsLink from '../components/settings/TermsAndConditionsLink';
 import PrivacyPolicyLink from '../components/settings/PrivacyPolicyLink';
 
-import WebsiteLink from '../components/settings/WebsiteLink';
+import FaqLink from '../components/settings/FaqLink';
 import SourceCodeLink from '../components/settings/SourceCodeLink';
 import ChangelogLink from '../components/settings/ChangelogLink';
+import WebsiteLink from '../components/settings/WebsiteLink';
 
 import MenuSeparator from '../components/MenuSeparator';
 import MenuSection from '../components/MenuSection';
@@ -91,13 +92,14 @@ const Settings = () => {
           <MenuSeparator />
 
           <Divider />
-          <WebsiteLink />
+          <FaqLink />
           <Divider />
           <ChangelogLink />
           <Divider />
           <SourceCodeLink />
           <Divider />
-
+          <WebsiteLink />
+          <Divider />
           <MenuSeparator />
         </ResponsiveLayout>
       </Menu>

@@ -12,7 +12,7 @@ const WebsiteLink = () => {
 
   return (
     <MenuItemLink
-      title={"About us"}
+      title={"Website"}
       onPress={handleOpen}
     />
   );

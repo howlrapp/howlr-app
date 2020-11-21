@@ -1,24 +1,24 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { List, ListItem, Divider, Text } from '@ui-kitten/components';
+import { isEmpty, trim } from 'lodash';
+import Markdown from 'react-native-markdown-display';
 
 import ScreenTopNavigation from '../components/ScreenTopNavigation';
 import MenuSeparator from '../components/MenuSeparator';
 import ResponsiveLayout from '../components/ResponsiveLayout';
 
-const renderItem = ({ item: { text, description } }) => {
+const renderItem = ({ item: { title, body } }) => {
   return (
     <ListItem
-      title={text}
+      title={trim(isEmpty(title) ? body : title)}
       description={({ style, ...props }) => {
-        if (!description) {
+        if (isEmpty(title) || isEmpty(body)) {
           return (null);
         }
 
         return (
-          <Text style={[style, styles.subtitle]} {...props}>
-            {description}
-          </Text>
+          <Markdown style={{ body: [style, styles.subtitle] }}>{body}</Markdown>
         )
       }}
     />
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     paddingBottom: 74,
   },
   subtitle: {
-    marginTop: 10
+    marginTop: 5,
   }
 });
 

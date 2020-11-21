@@ -11,8 +11,8 @@ const Changelog = () => {
 
   const data = useMemo(() => (
     changelogs.map(({ body, createdAt }) => ({
-      text: trim(body),
-      description: format(new Date(createdAt), "MMM. do yyyy")
+      body: trim(body),
+      title: format(new Date(createdAt), "MMM. do yyyy")
     }))
   ), [changelogs])
 

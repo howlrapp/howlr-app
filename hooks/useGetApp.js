@@ -71,6 +71,24 @@ export const APP_FRAGMENT = gql`
         playStoreId
       }
     }
+    tosItems {
+      id
+      title
+      order
+      body
+    }
+    privacyPolicyItems {
+      id
+      title
+      order
+      body
+    }
+    faqItems {
+      id
+      title
+      order
+      body
+    }
   }
 `;
 

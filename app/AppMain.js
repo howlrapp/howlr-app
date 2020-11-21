@@ -19,6 +19,7 @@ import Chat from '../screens/Chat';
 import TermsAndConditions from '../screens/TermsAndConditions';
 import PrivacyPolicy from '../screens/PrivacyPolicy';
 import Changelog from '../screens/Changelog';
+import Faq from '../screens/Faq';
 
 import useGetViewer from '../hooks/useGetViewer';
 import useGetLikes from '../hooks/useGetLikes';
@@ -256,6 +257,10 @@ const AppMain = () => {
                               <MainNavigator.Screen
                                 name="Changelog"
                                 component={Changelog}
+                              />
+                              <MainNavigator.Screen
+                                name="Faq"
+                                component={Faq}
                               />
                             </MainNavigator.Navigator>
                           </>
