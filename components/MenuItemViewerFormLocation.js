@@ -120,7 +120,14 @@ const MenuItemViewerFormLocation = ({
         )
         return ;
       }
-      setValue(location.coords);
+
+      // slightly move the location to a random position
+      const randomCoords = {
+        latitude: location.coords.latitude + Math.random() % 0.02 - 0.01,
+        longitude: location.coords.longitude + Math.random() % 0.02 - 0.01,
+      }
+
+      setValue(randomCoords);
     });
   }
 
