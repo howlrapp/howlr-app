@@ -82,8 +82,12 @@ const GroupItem = ({ group }) => {
     )
   }, [group, showActionSheetWithOptions, setUsersSearchCriteria, navigation]);
 
+  const joined = useMemo(() => (
+    groupIds.includes(group.id)
+  ), [groupIds, group.id]);
+
   const renderAction = useCallback(() => {
-    if (groupIds.includes(group.id)) {
+    if (joined) {
       return (
         <Button
           size="tiny"
@@ -110,13 +114,17 @@ const GroupItem = ({ group }) => {
         </Button>
       );
     }
-  }, [groupIds, group.id, loading]);
+  }, [joined, loading]);
+
+  const groupDescription = useMemo(() => (
+    `${groupCategoryLabel} - ${usersCountString(group.usersCount)}`
+  ), [groupCategoryLabel, group.usersCount]);
 
   return (
     <ListItem
       onPress={handleOpenGroupMenu}
       title={group.name}
-      description={`${groupCategoryLabel} - ${usersCountString(group.usersCount)}`}
+      description={groupDescription}
       accessoryRight={renderAction}
     />
   );

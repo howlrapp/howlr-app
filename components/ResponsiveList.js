@@ -35,4 +35,4 @@ const ResponsiveList = React.forwardRef(({ contentContainerStyle, ...props }, re
   )
 })
 
-export default ResponsiveList;
+export default React.memo(ResponsiveList);

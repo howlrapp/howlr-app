@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, Divider, useTheme } from '@ui-kitten/components';
 import { View, StyleSheet } from 'react-native';
-import { isEmpty } from 'lodash';
+import { isEmpty, trim } from 'lodash';
 
 const UserProfileItem = ({
   label,
@@ -38,7 +38,7 @@ const UserProfileItem = ({
         <Text
           category="p1"
         >
-          {value}
+          {trim(value)}
         </Text>
       </View>
       <Divider />
