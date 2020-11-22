@@ -22,7 +22,7 @@ const FormTopNavigation = ({
 
     return (
       <TouchableOpacity
-        style={styles.touchableOpacity}
+        style={[ styles.touchableOpacity, styles.touchableOpacityCancel ]}
         onPress={onCancel}
       >
         <Text
@@ -50,7 +50,7 @@ const FormTopNavigation = ({
     return (
       <TouchableOpacity
         onPress={onSave}
-        style={styles.touchableOpacity}
+        style={[ styles.touchableOpacity, styles.touchableOpacityDone ]}
         disabled={disabled || invalid}
       >
         <Text
@@ -94,7 +94,13 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   touchableOpacity: {
-    paddingVertical: 5,
+    paddingVertical: 9,
+  },
+  touchableOpacityCancel: {
+    paddingRight: 20,
+  },
+  touchableOpacityDone: {
+    paddingLeft: 20,
   }
 });
 
