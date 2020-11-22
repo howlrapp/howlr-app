@@ -1,5 +1,15 @@
 import { useQuery, gql } from '@apollo/client';
 
+export const GROUP_FRAGMENT = gql`
+  fragment GroupFragment on Group {
+    id
+    name
+    groupCategoryId
+    usersCount
+    createdAt
+  }
+`
+
 export const APP_FRAGMENT = gql`
   fragment AppFragment on App {
     id
@@ -24,11 +34,7 @@ export const APP_FRAGMENT = gql`
       body
     }
     groups {
-      id
-      name
-      groupCategoryId
-      usersCount
-      createdAt
+      ...GroupFragment
     }
     genders {
       id
@@ -94,7 +100,7 @@ export const APP_FRAGMENT = gql`
       body
     }
   }
-`;
+${GROUP_FRAGMENT}`;
 
 export const GET_APP = gql`
   query getApp($id: ID!) {

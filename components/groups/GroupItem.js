@@ -6,8 +6,10 @@ import { useNavigation } from '@react-navigation/native';
 import { useActionSheet } from '@expo/react-native-action-sheet'
 
 import useViewer from '../../hooks/useViewer';
+import { GET_VIEWER } from '../../hooks/useGetViewer';
 import useApp from '../../hooks/useApp';
-import useUpdateViewer from '../../hooks/useUpdateViewer';
+import useJoinGroup from '../../hooks/useJoinGroup';
+import useLeaveGroup from '../../hooks/useLeaveGroup';
 import useSetUsersSearchCriteria from '../../hooks/useSetUsersSearchCriteria';
 
 import { DEFAULT_USERS_SEARCH_CRITERIA } from '../../graphql/apolloClient';
@@ -23,10 +25,8 @@ const usersCountString = (usersCount) => {
 }
 
 const GroupItem = ({ group }) => {
-  const { groupIds } = useViewer();
+  const viewer = useViewer();
   const { groupCategories, maximumJoinedGroupsCount } = useApp();
-
-  const [ updateViewer, { loading } ] = useUpdateViewer();
 
   const groupCategory = useMemo(() => (
     groupCategories.find(({ id }) => group.groupCategoryId === id)
@@ -36,33 +36,61 @@ const GroupItem = ({ group }) => {
     groupCategory?.label?.replace(/s$/, '').toUpperCase()
   ), [groupCategory])
 
+  const groupLimitReached = viewer.groupIds.length >= maximumJoinedGroupsCount;
+
+  const [ joinGroup, { loading: joinGroupLoading } ] = useJoinGroup();
   const handleJoin = useCallback(() => {
-    if (groupIds.length >= maximumJoinedGroupsCount) {
+    if (groupLimitReached) {
       Alert.alert(
-        `Unavailable`,
+        `Unauthorized`,
         `You can only join up to ${maximumJoinedGroupsCount} groups.`,
       );
       return;
     }
 
-    updateViewer({
+    joinGroup({
       variables: {
         input: {
-          groupIds: [...groupIds, group.id]
+          groupId: group.id
         }
+      },
+      update: (cache, { data: { joinGroup } }) => {
+        cache.modify({
+          id: cache.identify(viewer),
+          fields: {
+            groupIds(groupIds) {
+              return (
+                [ ...groupIds, joinGroup.group.id ]
+              )
+            }
+          }
+        })
       }
     });
-  }, [updateViewer, group.id, groupIds])
+  }, [groupLimitReached, group.id])
 
+  const [ leaveGroup, { loading: leaveGroupLoading } ] = useLeaveGroup();
    const handleLeave = useCallback(() => {
-    updateViewer({
+    leaveGroup({
       variables: {
         input: {
-          groupIds: groupIds.filter((otherId) => group.id !== otherId)
+          groupId: group.id
         }
+      },
+      update: (cache, { data: { leaveGroup } }) => {
+        cache.modify({
+          id: cache.identify(viewer),
+          fields: {
+            groupIds(groupIds, { readField }) {
+              return (
+                groupIds.filter((groupId) => groupId !== leaveGroup.group.id)
+              )
+            }
+          }
+        })
       }
     })
-  }, [updateViewer, group.id, groupIds]);
+  }, [group.id]);
 
   const { showActionSheetWithOptions } = useActionSheet();
   const [ setUsersSearchCriteria ] = useSetUsersSearchCriteria();
@@ -91,8 +119,8 @@ const GroupItem = ({ group }) => {
   }, [group, showActionSheetWithOptions, setUsersSearchCriteria, navigation]);
 
   const joined = useMemo(() => (
-    groupIds.includes(group.id)
-  ), [groupIds, group.id]);
+    viewer.groupIds.includes(group.id)
+  ), [viewer.groupIds, group.id]);
 
   const renderAction = useCallback(() => {
     if (joined) {
@@ -102,7 +130,7 @@ const GroupItem = ({ group }) => {
           appearance="outline"
           status="basic"
           onPress={handleLeave}
-          disabled={loading}
+          disabled={leaveGroupLoading}
           style={styles.button}
         >
           LEAVE
@@ -113,7 +141,7 @@ const GroupItem = ({ group }) => {
         <Button
           size="tiny"
           onPress={handleJoin}
-          disabled={loading}
+          disabled={joinGroupLoading}
           style={styles.button}
           status="warning"
           appearance="outline"
@@ -122,7 +150,7 @@ const GroupItem = ({ group }) => {
         </Button>
       );
     }
-  }, [handleLeave, handleJoin, joined, loading]);
+  }, [handleLeave, handleJoin, joined, leaveGroupLoading, joinGroupLoading]);
 
   const groupDescription = useMemo(() => (
     `${groupCategoryLabel} - ${usersCountString(group.usersCount)}`

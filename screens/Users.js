@@ -40,7 +40,14 @@ const UsersLists = React.memo(({ usersSearchCriteria }) => {
   });
 
   // refetch on viewer change
-  useEffect(() => { refetch() }, [viewer, refetch]);
+  useEffect(() => {
+    refetch()
+  }, [
+    viewer.name,
+    viewer.avatar,
+    viewer.shareOnlineStatus,
+    refetch
+  ]);
 
   const handleRefresh = useCallback(() => {
     refetch();
