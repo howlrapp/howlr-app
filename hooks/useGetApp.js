@@ -10,6 +10,7 @@ export const APP_FRAGMENT = gql`
     accountRemovalMonthsCount
     minimumAge
     locationChangeIntervalMinutes
+    maximumJoinedGroupsCount
     eventsMaximumSearchableDistance
     eventsMaxPerWeek
     codeBotUsername

@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import { ListItem, Button } from '@ui-kitten/components';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { useActionSheet } from '@expo/react-native-action-sheet'
@@ -24,7 +24,7 @@ const usersCountString = (usersCount) => {
 
 const GroupItem = ({ group }) => {
   const { groupIds } = useViewer();
-  const { groupCategories } = useApp();
+  const { groupCategories, maximumJoinedGroupsCount } = useApp();
 
   const [ updateViewer, { loading } ] = useUpdateViewer();
 
@@ -37,6 +37,14 @@ const GroupItem = ({ group }) => {
   ), [groupCategory])
 
   const handleJoin = useCallback(() => {
+    if (groupIds.length >= maximumJoinedGroupsCount) {
+      Alert.alert(
+        `Unavailable`,
+        `You can only join up to ${maximumJoinedGroupsCount} groups.`,
+      );
+      return;
+    }
+
     updateViewer({
       variables: {
         input: {
@@ -50,7 +58,7 @@ const GroupItem = ({ group }) => {
     updateViewer({
       variables: {
         input: {
-          groupIds: groupIds.filter((otherId) => group.id != otherId)
+          groupIds: groupIds.filter((otherId) => group.id !== otherId)
         }
       }
     })
@@ -114,7 +122,7 @@ const GroupItem = ({ group }) => {
         </Button>
       );
     }
-  }, [joined, loading]);
+  }, [handleLeave, handleJoin, joined, loading]);
 
   const groupDescription = useMemo(() => (
     `${groupCategoryLabel} - ${usersCountString(group.usersCount)}`
