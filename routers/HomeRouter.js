@@ -33,9 +33,7 @@ const BottomTabBar = ({ navigation, state, withTitle }) => {
   ), [chats])
 
   useEffect(() => {
-    if (unreadChats.length > 0) {
-      Notifications.setBadgeCountAsync(unreadChats.length);
-    }
+    Notifications.setBadgeCountAsync(unreadChats.length);
   }, [unreadChats.length])
 
   useNotificationsPermissions();
