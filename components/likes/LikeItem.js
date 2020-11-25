@@ -132,6 +132,7 @@ const LikeItem = ({
       description={distanceSentence}
       accessoryLeft={renderAccessoryLeft}
       accessoryRight={renderAction}
+      disabled={removeLikeLoading || addLikeLoading}
     />
   );
 }
