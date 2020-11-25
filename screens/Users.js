@@ -46,6 +46,8 @@ const UsersLists = React.memo(({ usersSearchCriteria }) => {
     viewer.name,
     viewer.avatar,
     viewer.shareOnlineStatus,
+    viewer.latitude,
+    viewer.longitude,
     refetch
   ]);
 
