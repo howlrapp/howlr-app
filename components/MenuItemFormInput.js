@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useRef } from 'react';
-import { Input, useTheme } from '@ui-kitten/components';
+import { Input, Text, useTheme } from '@ui-kitten/components';
+import { View, TouchableOpacity } from 'react-native';
 import { isEmpty } from 'lodash';
 
 import MenuItemForm from './MenuItemForm';
@@ -25,6 +26,11 @@ const MenuItemFormInput = ({
     onSave(value)
   ), [onSave, value]);
 
+  const handleClear = useCallback(() => {
+    inputRef.current.clear();
+    setValue("");
+  }, [inputRef, setValue]);
+
   return (
     <MenuItemForm
       hint={isEmpty(initialValue) ? noneLabel : initialValue}
@@ -42,6 +48,26 @@ const MenuItemFormInput = ({
         }}
         {...inputProps}
       />
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'flex-end'
+        }}
+      >
+        {
+          !isEmpty(value) && (
+            <TouchableOpacity>
+              <Text
+                category="p2"
+                appearance="hint"
+                onPress={handleClear}
+              >
+                Clear
+              </Text>
+            </TouchableOpacity>
+          )
+        }
+      </View>
     </MenuItemForm>
   );
 }
