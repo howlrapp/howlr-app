@@ -1980,6 +1980,23 @@
     xcode "^3.0.0"
     xml-js "^1.6.11"
 
+"@expo/configure-splash-screen@0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@expo/configure-splash-screen/-/configure-splash-screen-0.2.0.tgz#84f9f71363259f16fd0073636a198c750a3cdd7c"
+  integrity sha512-2RG0NOeXZAGKNJXVEEA9wukDsxjmMdDTclZP9FPb15r3+siWI/GZaC36IqoQ8/mw4wzX5Y+OvZ2cHhc0J8t+0A==
+  dependencies:
+    "@react-native-community/cli-platform-android" "^4.10.0"
+    "@react-native-community/cli-platform-ios" "^4.10.0"
+    color-string "^1.5.3"
+    commander "^5.1.0"
+    core-js "^3.6.5"
+    deep-equal "^2.0.3"
+    fs-extra "^9.0.0"
+    lodash "^4.17.15"
+    pngjs "^5.0.0"
+    xcode "^3.0.0"
+    xml-js "^1.6.11"
+
 "@expo/configure-splash-screen@0.2.1":
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/@expo/configure-splash-screen/-/configure-splash-screen-0.2.1.tgz#de29b781990d32d9f48d630b912aaf017afccbf3"
@@ -7849,10 +7866,10 @@ expo-image-manipulator@~8.3.0:
   resolved "https://registry.yarnpkg.com/expo-image-manipulator/-/expo-image-manipulator-8.3.0.tgz#1c6c91e4cf1cd6bbdab34ff68575b4933f39198c"
   integrity sha512-aig7uCB3G/D3y52/p0ZXG2rGyR2Gw1PkFRb7H/wGko766GTbVsjxKcIvOc0dyNEFBF4JxlQhtdzrJQC8V2Ei5g==
 
-expo-image-picker@~9.1.0:
-  version "9.1.0"
-  resolved "https://registry.yarnpkg.com/expo-image-picker/-/expo-image-picker-9.1.0.tgz#296bfd48241f2da56f09a9ac4f77428454f0c8e4"
-  integrity sha512-vItMawhENyaZI3WEaGzzzS6oDnoIHFnhIUpP71CPX9oFSivSV2s1+RF0ezCMxAB8ifrKw9zBmKyuMtjhVI906Q==
+expo-image-picker@~9.1.1:
+  version "9.1.1"
+  resolved "https://registry.yarnpkg.com/expo-image-picker/-/expo-image-picker-9.1.1.tgz#42abe9deb595fa9f9d8ac0d2ba8aad2cd6f69581"
+  integrity sha512-Etz2OQhRflfx+xFbSdma8QLZsnV/yq0M/yqYlsi3/RLiWAQYM/D/VmRfDDPiG10gm+KX3Xb5iKplNjPrWeTuQg==
   dependencies:
     expo-permissions "~9.3.0"
     uuid "7.0.2"
@@ -7951,12 +7968,19 @@ expo-secure-store@~9.2.0:
   resolved "https://registry.yarnpkg.com/expo-secure-store/-/expo-secure-store-9.2.0.tgz#5c7072058f9d0dd80dd9f17732a8512a2a30c52c"
   integrity sha512-CtoMeuw/BzmLZMxmw30YiAZY51bpuOsBQpt3CrvLqpT2Q4/M18Tc1H4qXzHER3GPfZeG2nEJQkEgHsHXrIhPXg==
 
-expo-splash-screen@^0.6.1, expo-splash-screen@~0.6.1:
+expo-splash-screen@^0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/expo-splash-screen/-/expo-splash-screen-0.6.1.tgz#c333340169e2a855d18e2e52d5f5738cc2e0b9ad"
   integrity sha512-m4cEGN/9TJr9G1xr7H5QJqvvAwKMrZPxSuWqp9ht/XfPsy3RD37Ao+384lohAHt6BKjIcYiDgxDDDJ1QDExdjg==
   dependencies:
     "@expo/configure-splash-screen" "0.1.13"
+
+expo-splash-screen@~0.6.2:
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/expo-splash-screen/-/expo-splash-screen-0.6.2.tgz#2be7fc28ad62549e870c69f1fe133ebe756c524f"
+  integrity sha512-Rvi+aiVDztFyLh5fYJYcZxVuQNDCy6ATSTfxuch5uVQ1jA9/vjVzUKG4iZCoChaSCnMV56aFftHBWSDNWPvLFQ==
+  dependencies:
+    "@expo/configure-splash-screen" "0.2.0"
 
 expo-sqlite@~8.4.0:
   version "8.4.0"
