@@ -1,21 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import { useColorScheme } from 'react-native-appearance';
+/**
+ * Taken from https://stackoverflow.com/questions/64729084/expo-app-is-blink-at-ios-when-it-is-appeared-to-front-but-android-is-no-problem/64729
+ */
 
-const useDebouncedColorScheme = () => {
-  const colorScheme = useColorScheme();
-  const [ effectiveColorScheme, setEffectiveColorScheme ] = useState(colorScheme);
+import { Appearance } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
 
-  // I noticed that useColorScheme flickers between dark and light mode
-  // on IOS (but not on the emulator strangely), so we must "debounce" it
+export default function useDebouncedColorScheme(delay = 500) {
+  const [colorScheme, setColorScheme] = useState(Appearance.getColorScheme());
+
+  let timeout = useRef(null).current;
+
   useEffect(() => {
-    const colorSchemeTimeout = setTimeout(() => {
-      setEffectiveColorScheme(colorScheme);
-    }, 500);
+    Appearance.addChangeListener(onColorSchemeChange);
 
-    return () => clearTimeout(colorSchemeTimeout);
-  }, [colorScheme]);
+    return () => {
+      resetCurrentTimeout();
+      Appearance.removeChangeListener(onColorSchemeChange);
+    };
+  }, []);
 
-  return (effectiveColorScheme);
+  function onColorSchemeChange(preferences) {
+    resetCurrentTimeout();
+
+    timeout = setTimeout(() => {
+      setColorScheme(preferences.colorScheme);
+    }, delay);
+  }
+
+  function resetCurrentTimeout() {
+    if (timeout) {
+      clearTimeout(timeout);
+    }
+  }
+
+  return colorScheme;
 }
-
-export default useDebouncedColorScheme;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
 import { SafeAreaProvider, initialWindowMetrics } from 'react-native-safe-area-context';
 
@@ -15,9 +15,8 @@ import {
 
 import { default as mapping } from '../mapping.json';
 
-import useDebouncedColorScheme from '../hooks/useDebouncedColorScheme';
-
 import AppLoader from './AppLoader';
+import useDebouncedColorScheme from '../hooks/useDebouncedColorScheme';
 
 const AppWithApperance = () => {
   const colorScheme = useDebouncedColorScheme();
