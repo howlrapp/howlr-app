@@ -78,7 +78,7 @@
     "react-native-responsive-dimensions": "^3.1.1",
     "react-native-safe-area-context": "3.2.0",
     "react-native-screens": "~3.4.0",
-    "react-native-super-grid": "git+https://github.com/saleel/react-native-super-grid.git#aa7579c",
+    "react-native-super-grid": "git+https://github.com/saleel/react-native-super-grid.git#5085d4e6a8a156344abd9c07e518014588de4286",
     "react-native-svg": "12.1.1",
     "react-native-tab-view": "^2.15.1",
     "react-native-unimodules": "~0.14.5",

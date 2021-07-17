@@ -149,14 +149,6 @@ const UsersDistanceSections = React.memo(({
 
   const lineHeight = itemDimension + itemPaddingCorrection + 20;
 
-  const getItemLayout = useCallback((sections, index) => {
-    return ({
-      length: lineHeight,
-      offset: lineHeight * index,
-      index
-    })
-  }, [lineHeight]);
-
   const handlePressChangeLocation = useCallback(() => {
     navigation.navigate("ProfileRouter", {
       screen: 'ProfileForm',
@@ -275,7 +267,6 @@ const UsersDistanceSections = React.memo(({
       itemDimension={itemDimension}
       spacing={0}
       stickySectionHeadersEnabled={false}
-      getItemLayout={getItemLayout}
       renderSectionHeader={renderSectionHeader}
       renderItem={renderItem}
       {...props}

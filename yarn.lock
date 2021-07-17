@@ -15863,9 +15863,9 @@ react-native-screens@~3.4.0:
   dependencies:
     warn-once "^0.1.0"
 
-"react-native-super-grid@git+https://github.com/saleel/react-native-super-grid.git#aa7579c":
-  version "4.0.3"
-  resolved "git+https://github.com/saleel/react-native-super-grid.git#aa7579cd4f0afeb6714bdb61385cd83856c70eea"
+"react-native-super-grid@git+https://github.com/saleel/react-native-super-grid.git#5085d4e6a8a156344abd9c07e518014588de4286":
+  version "4.1.3"
+  resolved "git+https://github.com/saleel/react-native-super-grid.git#5085d4e6a8a156344abd9c07e518014588de4286"
   dependencies:
     prop-types "^15.6.0"
 
