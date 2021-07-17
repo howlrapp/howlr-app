@@ -1,7 +1,5 @@
 import { useMemo } from 'react';
-import { useColorScheme } from 'react-native-appearance';
-
-import useDebouncedColorScheme from './useDebouncedColorScheme'
+import useDebouncedColorScheme from './useDebouncedColorScheme';
 
 function signed_crc_table() {
   var c = 0, table = new Array(256);
@@ -59,7 +57,7 @@ const useRandomColor = (seed, {
 
   const color = useMemo(() => (
     "hsla(" + ~~(Math.abs(360 * ((crc32_str(seed + subseed) % 100) / 100.0))) + "," + saturation[colorScheme] + "," + luminance[colorScheme] + "," + opacity.toString() + ")"
-  ), [seed, saturation, luminance, opacity, subseed]);
+  ), [seed, saturation, luminance, opacity, subseed, colorScheme]);
 
   return (color);
 }

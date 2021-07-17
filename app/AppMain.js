@@ -39,13 +39,13 @@ import { SentLikesUserIdsContext } from '../hooks/useSentLikesUserIds';
 import { ReceivedLikesUserIdsContext } from '../hooks/useReceivedLikesUserIds';
 
 import useDeleteToken from '../hooks/useDeleteToken';
-import useDebouncedColorScheme from '../hooks/useDebouncedColorScheme';
 
 import useActionCableChannel from '../hooks/useActionCableChannel';
 
 import ErrorBoundary from '../components/ErrorBoundary';
 import EmptyList from '../components/EmptyList';
 import ProgressBar from '../components/ProgressBar';
+import useDebouncedColorScheme from '../hooks/useDebouncedColorScheme';
 
 const DEFAULT_NOTIFICATIONS_BEHAVIOR = {
   shouldShowAlert: true,
