@@ -22,7 +22,7 @@ const MaximumDistanceForm = (props) => {
   const handleSave = useCallback((value) => (
     updateViewer({
       variables: {
-        input: { maximumSearchableDistance: value * 1000 }
+        input: { maximumSearchableDistance: value ? value * 1000 : null }
       }
     })
   ), [updateViewer]);
@@ -46,7 +46,15 @@ const MaximumDistanceForm = (props) => {
     }))
   ), [OPTION_VALUES, computeLabel]);
 
-  const initialValue = useMemo(() => Math.floor(viewer.maximumSearchableDistance / 1000), [viewer.maximumSearchableDistance]);
+
+  const initialValue = useMemo(() => {
+    if (viewer.maximumSearchableDistance) {
+      return (
+        Math.floor(viewer.maximumSearchableDistance / 1000)
+      )
+    }
+    return null;
+  }, [viewer.maximumSearchableDistance]);
 
   return (
     <MenuItemFormSingleChoice
