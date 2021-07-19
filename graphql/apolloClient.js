@@ -6,7 +6,7 @@ import { showMessage } from "react-native-flash-message";
 import { setContext } from '@apollo/client/link/context';
 
 import Constants from 'expo-constants';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { GET_USERS_SEARCH_CRITERIA } from '../hooks/useGetUsersSearchCriteria';
 import { GET_TOKEN } from '../hooks/useToken';
