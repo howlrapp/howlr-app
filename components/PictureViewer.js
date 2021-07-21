@@ -8,7 +8,7 @@ import * as Device from 'expo-device';
 import Constants from 'expo-constants';
 
 import {
-  useResponsiveWidth,
+  useResponsiveScreenWidth,
   useResponsiveHeight
 } from "react-native-responsive-dimensions";
 import {
@@ -32,7 +32,7 @@ const PictureViewer = ({
   const deviceType = useDeviceType();
 
   const modalWidth = (
-    deviceType === Device.DeviceType.PHONE ? useResponsiveWidth(100) : Constants.manifest.extra.tabletModalWidth
+    deviceType === Device.DeviceType.PHONE ? useResponsiveScreenWidth(100) : Constants.manifest.extra.tabletModalWidth
   );
   const modalHeight = useResponsiveHeight(100) - top - 20;
 

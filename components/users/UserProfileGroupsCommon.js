@@ -10,7 +10,7 @@ const UserProfileGroupsCommon = ({
   ...props
 }) => {
   const { groups } = useApp();
-  const { groupIds } = useViewer();
+  const { groupIds, id: viewerId } = useViewer();
 
   const joinedGroups = useMemo(() => (
     groups.filter(({ id }) => user.groupIds.includes(id))
@@ -23,7 +23,7 @@ const UserProfileGroupsCommon = ({
   return (
     <UserProfileGroups
       groups={commonGroups}
-      title="Common groups"
+      title={user?.id === viewerId ? "Groups" : "Common groups"}
       {...props}
     />
   );

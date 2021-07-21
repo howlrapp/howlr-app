@@ -135,7 +135,7 @@ const User = ({ route: { params: { id } }}) => {
         onPressReport={handleOpenReportForm}
       />
     );
-  }, [user, handleOpenReportForm]);
+  }, [user, viewerId, handleOpenReportForm]);
 
   const [ scrollY ] = useState(new Animated.Value(0));
 
@@ -228,10 +228,12 @@ const User = ({ route: { params: { id } }}) => {
                 <UserProfileGroupsCommon
                   user={user}
                   style={styles.profileItem}
+                  editable={user?.id !== viewerId}
                 />
                 <UserProfileGroupsNotCommon
                   user={user}
                   style={styles.profileItem}
+                  editable={user?.id !== viewerId}
                 />
               </View>
             </View>

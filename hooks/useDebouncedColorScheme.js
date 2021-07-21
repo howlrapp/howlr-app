@@ -5,7 +5,7 @@
 import { Appearance } from 'react-native';
 import { useEffect, useRef, useState } from 'react';
 
-export default function useDebouncedColorScheme(delay = 500) {
+export default function useDebouncedColorScheme(delay = 2000) {
   const [colorScheme, setColorScheme] = useState(Appearance.getColorScheme());
 
   let timeout = useRef(null).current;

@@ -3,7 +3,7 @@ import { Card, Text, useTheme } from '@ui-kitten/components';
 import { View, StyleSheet, Image } from 'react-native';
 import { trim, isEmpty } from 'lodash';
 import {
-  useResponsiveWidth,
+  useResponsiveScreenWidth,
 } from "react-native-responsive-dimensions";
 import { format, differenceInHours } from 'date-fns';
 import { useActionSheet } from '@expo/react-native-action-sheet'
@@ -27,7 +27,7 @@ const ChatBubble = React.memo(({
 
   const isMe = message.senderId === viewer.id;
 
-  const pictureSize = useResponsiveWidth(67);
+  const pictureSize = useResponsiveScreenWidth(67);
 
   const handleUrlPress = useCallback((url) => {
     WebBrowser.openBrowserAsync(url);
