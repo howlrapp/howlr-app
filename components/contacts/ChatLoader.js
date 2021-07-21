@@ -2,7 +2,7 @@ import React from 'react';
 import ThemedContentLoader from '../ThemedContentLoader';
 import { View, StyleSheet } from 'react-native';
 import {
-  useResponsiveWidth,
+  useResponsiveScreenWidth,
 } from "react-native-responsive-dimensions";
 import Constants from 'expo-constants';
 import * as Device from 'expo-device';
@@ -12,7 +12,7 @@ import useDeviceType from '../../hooks/useDeviceType';
 import ResponsiveLayout from '../ResponsiveLayout';
 
 const ChatLoader = () => {
-  const width = useResponsiveWidth(100);
+  const width = useResponsiveScreenWidth(100);
 
   const deviceType = useDeviceType();
 

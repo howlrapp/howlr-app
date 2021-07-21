@@ -3,7 +3,7 @@ import { truncate } from 'lodash';
 import { StyleSheet, View, Alert, Platform } from 'react-native';
 import { Button, MenuItem, Text, Icon } from '@ui-kitten/components';
 import {
-  useResponsiveWidth,
+  useResponsiveScreenWidth,
 } from "react-native-responsive-dimensions";
 
 import * as Location from 'expo-location';
@@ -42,7 +42,7 @@ const MenuItemViewerFormLocation = ({
     );
   }, [locationChangeIntervalMinutes]);
 
-  const viewportWidth = useResponsiveWidth(100);
+  const viewportWidth = useResponsiveScreenWidth(100);
 
   const [ modalOpen, setModalOpen ] = useState(false);
   useEffect(() => {

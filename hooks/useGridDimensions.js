@@ -1,5 +1,5 @@
 import {
-  useResponsiveWidth
+  useResponsiveScreenWidth
 } from "react-native-responsive-dimensions";
 import Constants from 'expo-constants';
 import * as Device from 'expo-device';
@@ -14,7 +14,7 @@ const useGridDimensions = ({
   responsive = false,
 }) => {
   const deviceType = useDeviceType();
-  const deviceWidth = useResponsiveWidth(100);
+  const deviceWidth = useResponsiveScreenWidth(100);
 
   const viewportWidth =
     (deviceType === Device.DeviceType.PHONE || !responsive) ? deviceWidth : Constants.manifest.extra.tabletBodyWidth
