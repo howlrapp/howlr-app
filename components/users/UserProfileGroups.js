@@ -11,6 +11,7 @@ const UserProfileGroups = ({
   groups,
   style,
   title,
+  editable,
   ...props
 }) => {
   const sortedGroups = useMemo(() => (
@@ -51,6 +52,7 @@ const UserProfileGroups = ({
             <UserProfileGroupsItem
               key={group.id}
               group={group}
+              editable={editable}
               style={{
                 marginBottom: (
                   index > (sortedGroups.length - itemsPerRow - 1) ? 0 : imageSpacing + itemPaddingCorrection
