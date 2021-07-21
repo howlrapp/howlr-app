@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import useSentLikes from '../hooks/useSentLikes';
 import useApp from '../hooks/useApp';
@@ -11,6 +11,10 @@ const SentLikes = (props) => {
   const { maximumLikesCount } = useApp();
 
   const sentLikes = useSentLikes();
+
+  const limitedSentLikes = useMemo(() => (
+    sentLikes.slice(0, maximumLikesCount)
+  ), [sentLikes, maximumLikesCount]);
 
   const ListEmptyComponent = useCallback(() => (
     <EmptyListSearch
@@ -25,7 +29,7 @@ const SentLikes = (props) => {
   return (
     <Likes
       {...props}
-      likes={sentLikes}
+      likes={limitedSentLikes}
       showLikeBack
       ListEmptyComponent={ListEmptyComponent}
       ListFooterComponent={ListFooterComponent}

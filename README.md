@@ -67,4 +67,4 @@ All you have to do is running `expo start` in the application folder, press `a` 
 
 ## Code of conduct
 
-Be kind and respectful to us and to others in everything you say.
+Be kind and respectful to us and to others in everything you say, never hurt and assume benevolence just like we try to do.
