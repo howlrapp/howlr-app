@@ -9,8 +9,6 @@ import {
 import UserAvatar from './UserAvatar';
 import useViewer from '../hooks/useViewer';
 
-// import fakeUser from '../marketing/fakeUser';
-
 const renderProfileLink = () => {
   const viewer = useViewer();
   const navigation = useNavigation();

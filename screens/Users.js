@@ -27,8 +27,6 @@ import useGridDimensions from '../hooks/useGridDimensions';
 
 import { DEFAULT_USERS_SEARCH_CRITERIA } from '../graphql/apolloClient';
 
-// import fakeUsers from '../marketing/fakeUsers';
-
 const UsersLists = React.memo(({ usersSearchCriteria }) => {
   const viewer = useViewer();
   const { maximumUsersCount } = useApp();
