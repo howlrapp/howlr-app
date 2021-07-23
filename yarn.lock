@@ -15886,7 +15886,7 @@ react-native-tab-view@^2.15.1:
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-2.15.1.tgz#cf4df4ffdec504263a2e06a6becd8831b9a19ad9"
   integrity sha512-cDYl1pNWspbEHBjHrHVpIC40h4g8VhZe0CIG0CUKcouX98vHVfAojxhgWuRosq9qMhITHpLKM+7BmBLnhCJ0nw==
 
-react-native-unimodules@~0.14.6:
+react-native-unimodules@~0.14.5:
   version "0.14.6"
   resolved "https://registry.yarnpkg.com/react-native-unimodules/-/react-native-unimodules-0.14.6.tgz#5460a34d44e880909cb63d9bb4c4d77ff158bf0a"
   integrity sha512-nYH/x9pqd8MsGVv5qEzNnUxQkdoCOsLtw+44YAnLPuntdcSZcLOCMstM/ee1gkrq1hFbo0Djj7UK/XMcjz+Tnw==
@@ -15918,7 +15918,7 @@ react-native-web@~0.13.12:
     prop-types "^15.6.0"
     react-timer-mixin "^0.13.4"
 
-react-native@0.63.4:
+react-native@~0.63.4:
   version "0.63.4"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.63.4.tgz#2210fdd404c94a5fa6b423c6de86f8e48810ec36"
   integrity sha512-I4kM8kYO2mWEYUFITMcpRulcy4/jd+j9T6PbIzR0FuMcz/xwd+JwHoLPa1HmCesvR1RDOw9o4D+OFLwuXXfmGw==
