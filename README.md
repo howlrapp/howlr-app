@@ -62,7 +62,7 @@ You'll also need a `google-services.json` file if you want to deploy your applic
 
 ### Launching
 
-All you have to do is running `expo start` in the application folder, press `a` to run the Android Emulator or `i` for the iOS Simulator, or use your phone along with the Expo app.
+All you have to do is running `expo run:ios` or `expo run:android` in the application folder.
 
 
 ## Code of conduct
