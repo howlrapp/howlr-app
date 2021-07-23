@@ -5031,13 +5031,6 @@
   dependencies:
     react-native-eva-icons "^1.3.1"
 
-"@unimodules/core@~5.5.0":
-  version "5.5.0"
-  resolved "https://registry.yarnpkg.com/@unimodules/core/-/core-5.5.0.tgz#580aaa4887641c1af85e0ab9f8987a5d4424595c"
-  integrity sha512-i99Dw9Ie/8hSCn80hq6nKlklINdtOhhNqRf2BbF0xs03Ej/WYHsp6NaXReTifI5I7OP5djArEu2oYdZAFxFvbA==
-  dependencies:
-    compare-versions "^3.4.0"
-
 "@unimodules/core@~7.1.1":
   version "7.1.1"
   resolved "https://registry.yarnpkg.com/@unimodules/core/-/core-7.1.1.tgz#5bc7694e1b135033130f585e40d001669f02c572"
@@ -9233,13 +9226,6 @@ expo-pwa@0.0.78:
     chalk "^4.0.0"
     commander "2.20.0"
     update-check "1.5.3"
-
-expo-screen-capture@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/expo-screen-capture/-/expo-screen-capture-1.1.1.tgz#e5e946ae8b9ad809ff5a4617b702266661fb8087"
-  integrity sha512-PUeaeOcrfR7tFlLY0PqumRHMawYbIpltNV7NnehaenOGszAaHA2GLYQ89I4u9LQnzB23+CM/GFVluAS8vF2aKA==
-  dependencies:
-    "@unimodules/core" "~5.5.0"
 
 expo-screen-orientation@~3.2.1:
   version "3.2.1"

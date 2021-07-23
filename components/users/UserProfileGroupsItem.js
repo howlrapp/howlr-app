@@ -34,6 +34,7 @@ const UserProfileGroupsItem = ({
     showActionSheetWithOptions(
       {
         options: [joined ? "Leave group" : "Join group", 'Cancel'],
+        destructiveButtonIndex: joined ? 0 : null,
         cancelButtonIndex: 1,
         title: group.name,
       },

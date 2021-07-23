@@ -113,8 +113,7 @@
         16
       ],
       "tabletModalWidth": 500,
-      "tabletBodyWidth": 552,
-      "allowScreenshots": false,
+      "tabletBodyWidth": 552
     }
   }
 }
