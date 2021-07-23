@@ -7,6 +7,7 @@ import {
 } from "react-native-responsive-dimensions";
 import { format, differenceInHours } from 'date-fns';
 import { useActionSheet } from '@expo/react-native-action-sheet'
+import FastImage from 'react-native-fast-image';
 
 import ParsedText from 'react-native-parsed-text';
 import * as WebBrowser from 'expo-web-browser';
@@ -134,7 +135,7 @@ const ChatBubble = React.memo(({
                 }
               ]}
             />
-            <Image
+            <FastImage
               style={{
                 width: pictureSize,
                 height: pictureSize,

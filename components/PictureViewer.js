@@ -1,11 +1,12 @@
 import React, { useRef, useEffect, useCallback } from 'react';
 import { Portal } from 'react-native-portalize';
-import { Image, View, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { useTheme } from '@ui-kitten/components';
 import { Platform, TouchableOpacity } from 'react-native';
 import { Icon } from '@ui-kitten/components';
 import * as Device from 'expo-device';
 import Constants from 'expo-constants';
+import FastImage from 'react-native-fast-image'
 
 import {
   useResponsiveScreenWidth,
@@ -97,7 +98,7 @@ const PictureViewer = ({
                   >
                     <ActivityIndicator />
                   </View>
-                  <Image
+                  <FastImage
                     source={{ uri: picture.pictureUrl }}
                     style={{
                       borderTopLeftRadius: index === 0 ? 11 : 0,

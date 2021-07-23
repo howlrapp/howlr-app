@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
-import { Avatar, useTheme } from '@ui-kitten/components';
+import { useTheme } from '@ui-kitten/components';
 import { View, StyleSheet, Image } from 'react-native';
+import FastImage from 'react-native-fast-image';
 
 import useSentLikesUserIds from '../hooks/useSentLikesUserIds';
 import useReceivedLikesUserIds from '../hooks/useReceivedLikesUserIds';
@@ -110,8 +111,8 @@ const UserAvatar = ({
           { borderRadius: size, backgroundColor: theme['background-basic-color-4'] }
         ]}
       />
-      <Avatar
-        style={{ width: size, height: size }}
+      <FastImage
+        style={{ width: size, height: size, borderRadius: size }}
         source={source}
         {...props}
       />

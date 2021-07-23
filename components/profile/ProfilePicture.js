@@ -1,6 +1,7 @@
 import React from 'react';
-import { TouchableOpacity, Image, StyleSheet, View } from 'react-native';
+import { TouchableOpacity, StyleSheet, View } from 'react-native';
 import { useTheme } from '@ui-kitten/components';
+import FastImage from 'react-native-fast-image';
 
 const ProfilePicture = ({
   picture,
@@ -24,7 +25,7 @@ const ProfilePicture = ({
           { width: size, height: size, backgroundColor: theme['background-basic-color-4'] }
         ]}
       />
-      <Image
+      <FastImage
         style={{ width: size, height: size }}
         source={{
           uri: picture.thumbnailUrl,
