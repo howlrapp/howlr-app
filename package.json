@@ -6,7 +6,8 @@
     "ios": "react-native run-ios",
     "eslint": "./node_modules/.bin/eslint .",
     "test": "./node_modules/.bin/jest",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "build": "EAS_NO_VCS=1 eas build -p all"
   },
   "jest": {
     "preset": "jest-expo",
