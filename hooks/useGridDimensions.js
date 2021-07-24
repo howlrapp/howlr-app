@@ -15,7 +15,10 @@ const useGridDimensions = ({
   preferredItemsPerRow,
 }) => {
   const deviceType = useDeviceType();
-  const deviceWidth = useResponsiveScreenWidth(100);
+  let deviceWidth = useResponsiveScreenWidth(100);
+
+  // round to nearest even number
+  deviceWidth = Math.floor(deviceWidth / 2) * 2;
 
   const viewportWidth =
     (deviceType === Device.DeviceType.PHONE || !responsive) ? deviceWidth : Constants.manifest.extra.tabletBodyWidth
