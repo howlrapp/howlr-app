@@ -9014,14 +9014,6 @@ expo-asset@~8.3.3:
     path-browserify "^1.0.0"
     url-parse "^1.4.4"
 
-expo-av@~9.2.3:
-  version "9.2.3"
-  resolved "https://registry.yarnpkg.com/expo-av/-/expo-av-9.2.3.tgz#aa54da9c0bc1c3eb0251c1da17f5123f15d4f82f"
-  integrity sha512-If6+JqB2mqMKJxHgN8UAx75CWH4kPAzx2EyP+MFmcPVpcSBJZ/Fj+EfI+GJnk3tHPSB2Eld1IFEYOIJCkN/26Q==
-  dependencies:
-    "@expo/config-plugins" "^3.0.0"
-    expo-modules-core "~0.2.0"
-
 expo-cli@^3.11.9:
   version "3.26.2"
   resolved "https://registry.yarnpkg.com/expo-cli/-/expo-cli-3.26.2.tgz#3bffb44c1e721a47818ea8af801a188fbe916565"
@@ -9158,11 +9150,6 @@ expo-keep-awake@~9.2.0:
   resolved "https://registry.yarnpkg.com/expo-keep-awake/-/expo-keep-awake-9.2.0.tgz#9cbdcc8264c943ef29a58326236cd34267e98f43"
   integrity sha512-R5jAx5j3MqrhKFB307FBpaHtYSYeVIFX/rVforBF5inKonYjXRWVhjGoBjolF4geAryNamC3NKhMfxyaaB0W6Q==
 
-expo-linear-gradient@~9.2.0:
-  version "9.2.0"
-  resolved "https://registry.yarnpkg.com/expo-linear-gradient/-/expo-linear-gradient-9.2.0.tgz#5ae16fcb8f141b1c51dc36bd4493dfd6566a9511"
-  integrity sha512-LnW2u9OT6GeyC6T8qEGjFYfNSk4KIBAwU0aRSjM4Y8hckWqhtKngGDz46DqGmJBzvZMSKuZZvj5xKn794r54ag==
-
 expo-linking@~2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/expo-linking/-/expo-linking-2.3.1.tgz#477af2bcc156a7f8ba9961c7b3f4aa103e18db98"
@@ -9252,11 +9239,6 @@ expo-screen-orientation@~3.2.1:
   dependencies:
     "@expo/config-plugins" "^3.0.0"
 
-expo-secure-store@~10.2.0:
-  version "10.2.0"
-  resolved "https://registry.yarnpkg.com/expo-secure-store/-/expo-secure-store-10.2.0.tgz#561dfea4d6b4d05a738643d80a15403ebe0e515d"
-  integrity sha512-yNahMY3qzEotAYdsE02ps4yGfDay2twasHfsI/7gJB9SrwXYFx5bJuCDk8uTo8jsm6psvDjO+9VMM2DSPHik2A==
-
 expo-splash-screen@~0.11.2:
   version "0.11.2"
   resolved "https://registry.yarnpkg.com/expo-splash-screen/-/expo-splash-screen-0.11.2.tgz#70c69052981cc982d12030f2a1df5b35af7ee752"
@@ -9274,15 +9256,6 @@ expo-structured-headers@~1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/expo-structured-headers/-/expo-structured-headers-1.1.1.tgz#95e28ff8686a2c06fe6ad1decdbb94cc44716683"
   integrity sha512-OxDsWTDxwAhfW82DDXYTcT9UzSk2fYUb3YHiz/tQ1MObQMh0QVHgxcTe9vvtzguc6O4A2Y+f8tO1g3LcUEN2lg==
-
-expo-task-manager@~9.2.2:
-  version "9.2.2"
-  resolved "https://registry.yarnpkg.com/expo-task-manager/-/expo-task-manager-9.2.2.tgz#1c4419114ca254223d73cec4e23752c45cc9270d"
-  integrity sha512-GDObZYoCT1bwYXYtT9RinRhR7Y+mCy6DvO7OvRFW3hgxHVXvAM8YFA8jr3airY0XF73aT35/nFnOe+MFCELXFA==
-  dependencies:
-    "@expo/config-plugins" "^3.0.0"
-    expo-modules-core "~0.2.0"
-    unimodules-app-loader "~2.2.0"
 
 expo-updates-interface@~0.2.2:
   version "0.2.2"
