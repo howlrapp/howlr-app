@@ -15,7 +15,7 @@
     "userInterfaceStyle": "automatic",
     "backgroundColor": "#222B45",
     "splash": {
-      "image": "./assets/splash.jpg",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#222B45"
     },
