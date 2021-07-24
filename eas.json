@@ -2,7 +2,7 @@
   "builds": {
     "android": {
       "release": {
-        "buildType": "apk",
+        "buildType": "app-bundle",
         "releaseChannel": "sdk42-eas"
       },
       "development": {
