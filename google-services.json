@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "805642246863",
+    "firebase_url": "https://howlr-1528556823000.firebaseio.com",
+    "project_id": "howlr-1528556823000",
+    "storage_bucket": "howlr-1528556823000.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:805642246863:android:b5c2f177e62a7429",
+        "android_client_info": {
+          "package_name": "im.howlr.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "805642246863-n5rtkpit75scqs4pcl0vdet20mt41kn5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDN-2daCCZMuMrWSK_gKUhA_PDkZDrt0M8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "805642246863-n5rtkpit75scqs4pcl0vdet20mt41kn5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

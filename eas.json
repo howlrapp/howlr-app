@@ -1,0 +1,24 @@
+{
+  "builds": {
+    "android": {
+      "release": {
+        "buildType": "apk",
+        "releaseChannel": "sdk42-eas"
+      },
+      "development": {
+        "buildType": "development-client",
+        "distribution": "internal"
+      }
+    },
+    "ios": {
+      "release": {
+        "schemeBuildConfiguration": "Release",
+        "releaseChannel": "sdk42-eas"
+      },
+      "development": {
+        "schemeBuildConfiguration": "Debug",
+        "distribution": "internal"
+      }
+    }
+  }
+}

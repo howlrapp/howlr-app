@@ -1,0 +1,125 @@
+{
+  "expo": {
+    "name": "Howlr",
+    "description": "Meet new furries around you!",
+    "slug": "howlr",
+    "scheme": "howlr",
+    "privacy": "unlisted",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "version": "26.0.0",
+    "orientation": "default",
+    "primaryColor": "#222B45",
+    "userInterfaceStyle": "automatic",
+    "backgroundColor": "#222B45",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#222B45"
+    },
+    "updates": {
+      "enabled": true,
+    },
+    "notification": {
+      "icon": "./assets/icon_notification.png",
+      "color": "#222B45",
+      "androidMode": "collapse"
+    },
+    "androidStatusBar": {
+      "barStyle": "light-content",
+      "backgroundColor": "#00000000",
+      "translucent": true
+    },
+    "ios": {
+      "bundleIdentifier": "im.howlr",
+      "buildNumber": "26",
+      "supportsTablet": true,
+      "icon": "./assets/icon_ios.png",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Howlr needs access to your photo library and camera to allow you to add your pictures in your gallery, send pictures in chat or change your avatar.",
+        "NSPhotoLibraryUsageDescription": "Howlr needs access to your photo library and camera to allow you to add your pictures in your gallery, send pictures in chat or change your avatar.",
+        "NSLocationWhenInUseUsageDescription": "Howlr may need your location to make it easier for you to switch to your current location in your profile, live updates to your location will not be tracked or stored."
+      }
+    },
+    "android": {
+      "versionCode": 26,
+      "package": "im.howlr.app",
+      "googleServicesFile": "./google-services.json",
+      "icon": "./assets/icon.png",
+      "useNextNotificationsApi": true,
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyA3f_wV1ggy79OZwhv0j3jnPghmzqtmIW4"
+        }
+      },
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "data": [
+            {
+              "scheme": "https",
+              "host": "*.howlr.im",
+              "pathPrefix": "/"
+            }
+          ],
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        }
+      ],
+      "permissions": [
+        "CAMERA",
+        "MANAGE_DOCUMENTS",
+        "READ_EXTERNAL_STORAGE",
+        "VIBRATE",
+        "WAKE_LOCK",
+        "WRITE_EXTERNAL_STORAGE",
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "com.anddoes.launcher.permission.UPDATE_COUNT",
+        "com.android.launcher.permission.INSTALL_SHORTCUT",
+        "com.google.android.c2dm.permission.RECEIVE",
+        "com.google.android.gms.permission.ACTIVITY_RECOGNITION",
+        "com.google.android.providers.gsf.permission.READ_GSERVICES",
+        "com.htc.launcher.permission.READ_SETTINGS",
+        "com.htc.launcher.permission.UPDATE_SHORTCUT",
+        "com.majeur.launcher.permission.UPDATE_BADGE",
+        "com.sec.android.provider.badge.permission.READ",
+        "com.sec.android.provider.badge.permission.WRITE",
+        "com.sonyericsson.home.permission.BROADCAST_BADGE"
+      ]
+    },
+    "hooks": {
+      "postPublish": []
+    },
+    "extra": {
+      "_developmentApiUrl": "http://192.168.1.70:3001/graphql",
+      "__developmentApiUrl": "http://172.20.10.7:3001/graphql",
+      "developmentApiUrl": "https://graphql.howlr.im/graphql",
+
+      "_developmentCableUrl": "ws://192.168.1.70:3001/cable",
+      "__developmentCableUrl": "ws://172.20.10.7:3001/cable",
+      "developmentCableUrl": "wss://graphql.howlr.im/cable",
+
+      "productionApiUrl": "https://graphql.howlr.im/graphql",
+      "productionCableUrl": "wss://graphql.howlr.im/cable",
+
+      "appVersion": 26000,
+      "appId": "48fc026d-b2b3-4bd4-b685-163bb8a9696b",
+      "gridItemSize": 90,
+      "imageQuality": 0.95,
+      "avatarSize": 200,
+      "picturesRatio": [
+        9,
+        16
+      ],
+      "tabletModalWidth": 500,
+      "tabletBodyWidth": 552,
+      "allowScreenshots": false
+    }
+  }
+}
