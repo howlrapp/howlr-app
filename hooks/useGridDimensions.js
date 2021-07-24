@@ -12,6 +12,7 @@ const useGridDimensions = ({
   imageSpacing = 2,
   itemsPerRowDivider = 1,
   responsive = false,
+  preferredItemsPerRow,
 }) => {
   const deviceType = useDeviceType();
   const deviceWidth = useResponsiveScreenWidth(100);
@@ -21,7 +22,14 @@ const useGridDimensions = ({
 
   const containerWidth = width || viewportWidth;
   const itemsWidth = containerWidth - itemsSectionPadding * 2;
-  const itemsPerRow = Math.floor(Math.floor(containerWidth / Constants.manifest.extra.gridItemSize) / itemsPerRowDivider);
+  let itemsPerRow = Math.floor(Math.floor(containerWidth / Constants.manifest.extra.gridItemSize) / itemsPerRowDivider);
+  if (itemsPerRow < 2) {
+    itemsPerRow = 2;
+  }
+  if (itemsPerRow === preferredItemsPerRow - 1 || itemsPerRow === preferredItemsPerRow + 1) {
+    itemsPerRow = preferredItemsPerRow;
+  }
+
   const itemDimension = itemsWidth / itemsPerRow;
   const itemPaddingCorrection = (imageSpacing / (itemsPerRow - 1));
 

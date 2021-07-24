@@ -143,7 +143,7 @@ const UsersDistanceSections = React.memo(({
     itemsPerRow,
     itemDimension,
     imageSpacing,
-  } = useGridDimensions({ imageSpacing: 12 });
+  } = useGridDimensions({ imageSpacing: 12, preferredItemsPerRow: 4 });
 
   const lineHeight = itemDimension + itemPaddingCorrection + 20;
 
