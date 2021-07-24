@@ -109,7 +109,7 @@
       "productionCableUrl": "wss://graphql.howlr.im/cable",
 
       "appVersion": 27000,
-      "appId": "48fc027d-b2b3-4bd4-b685-163bb8a9696b",
+      "appId": "48fc026d-b2b3-4bd4-b685-163bb8a9696b",
       "gridItemSize": 90,
       "imageQuality": 0.95,
       "avatarSize": 200,
