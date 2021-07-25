@@ -7,6 +7,7 @@ export const SET_PROFILE_FIELD_VALUE = gql`
         id
         name
         value
+        restricted
       }
     }
   }

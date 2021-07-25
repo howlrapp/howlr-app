@@ -15,7 +15,7 @@ const UserGallery = ({ user, style }) => {
     itemPaddingCorrection,
     itemsPerRow,
     imageSpacing,
-  } = useGridDimensions({});
+  } = useGridDimensions({ preferredItemsPerRow: 4 });
 
   const sortedPictures = useMemo(() => (
     orderBy(user.pictures, (p) => new Date(p.createdAt), 'desc')

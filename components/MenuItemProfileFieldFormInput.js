@@ -1,11 +1,18 @@
-import React, { useCallback, useMemo } from 'react';
-import { Text } from '@ui-kitten/components';
+import React, { useCallback, useMemo, useState } from 'react';
+import { StyleSheet } from 'react-native';
+import { Text, Toggle } from '@ui-kitten/components';
 import { isEmpty } from 'lodash';
 
 import MenuItemFormInput from './MenuItemFormInput';
 
 import useViewer from '../hooks/useViewer';
 import useSetProfileFieldValue from '../hooks/useSetProfileFieldValue';
+
+const VISIBILITY_LABELS = {
+  "everyone": "Make it visible to everyone",
+  "liked": "Make it visible only to people you liked",
+  "nobody": "Make it invisible"
+}
 
 const MenuItemProfileFieldFormInput = ({
   profileField,
@@ -17,18 +24,21 @@ const MenuItemProfileFieldFormInput = ({
 
   const profileFieldValue = useMemo(() => (
     profileFieldValues.find(({ name }) => name === profileField.name)
-  ), [profileField, profileFieldValues])
+  ), [profileField, profileFieldValues]);
+
+  const [ restricted, setRestricted ] = useState(profileFieldValue.restricted);
 
   const handleSave = useCallback((value) => (
     setProfileFieldValue({
       variables: {
         input: {
           name: profileFieldValue.name,
-          value
+          value,
+          restricted
         }
       }
     })
-  ), [setProfileFieldValue]);
+  ), [setProfileFieldValue, restricted]);
 
   const inputPropsWithPlaceholder = useMemo(() => {
     if (!isEmpty(profileField.pattern) && !isEmpty(profileField.regexp)) {
@@ -60,8 +70,22 @@ const MenuItemProfileFieldFormInput = ({
       inputProps={inputPropsWithPlaceholder}
       loading={loading}
       {...props}
-    />
+    >
+      <Toggle
+        checked={restricted}
+        onChange={(restricted) => setRestricted(restricted)}
+        style={styles.visibilitySelector}
+      >
+        Restrict visibility to people you liked
+      </Toggle>
+    </MenuItemFormInput>
   );
 }
+
+const styles = StyleSheet.create({
+  visibilitySelector: {
+    marginTop: 20
+  }
+})
 
 export default React.memo(MenuItemProfileFieldFormInput);

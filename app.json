@@ -1,30 +1,30 @@
 {
   "expo": {
-    "name": "Your App Name",
+    "name": "Howlr",
     "description": "Meet new furries around you!",
-    "slug": "your_app_slug",
-    "scheme": "your_app_scheme",
+    "slug": "howlr",
+    "scheme": "howlr",
     "privacy": "unlisted",
     "platforms": [
       "ios",
       "android"
     ],
-    "version": "25.0.0",
+    "version": "30.0.0",
     "orientation": "default",
     "primaryColor": "#222B45",
     "userInterfaceStyle": "automatic",
-    "backgroundColor": "#222B45",
+    "backgroundColor": "#222b45",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#222B45"
+      "backgroundColor": "#222b45"
     },
     "updates": {
       "enabled": true,
     },
     "notification": {
       "icon": "./assets/icon_notification.png",
-      "color": "#222B45",
+      "color": "#222b45",
       "androidMode": "collapse"
     },
     "androidStatusBar": {
@@ -33,8 +33,8 @@
       "translucent": true
     },
     "ios": {
-      "bundleIdentifier": "your.bundle.identifier",
-      "buildNumber": "25",
+      "bundleIdentifier": "im.howlr",
+      "buildNumber": "30",
       "supportsTablet": true,
       "icon": "./assets/icon_ios.png",
       "infoPlist": {
@@ -44,14 +44,14 @@
       }
     },
     "android": {
-      "versionCode": 25,
-      "package": "your.android.package",
+      "versionCode": 30,
+      "package": "im.howlr.app",
       "googleServicesFile": "./google-services.json",
       "icon": "./assets/icon.png",
       "useNextNotificationsApi": true,
       "config": {
         "googleMaps": {
-          "apiKey": "your_googleMapsApiKey"
+          "apiKey": "AIzaSyA3f_wV1ggy79OZwhv0j3jnPghmzqtmIW4"
         }
       },
       "intentFilters": [
@@ -96,13 +96,18 @@
       "postPublish": []
     },
     "extra": {
+      "_developmentApiUrl": "http://192.168.1.70:3001/graphql",
+      "__developmentApiUrl": "http://172.20.10.7:3001/graphql",
       "developmentApiUrl": "https://graphql.howlr.im/graphql",
+
+      "_developmentCableUrl": "ws://192.168.1.70:3001/cable",
+      "__developmentCableUrl": "ws://172.20.10.7:3001/cable",
       "developmentCableUrl": "wss://graphql.howlr.im/cable",
 
       "productionApiUrl": "https://graphql.howlr.im/graphql",
       "productionCableUrl": "wss://graphql.howlr.im/cable",
 
-      "appVersion": 25000,
+      "appVersion": 30000,
       "appId": "48fc026d-b2b3-4bd4-b685-163bb8a9696b",
       "gridItemSize": 90,
       "imageQuality": 0.95,

@@ -39,6 +39,7 @@ export const VIEWER_FRAGMENT = gql`
       id
       name
       value
+      restricted
     }
     blockedUsers {
       id

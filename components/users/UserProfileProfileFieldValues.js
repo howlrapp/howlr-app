@@ -19,7 +19,8 @@ const UserProfileProfileFieldValues = ({
   } = useGridDimensions({
     itemsPerRowDivider: 2,
     itemsSectionPadding: 20,
-    imageSpacing: 4
+    imageSpacing: 4,
+    preferredItemsPerRow: 2
   });
 
   const filteredProfileFieldValues = useMemo(() => (

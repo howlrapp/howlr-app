@@ -99,7 +99,7 @@ const ProfilePictures = () => {
     itemPaddingCorrection,
     itemsPerRow,
     imageSpacing,
-  } = useGridDimensions({ responsive: true });
+  } = useGridDimensions({ responsive: true, preferredItemsPerRow: 4 });
 
   const ListHeaderComponent = useCallback(() => (
     <Button

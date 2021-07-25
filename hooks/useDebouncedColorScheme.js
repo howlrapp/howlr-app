@@ -4,9 +4,21 @@
 
 import { Appearance } from 'react-native';
 import { useEffect, useRef, useState } from 'react';
+import { useApolloClient } from '@apollo/client';
+
+import useGetColorScheme, { GET_COLOR_SCHEME } from './useGetColorScheme';
 
 export default function useDebouncedColorScheme(delay = 500) {
-  const [colorScheme, setColorScheme] = useState(Appearance.getColorScheme());
+  const { data } = useGetColorScheme();
+  const preferredColorScheme = data?.colorScheme || "system";
+
+  const [colorScheme, setColorScheme] = useState(
+    preferredColorScheme === "system" ? Appearance.getColorScheme() : preferredColorScheme
+  );
+
+  useEffect(() => {
+    onColorSchemeChange();
+  }, [preferredColorScheme])
 
   let timeout = useRef(null).current;
 
@@ -19,11 +31,19 @@ export default function useDebouncedColorScheme(delay = 500) {
     };
   }, []);
 
-  function onColorSchemeChange({ colorScheme }) {
-    resetCurrentTimeout();
+  const client = useApolloClient();
 
+  function onColorSchemeChange() {
+    resetCurrentTimeout();
     timeout = setTimeout(() => {
-      setColorScheme(Appearance.getColorScheme());
+      const data = client.readQuery({
+        query: GET_COLOR_SCHEME
+      })
+
+    const preferredColorScheme = data?.colorScheme || "system";
+      setColorScheme(
+        preferredColorScheme === "system" ? Appearance.getColorScheme() : preferredColorScheme
+      );
     }, delay);
   }
 
@@ -32,6 +52,6 @@ export default function useDebouncedColorScheme(delay = 500) {
       clearTimeout(timeout);
     }
   }
-
+  
   return colorScheme;
 }

@@ -21,6 +21,7 @@ export const GET_USER = gql`
         groupIds
         genderIds
         matchKindIds
+        avatarLargeUrl
         sexualOrientationIds
         likedCount
         likersCount

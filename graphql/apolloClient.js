@@ -10,6 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { GET_USERS_SEARCH_CRITERIA } from '../hooks/useGetUsersSearchCriteria';
 import { GET_TOKEN } from '../hooks/useToken';
+import { GET_COLOR_SCHEME } from '../hooks/useGetColorScheme';
 
 export const DEFAULT_USERS_SEARCH_CRITERIA = {
   __typename: 'UsersSearchCriteria',
@@ -29,27 +30,27 @@ const cache = new InMemoryCache({
     UsersSearchCriteria: {
       fields: {
         groupIds: {
-          merge(_existing = [], incoming: []) {
+          merge(_existing = [], incoming = []) {
             return incoming;
           },
         },
         genderIds: {
-          merge(_existing = [], incoming: []) {
+          merge(_existing = [], incoming = []) {
             return incoming;
           },
         },
         relationshipStatusIds: {
-          merge(_existing = [], incoming: []) {
+          merge(_existing = [], incoming = []) {
             return incoming;
           },
         },
         sexualOrientationIds: {
-          merge(_existing = [], incoming: []) {
+          merge(_existing = [], incoming = []) {
             return incoming;
           },
         },
         matchKindIds: {
-          merge(_existing = [], incoming: []) {
+          merge(_existing = [], incoming = []) {
             return incoming;
           },
         },
@@ -58,37 +59,37 @@ const cache = new InMemoryCache({
     Viewer: {
       fields: {
         genderIds: {
-          merge(_existing = [], incoming: []) {
+          merge(_existing = [], incoming = []) {
             return incoming;
           },
         },
         sexualOrientationIds: {
-          merge(_existing = [], incoming: []) {
+          merge(_existing = [], incoming = []) {
             return incoming;
           },
         },
         likes: {
-          merge(_existing = [], incoming: []) {
+          merge(_existing = [], incoming = []) {
             return incoming;
           },
         },
         groupIds: {
-          merge(_existing = [], incoming: []) {
+          merge(_existing = [], incoming = []) {
             return incoming;
           },
         },
         matchKindIds: {
-          merge(_existing = [], incoming: []) {
+          merge(_existing = [], incoming = []) {
             return incoming;
           },
         },
         events: {
-          merge(_existing = [], incoming: []) {
+          merge(_existing = [], incoming = []) {
             return incoming;
           },
         },
         eventsAsParticipant: {
-          merge(_existing = [], incoming: []) {
+          merge(_existing = [], incoming = []) {
             return incoming;
           },
         }
@@ -148,6 +149,11 @@ let client = new ApolloClient({
 
         return token;
       },
+      colorScheme: async () => {
+        const colorScheme = await AsyncStorage.getItem('colorScheme');
+
+        return colorScheme;
+      },
       usersSearchCriteria: async () => {
         const usersSearchCriteriaString = await AsyncStorage.getItem('usersSearchCriteria');
         if (!usersSearchCriteriaString) {
@@ -171,6 +177,14 @@ let client = new ApolloClient({
         cache.writeQuery({
           query: GET_TOKEN,
           data: { token: null }
+        })
+        return null;
+      },
+      setColorScheme: async (_, { colorScheme }, { cache }) => {
+        await AsyncStorage.setItem('colorScheme', colorScheme);
+        cache.writeQuery({
+          query: GET_COLOR_SCHEME,
+          data: { colorScheme }
         })
         return null;
       },

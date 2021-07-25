@@ -12,16 +12,27 @@ const useGridDimensions = ({
   imageSpacing = 2,
   itemsPerRowDivider = 1,
   responsive = false,
+  preferredItemsPerRow,
 }) => {
   const deviceType = useDeviceType();
-  const deviceWidth = useResponsiveScreenWidth(100);
+  let deviceWidth = useResponsiveScreenWidth(100);
+
+  // round to nearest even number
+  deviceWidth = Math.floor(deviceWidth / 2) * 2;
 
   const viewportWidth =
     (deviceType === Device.DeviceType.PHONE || !responsive) ? deviceWidth : Constants.manifest.extra.tabletBodyWidth
 
   const containerWidth = width || viewportWidth;
   const itemsWidth = containerWidth - itemsSectionPadding * 2;
-  const itemsPerRow = Math.floor(Math.floor(containerWidth / Constants.manifest.extra.gridItemSize) / itemsPerRowDivider);
+  let itemsPerRow = Math.floor(Math.floor(containerWidth / Constants.manifest.extra.gridItemSize) / itemsPerRowDivider);
+  if (itemsPerRow < 2) {
+    itemsPerRow = 2;
+  }
+  if (itemsPerRow === preferredItemsPerRow - 1 || itemsPerRow === preferredItemsPerRow + 1) {
+    itemsPerRow = preferredItemsPerRow;
+  }
+
   const itemDimension = itemsWidth / itemsPerRow;
   const itemPaddingCorrection = (imageSpacing / (itemsPerRow - 1));
 
