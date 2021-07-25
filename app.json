@@ -44,7 +44,6 @@
       }
     },
     "android": {
-      "jsEngine": "hermes",
       "versionCode": 29,
       "package": "im.howlr.app",
       "googleServicesFile": "./google-services.json",
