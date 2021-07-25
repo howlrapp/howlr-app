@@ -5,9 +5,6 @@ import React, { useState, useEffect } from 'react';
 import { ApolloProvider } from '@apollo/client';
 import apolloClient from '../graphql/apolloClient';
 
-import * as SplashScreen from 'expo-splash-screen';
-import Constants from 'expo-constants';
-
 import { AppearanceProvider } from 'react-native-appearance';
 
 import * as Device from 'expo-device';
@@ -18,10 +15,6 @@ import useEnforceScreenOrientation from '../hooks/useEnforceScreenOrientation';
 import AppWithAppearance from './AppWithAppearance';
 
 const AppBootstrap = () => {
-  useEffect(() => {
-    SplashScreen.preventAutoHideAsync();
-  }, []);
-
   const [ deviceType, setDeviceType ] = useState(null);
   useEffect(() => {
     Device.getDeviceTypeAsync().then(setDeviceType);

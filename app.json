@@ -13,18 +13,18 @@
     "orientation": "default",
     "primaryColor": "#222B45",
     "userInterfaceStyle": "automatic",
-    "backgroundColor": "#222B45",
+    "backgroundColor": "#222b45",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#222B45"
+      "backgroundColor": "#222b45"
     },
     "updates": {
       "enabled": true,
     },
     "notification": {
       "icon": "./assets/icon_notification.png",
-      "color": "#222B45",
+      "color": "#222b45",
       "androidMode": "collapse"
     },
     "androidStatusBar": {
