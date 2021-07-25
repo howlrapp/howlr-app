@@ -43,6 +43,7 @@ const MenuItemViewerFormLocation = ({
   }, [locationChangeIntervalMinutes]);
 
   const viewportWidth = useResponsiveScreenWidth(100);
+  const viewportHeight = useResponsiveScreenWidth(100);
 
   const [ modalOpen, setModalOpen ] = useState(false);
   useEffect(() => {
@@ -171,7 +172,7 @@ const MenuItemViewerFormLocation = ({
               >
                 <MapView
                   region={region}
-                  style={[ styles.mapView, {  width: viewportWidth - 20 }]}
+                  style={[ { height: viewportHeight * 0.90, width: viewportWidth - 20 }]}
                   onPress={handleChangeMarker}
                   loadingEnabled
                   toolbarEnabled={false}
