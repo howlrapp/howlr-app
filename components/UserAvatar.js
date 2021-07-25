@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { useTheme } from '@ui-kitten/components';
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import FastImage from 'react-native-fast-image';
 
 import useSentLikesUserIds from '../hooks/useSentLikesUserIds';
@@ -73,17 +73,21 @@ const UserAvatar = ({
 
   containerStyle = {},
 
+  onPress,
+
+  avatarProperty = "avatarUrl",
+
   ...props
 }) => {
   const theme = useTheme();
 
   const source = useMemo(() => {
-    if (Number.isInteger(user.avatarUrl)) {
-      return (user.avatarUrl)
+    if (Number.isInteger(user[avatarProperty])) {
+      return (user[avatarProperty])
     }
 
     return (
-      user.avatarUrl ? { uri: user.avatarUrl } : placeHolderImage
+      user[avatarProperty] ? { uri: user[avatarProperty] } : placeHolderImage
     );
   }, [user]);
 
@@ -111,11 +115,16 @@ const UserAvatar = ({
           { borderRadius: size, backgroundColor: theme['background-basic-color-4'] }
         ]}
       />
-      <FastImage
-        style={{ width: size, height: size, borderRadius: size }}
-        source={source}
-        {...props}
-      />
+      <TouchableOpacity
+        disabled={!onPress}
+        onPress={onPress}
+      >
+        <FastImage
+          style={{ width: size, height: size, borderRadius: size }}
+          source={source}
+          {...props}
+        />
+      </TouchableOpacity>
       {
         (user.online && indicators.includes("online")) && (
           <Indicator

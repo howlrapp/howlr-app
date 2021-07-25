@@ -2,7 +2,7 @@
   "builds": {
     "android": {
       "release": {
-        "buildType": "app-bundle",
+        "buildType": "apk",
         "releaseChannel": "sdk42-hermes"
       },
       "development": {

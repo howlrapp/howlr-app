@@ -1,6 +1,9 @@
 import React, { useState, useCallback } from 'react';
 import { View, StyleSheet, Animated, Platform } from 'react-native';
-import { Text, Divider, useTheme } from '@ui-kitten/components';
+import { Text, Divider, useTheme, Modal } from '@ui-kitten/components';
+import {
+  useResponsiveScreenWidth,
+} from "react-native-responsive-dimensions";
 
 import ScreenTopNavigation from '../components/ScreenTopNavigation';
 import ResponsiveLayout from '../components/ResponsiveLayout';
@@ -36,8 +39,31 @@ import useGetUser from '../hooks/useGetUser';
 import useViewer from '../hooks/useViewer';
 
 const UserHeader = ({ user }) => {
+  const [ avatarModalVisible, setAvatarModalVisible ] = useState(false);
+
+  const handleOpenAvatarModal = useCallback(() => {
+    setAvatarModalVisible(true);
+  }, [setAvatarModalVisible]);
+
+  const handleCloseAvatarModal = useCallback(() => {
+    setAvatarModalVisible(false);
+  }, [setAvatarModalVisible]);
+
+  const avatarSize = useResponsiveScreenWidth(60);
+
   return (
     <ResponsiveLayout grow={false} background="background-basic-color-1">
+      <Modal
+        visible={avatarModalVisible}
+        backdropStyle={styles.avatarModalBackdrop}
+        onBackdropPress={handleCloseAvatarModal}
+      >
+        <UserAvatar
+          user={user}
+          size={avatarSize}
+          avatarProperty={"avatarLargeUrl"}
+        />
+      </Modal>
       <View
         style={styles.headerRoot}
       >
@@ -60,7 +86,11 @@ const UserHeader = ({ user }) => {
           <View
             style={styles.userInformationRight}
           >
-            <UserAvatar user={user} size={48} />
+            <UserAvatar
+              user={user}
+              size={48}
+              onPress={handleOpenAvatarModal}
+            />
           </View>
         </View>
 
@@ -309,6 +339,9 @@ const styles = StyleSheet.create({
   },
   scrollViewContentContainerStyle: {
     flexGrow: 1
+  },
+  avatarModalBackdrop: {
+    backgroundColor: 'rgba(0, 0, 0, 0.75)',
   }
 });
 
