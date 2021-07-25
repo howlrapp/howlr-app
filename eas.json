@@ -3,7 +3,7 @@
     "android": {
       "release": {
         "buildType": "app-bundle",
-        "releaseChannel": "sdk42-eas"
+        "releaseChannel": "sdk42-hermes"
       },
       "development": {
         "buildType": "development-client",
@@ -13,7 +13,7 @@
     "ios": {
       "release": {
         "schemeBuildConfiguration": "Release",
-        "releaseChannel": "sdk42-eas"
+        "releaseChannel": "sdk42-hermes"
       },
       "development": {
         "schemeBuildConfiguration": "Debug",
