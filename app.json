@@ -9,7 +9,7 @@
       "ios",
       "android"
     ],
-    "version": "28.0.0",
+    "version": "29.0.0",
     "orientation": "default",
     "primaryColor": "#222B45",
     "userInterfaceStyle": "automatic",
@@ -34,7 +34,7 @@
     },
     "ios": {
       "bundleIdentifier": "im.howlr",
-      "buildNumber": "28",
+      "buildNumber": "29",
       "supportsTablet": true,
       "icon": "./assets/icon_ios.png",
       "infoPlist": {
@@ -44,7 +44,8 @@
       }
     },
     "android": {
-      "versionCode": 28,
+      "jsEngine": "hermes",
+      "versionCode": 29,
       "package": "im.howlr.app",
       "googleServicesFile": "./google-services.json",
       "icon": "./assets/icon.png",
@@ -107,7 +108,7 @@
       "productionApiUrl": "https://graphql.howlr.im/graphql",
       "productionCableUrl": "wss://graphql.howlr.im/cable",
 
-      "appVersion": 28000,
+      "appVersion": 29000,
       "appId": "48fc026d-b2b3-4bd4-b685-163bb8a9696b",
       "gridItemSize": 90,
       "imageQuality": 0.95,
