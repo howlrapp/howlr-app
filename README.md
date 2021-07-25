@@ -56,9 +56,9 @@ Just fork this repository and run `yarn` to install the gigabyte of dependencies
 
 ### Configuration
 
-The `app.json` file is the main configuration file for Expo projects, we provide a sample configuration file `app.json.sample` that you can copy to `app.json` and modify to suit your needs. The full documentation for the `app.json` file is available [here](https://docs.expo.io/versions/latest/config/app/).
+The `app.json` file is the main configuration file for Expo projects, update it to suit your needs. The full documentation for the `app.json` file is available [here](https://docs.expo.io/versions/latest/config/app/).
 
-You'll also need a `google-services.json` file if you want to deploy your application in the wild https://docs.expo.io/push-notifications/using-fcm/.
+You'll also need a `google-services.json` file if you want to deploy your application in the wild https://docs.expo.io/push-notifications/using-fcm/. The keys listed in our `google-services.json` are bound to our Android application and cannot be used for another application.
 
 ### Launching
 
