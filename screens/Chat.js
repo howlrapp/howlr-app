@@ -83,7 +83,7 @@ const Chat = ({ route: { params: { id } }}) => {
         chat && (
           <KeyboardAvoidingView
             style={styles.keyboardAvoidingView}
-            behavior={Platform.OS === 'ios' ? "padding" : null}
+            behavior="padding"
           >
             <View
               style={[ styles.messagesContainer, { backgroundColor: theme['background-basic-color-2'] }]}
