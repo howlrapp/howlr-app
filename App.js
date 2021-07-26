@@ -8,7 +8,11 @@ enableScreens();
 
 import React from 'react';
 
+import * as SplashScreen from 'expo-splash-screen';
+
 import AppReduxLegacyStore from './app/AppReduxLegacyStore';
+
+SplashScreen.preventAutoHideAsync().catch(() => {});
 
 const App = () => (
   <AppReduxLegacyStore />
