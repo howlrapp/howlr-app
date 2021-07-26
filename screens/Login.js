@@ -209,7 +209,7 @@ const Login = () => {
               textAlign={'center'}
               disabled={!agreedToTerms || sessionLoading}
               placeholder={codeError ? "WRONG CODE" : "ENTER YOUR 6 DIGITS CODE"}
-              keyboardType="visible-password"
+              keyboardType="ascii-capable"
             />
             <Text
               category="p2"
