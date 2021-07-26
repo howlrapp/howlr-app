@@ -3,6 +3,9 @@ import { View, StyleSheet } from 'react-native';
 import { useTheme } from '@ui-kitten/components';
 import * as Device from 'expo-device';
 import Constants from 'expo-constants';
+import {
+  useResponsiveScreenWidth,
+} from "react-native-responsive-dimensions";
 
 import useDeviceType from '../hooks/useDeviceType';
 
@@ -14,6 +17,8 @@ const ResponsiveLayout = ({
   const theme = useTheme();
 
   const deviceType = useDeviceType();
+
+  const screenWidth = useResponsiveScreenWidth(100);
 
   return (
     <View
@@ -27,7 +32,7 @@ const ResponsiveLayout = ({
     >
       <View
         style={{
-          width: deviceType === Device.DeviceType.PHONE ? '100%' : Constants.manifest.extra.tabletBodyWidth
+          width: deviceType === Device.DeviceType.PHONE ? '100%' : Math.min(Constants.manifest.extra.tabletBodyWidth, screenWidth)
         }}
       >
         {children}
