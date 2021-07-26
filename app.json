@@ -20,7 +20,8 @@
       "backgroundColor": "#222b45"
     },
     "updates": {
-      "enabled": true
+      "enabled": true,
+      "fallbackToCacheTimeout": 20
     },
     "notification": {
       "icon": "./assets/icon_notification.png",
