@@ -3,7 +3,6 @@ import { Text } from '@ui-kitten/components';
 import { StyleSheet } from 'react-native';
 
 import useApp from '../../hooks/useApp';
-// import useLikes from '../../hooks/useLikes';
 
 const LikeLimitDisclaimer = ({ active }) => {
   const { maximumLikesCount } = useApp();

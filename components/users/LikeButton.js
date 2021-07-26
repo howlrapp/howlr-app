@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Text, Button, Icon } from '@ui-kitten/components';
 import { View, StyleSheet } from 'react-native';
 
@@ -28,7 +28,7 @@ const LikeButton = ({
   const liked = sentLikesUserIds[user.id];
 
   const [ removeLike, { loading: removeLikeLoading }] = useRemoveLike();
-  const handleRemoveLike = () => {
+  const handleRemoveLike = useCallback(() => {
     removeLike({
       variables: {
         input: {
@@ -41,10 +41,10 @@ const LikeButton = ({
         { query: GET_VIEWER },
       ]
     })
-  }
+  }, [removeLike, user.id]);
 
   const [ addLike, { loading: addLikeLoading }] = useAddLike();
-  const handleAddLike = () => {
+  const handleAddLike = useCallback(() => {
     addLike({
       variables: {
         input: {
@@ -57,7 +57,7 @@ const LikeButton = ({
         { query: GET_VIEWER },
       ],
     })
-  }
+  }, [addLike, user.id]);
 
   return (
     <View
