@@ -32,7 +32,7 @@ const ResponsiveLayout = ({
     >
       <View
         style={{
-          width: deviceType === Device.DeviceType.PHONE ? '100%' : Math.min(Constants.manifest.extra.tabletBodyWidth, screenWidth)
+          width: deviceType === Device.DeviceType.PHONE ? screenWidth : Math.min(Constants.manifest.extra.tabletBodyWidth, screenWidth)
         }}
       >
         {children}
