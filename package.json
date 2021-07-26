@@ -7,7 +7,7 @@
     "eslint": "./node_modules/.bin/eslint .",
     "test": "./node_modules/.bin/jest",
     "web": "expo start --web",
-    "build": "EAS_NO_VCS=1 eas build -p all"
+    "build": "yarn standard-version -r major && eas build -p all"
   },
   "jest": {
     "preset": "jest-expo",
@@ -104,5 +104,5 @@
     "standard-version-expo": "^1.0.3"
   },
   "name": "howlr",
-  "version": "30.0.0"
+  "version": "31.0.0"
 }
