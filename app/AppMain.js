@@ -129,9 +129,11 @@ const AppMain = () => {
   }, [sessionError])
 
   // reload chat on chat update
-  const { data: chatChannelData } = useActionCableChannel({
+  const chatActionCableParams = useMemo(() => ({
     channel: "ChatChannel"
-  });
+  }), []);
+  const { data: chatChannelData } = useActionCableChannel(chatActionCableParams);
+
   useEffect(() => {
     if (chatChannelData?.action === 'updated') {
       refetchChats();
@@ -139,9 +141,11 @@ const AppMain = () => {
   }, [chatChannelData]);
 
   // reload like onlike update
-  const { data: likeChannelData } = useActionCableChannel({
+  const likeActionCableParams = useMemo(() => ({
     channel: "LikeChannel"
-  });
+  }), []);
+  const { data: likeChannelData } = useActionCableChannel(likeActionCableParams);
+
   useEffect(() => {
     if (likeChannelData?.action === 'updated') {
       refetchLikes();
@@ -150,9 +154,11 @@ const AppMain = () => {
   }, [likeChannelData]);
 
   // reload event onlike update
-  const { data: eventChannelData } = useActionCableChannel({
+  const eventActionCableParams = useMemo(() => ({
     channel: "EventChannel"
-  });
+  }), []);
+  const { data: eventChannelData } = useActionCableChannel(eventActionCableParams);
+
   useEffect(() => {
     if (eventChannelData?.action === 'updated') {
       refetchEvents();

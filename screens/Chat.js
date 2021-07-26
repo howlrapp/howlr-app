@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useMemo } from 'react';
 import { View, KeyboardAvoidingView, StyleSheet, Platform } from 'react-native';
 import { Divider, useTheme } from '@ui-kitten/components';
 import {
@@ -41,10 +41,11 @@ const Chat = ({ route: { params: { id } }}) => {
     })
   }, [chat?.updatedAt]);
 
-  const { data: messageChannelData } = useActionCableChannel({
+  const messageActionCableParams = useMemo(() => ({
     channel: "MessageChannel",
     chatId: id
-  });
+  }), [id]);
+  const { data: messageChannelData } = useActionCableChannel(messageActionCableParams);
 
   useEffect(() => {
     if (messageChannelData?.action === 'updated') {
