@@ -28,12 +28,14 @@ const PictureViewer = ({
   onClose,
 }) => {
   const theme = useTheme();
+  const screenWidth = useResponsiveScreenWidth(100);
+
   const { top } = useSafeAreaInsets();
 
   const deviceType = useDeviceType();
 
   const modalWidth = (
-    deviceType === Device.DeviceType.PHONE ? useResponsiveScreenWidth(100) : Constants.manifest.extra.tabletModalWidth
+    deviceType === Device.DeviceType.PHONE ? screenWidth : Math.min(Constants.manifest.extra.tabletModalWidth, screenWidth)
   );
   const modalHeight = useResponsiveHeight(100) - top - 20;
 
