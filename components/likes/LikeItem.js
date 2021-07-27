@@ -117,7 +117,7 @@ const LikeItem = ({
   ), [like.user]);
 
   const distanceSentence = useDistance(like.user.distance, (distance, unit) => (
-    `About ${distance} ${unit} away`
+    `More than ${distance} ${unit}`
   ));
 
   const handleGoToUser = useCallback(() => (

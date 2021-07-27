@@ -2,6 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 
 import useViewer from '../../hooks/useViewer';
 import useUpdateViewer from '../../hooks/useUpdateViewer';
+import { computeDistance } from '../../hooks/useDistance';
 
 import MenuItemFormSingleChoice from '../MenuItemFormSingleChoice';
 
@@ -32,11 +33,13 @@ const MaximumDistanceForm = (props) => {
       return ("Everywhere");
     }
 
+    const computedDistance = computeDistance(value, viewer.distanceUnit);
+
     if (viewer.distanceUnit === 'miles') {
-      return (`${Math.ceil(value * 0.621371)} miles from you`);
+      return (`${computedDistance} miles from you`);
     }
 
-    return (`${value} kilometers from you`)
+    return (`${computedDistance} kilometers from you`)
   }, [viewer.distanceUnit]);
 
   const options = useMemo(() => (

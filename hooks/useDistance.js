@@ -1,4 +1,16 @@
+import { round } from 'lodash';
+
 import useViewer from './useViewer';
+
+export const computeDistance = (distance, distanceUnit) => {
+  if (distanceUnit === 'miles') {
+    const rawValue = Math.ceil(distance * 0.621371);
+
+    return (round(rawValue, -(rawValue.toString().length - 1)))
+  } else {
+    return (distance);
+  }
+}
 
 const DEFAULT_FORMATTER = (distance, unit) => (
   `${distance} ${unit}`
@@ -11,14 +23,10 @@ const useDistance = (distance, format = DEFAULT_FORMATTER) => {
     return ("Near you");
   }
 
-  if (distanceUnit === 'miles') {
-    return (
-      format(Math.ceil(distance * 0.621371), distanceUnit)
-    );
-  }
+  const computedDistance = computeDistance(distance, distanceUnit);
 
   return (
-    format(distance, distanceUnit)
+    format(computedDistance, distanceUnit)
   )
 }
 

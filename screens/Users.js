@@ -24,6 +24,7 @@ import useGetUserSummaries from '../hooks/useGetUserSummaries';
 import useViewer from '../hooks/useViewer';
 import useApp from '../hooks/useApp';
 import useGridDimensions from '../hooks/useGridDimensions';
+import { computeDistance } from '../hooks/useDistance';
 
 import { DEFAULT_USERS_SEARCH_CRITERIA } from '../graphql/apolloClient';
 
@@ -207,10 +208,9 @@ const UsersDistanceSections = React.memo(({
             style={styles.distanceText}
           >
             {
-              distanceUnit === 'miles' ? `${Math.ceil(distance * 0.621371)} ${distanceUnit}` : `${distance} ${distanceUnit}`
+              `${computeDistance(distance, distanceUnit)} ${distanceUnit}`
             }
           </Text>
-          {` away`}
         </Text>
       </DistanceSeparator>
     )
