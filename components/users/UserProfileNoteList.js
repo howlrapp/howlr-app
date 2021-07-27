@@ -58,13 +58,12 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     marginTop: 4,
     maxWidth: '80%',
   },
   icon: {
     marginRight: 3,
-    marginTop: 2
   }
 });
 
