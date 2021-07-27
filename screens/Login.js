@@ -99,7 +99,7 @@ const Login = () => {
 
   return (
     <>
-      <StatusBar style={'light'} />
+      <StatusBar style={'light'} translucent={false} />
       <View
         style={[
           styles.root,

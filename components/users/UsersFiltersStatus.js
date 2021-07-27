@@ -1,16 +1,22 @@
-import React, { useRef, useEffect, useState, useCallback } from 'react';
+import React, { useRef, useEffect, useState, useCallback, useMemo } from 'react';
 import { Portal } from 'react-native-portalize';
-import { CheckBox,  Text, useTheme } from '@ui-kitten/components';
-import { StyleSheet } from 'react-native';
+import {  Menu, useTheme } from '@ui-kitten/components';
 import { without } from 'lodash';
 import {
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
 
+import CheckBoxMenuGroup from '../CheckBoxMenuGroup';
+
 import useApp from '../../hooks/useApp';
 
 import ResponsiveModalize from '../ResponsiveModalize';
 import FormTopNavigation from '../FormTopNavigation';
+
+const LISTING_ITEMS = [
+  { label: "Online now", id: "online" },
+  { label: "Users who joined recently", id: "recent" },
+]
 
 const UsersFiltersStatus = ({
   open,
@@ -20,6 +26,7 @@ const UsersFiltersStatus = ({
   value,
 }) => {
   const theme = useTheme();
+  const { bottom } = useSafeAreaInsets();
 
   const { matchKinds } = useApp();
 
@@ -51,13 +58,20 @@ const UsersFiltersStatus = ({
     handleClose();
   }
 
-  const handleOnlineChange = useCallback((checked) => {
-    setTmpValue((tmpValue) => ({ ...tmpValue, online: checked }))
+  const handleChangeListing = useCallback((item, checked) => {
+    switch (item.id) {
+      case "online":
+        setTmpValue((tmpValue) => ({ ...tmpValue, online: checked }));
+        break ;
+      case "recent":
+        setTmpValue((tmpValue) => ({ ...tmpValue, recent: checked }));
+        break ;
+    }
   }, [setTmpValue]);
 
-  const handleRecentChange = useCallback((checked) => {
-    setTmpValue((tmpValue) => ({ ...tmpValue, recent: checked }))
-  }, [setTmpValue]);
+  const listingSelectedIds = useMemo(() => (
+    [tmpValue.online && "online", tmpValue.recent && "recent"].filter((item) => !!item)
+  ), [tmpValue.online, tmpValue.recent]);
 
   const handleChangeMatchKind = useCallback((matchKind, checked) => {
     if (checked) {
@@ -84,67 +98,25 @@ const UsersFiltersStatus = ({
           onCancel={handleClose}
           onSave={handleSave}
         />
-        <Text
-          style={[ styles.categoryTitle, styles.categoryTitleFirst ]}
-          category="c2"
-          appearance="hint"
+        <Menu
+          style={{ marginBottom: bottom }}
         >
-          LISTING
-        </Text>
-        <CheckBox
-          onChange={handleOnlineChange}
-          checked={tmpValue.online}
-          disabled={loading}
-          style={styles.checkbox}
-        >
-          Online now
-        </CheckBox>
-        <CheckBox
-          onChange={handleRecentChange}
-          checked={tmpValue.recent}
-          disabled={loading}
-          style={styles.checkbox}
-        >
-          Users who joined recently
-        </CheckBox>
-        <Text
-          style={[ styles.categoryTitle ]}
-          category="c2"
-          appearance="hint"
-        >
-          LOOKING FOR
-        </Text>
-        {
-          matchKinds.map((matchKind) => (
-            <CheckBox
-              key={matchKind.id}
-              onChange={(checked) => handleChangeMatchKind(matchKind, checked)}
-              checked={tmpValue.matchKindIds.includes(matchKind.id)}
-              disabled={loading}
-              style={styles.checkbox}
-            >
-              {matchKind.label}
-            </CheckBox>
-          ))
-        }
+          <CheckBoxMenuGroup
+            title="Listing"
+            items={LISTING_ITEMS}
+            selectedItemIds={listingSelectedIds}
+            onChange={handleChangeListing}
+          />
+          <CheckBoxMenuGroup
+            title="Looking for"
+            items={matchKinds}
+            selectedItemIds={tmpValue.matchKindIds}
+            onChange={handleChangeMatchKind}
+          />
+        </Menu>
       </ResponsiveModalize>
     </Portal>
   );
 }
-
-const styles = StyleSheet.create({
-  checkbox: {
-    paddingVertical: 8,
-    paddingLeft: 10,
-  },
-  categoryTitle: {
-    paddingBottom: 10,
-    paddingTop: 20,
-    paddingLeft: 10,
-  },
-  categoryTitleFirst: {
-    paddingTop: 0,
-  },
-})
 
 export default React.memo(UsersFiltersStatus);

@@ -1,20 +1,25 @@
 import React, { useRef, useEffect, useState, useCallback, useMemo } from 'react';
 import { Portal } from 'react-native-portalize';
-import { CheckBox,  Text, useTheme } from '@ui-kitten/components';
-import { StyleSheet } from 'react-native';
+import { Button, List, Icon, ListItem, useTheme, Autocomplete, AutocompleteItem, Divider } from '@ui-kitten/components';
+import { StyleSheet, View, SafeAreaView } from 'react-native';
 import { without } from 'lodash';
+import { isEmpty } from 'lodash';
 import {
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
-import { orderBy } from 'lodash';
 
 import useApp from '../../hooks/useApp';
-import useViewer from '../../hooks/useViewer';
+import useFuse from "../../hooks/useFuse";
 
-import EmptyListGroups from '../EmptyListGroups';
 import ResponsiveModalize from '../ResponsiveModalize';
 import FormTopNavigation from '../FormTopNavigation';
-import UnmanagedCheckbox from '../UnmanagedCheckbox';
+
+import { GROUP_SEARCH_OPTIONS } from '../../screens/Groups';
+import { usersCountString } from '../groups/GroupItem';
+
+const CloseIcon = (props) => (
+  <Icon {...props} name={'close-outline'} />
+);
 
 const UsersFiltersGroups = ({
   open,
@@ -24,39 +29,25 @@ const UsersFiltersGroups = ({
   value,
 }) => {
   const theme = useTheme();
-
   const { bottom } = useSafeAreaInsets();
 
   const modalizeRef = useRef(null);
+  const autocompleteRef = useRef(null);
 
-  const tmpValue = useRef(value);
+  const [ tmpValue, setTmpValue ] = useState(value)
+  useEffect(() => (
+    setTmpValue(value)
+  ), [value]);
 
   const { groups } = useApp();
-  const { groupIds } = useViewer();
 
-  const sortedGroups = useMemo(() => (
-    orderBy(groups, 'name')
-  ), [groups]);
+  const selectedGroups = useMemo(() => (
+    groups.filter(({ id }) => tmpValue.includes(id))
+  ), [tmpValue, groups]);
 
-  const myGroups = useMemo(() => (
-    sortedGroups.filter(({ id }) => groupIds.includes(id))
-  ), [sortedGroups, groupIds]);
-
-  const otherGroups = useMemo(() => (
-    sortedGroups.filter(({ id }) => !groupIds.includes(id))
-  ), [sortedGroups, groupIds]);
-
-  const sections = useMemo(() => ([
-    {
-      label: "My groups",
-      data: myGroups,
-      first: true
-    },
-    {
-      label: "Other groups",
-      data: otherGroups
-    }
-  ]), [myGroups, otherGroups])
+  const notSelectedGroups = useMemo(() => (
+    groups.filter(({ id }) => !tmpValue.includes(id))
+  ), [tmpValue, groups]);
 
   useEffect(() => {
     if (open) {
@@ -74,40 +65,10 @@ const UsersFiltersGroups = ({
 
   const handleSave = useCallback(() => {
     if (onSave) {
-      onSave(tmpValue.current)
+      onSave(tmpValue)
     }
     handleClose();
   }, [tmpValue]);
-
-  const handleChangeGroup = useCallback((id, enabled) => {
-    if (enabled) {
-      tmpValue.current = [ ...tmpValue.current, id ];
-    } else {
-      tmpValue.current = without(tmpValue.current, id);
-    }
-  }, [tmpValue]);
-
-  const renderItem = useCallback(({ item }) => (
-    <UnmanagedCheckbox
-      id={item.id}
-      style={styles.checkbox}
-      defaultChecked={value.includes(item.id)}
-      onChange={handleChangeGroup}
-    >
-      {item.name}
-    </UnmanagedCheckbox>
-  ), [handleChangeGroup]);
-
-  const keyExtractor = useCallback(({ id }) => id, []);
-
-  const ListEmptyComponent = useCallback(() => (
-    <EmptyListGroups
-      description="Go to the Groups tab to join groups that match your interest."
-      descriptionMaxWidth={240}
-      onPressCallToAction={handleClose}
-      backgroundColor='background-basic-color-1'
-    />
-  ), [handleClose]);
 
   const HeaderComponent = useCallback(() => (
     <FormTopNavigation
@@ -119,47 +80,58 @@ const UsersFiltersGroups = ({
     />
   ), [loading, handleClose, handleSave]);
 
-  const noJoinedGroups = myGroups.length === 0;
-  const renderSectionHeader = useCallback(({ section: { label, first, data } }) => {
-    if (noJoinedGroups) {
-      return (null);
-    }
-
-    return (
-      <Text
-        style={[ styles.categoryTitle, first ? styles.categoryTitleFirst : {} ]}
-        category="c2"
-        appearance="hint"
-      >
-        {label.toUpperCase()}
-      </Text>
-    );
-  }, [noJoinedGroups]);
-
   const modalStyle = useMemo(() => ({
     backgroundColor: theme['background-basic-color-1']
   }), [theme]);
 
-  const contentContainerStyle = useMemo(() => (
-    [ styles.contentContainer, { paddingBottom: bottom } ]
-  ), [bottom]);
+  const [matchString, setMatchString] = React.useState("");
 
-  const sectionListProps = useMemo(() => ({
-    sections,
-    keyExtractor,
-    renderItem,
-    ListEmptyComponent,
-    renderSectionHeader,
-    contentContainerStyle,
-    stickySectionHeadersEnabled: false,
-  }), [
-    sections,
-    keyExtractor,
-    renderItem,
-    ListEmptyComponent,
-    renderSectionHeader,
-    contentContainerStyle,
-  ])
+  const searchResult = useFuse(notSelectedGroups, matchString, GROUP_SEARCH_OPTIONS);
+
+  const searchedGroups = useMemo(() => {
+    if (isEmpty(matchString)) {
+      return ([]);
+    }
+    return (
+      searchResult.map(({ item }) => item).slice(0, 10)
+    )
+  }, [matchString, searchResult]);
+
+  const onChangeText = (matchString) => {
+    setMatchString(matchString);
+  };
+
+  const handleSelectGroup = useCallback((index) => {
+    autocompleteRef.current.clear();
+    autocompleteRef.current.blur();
+
+    setMatchString("");
+
+    const group = searchedGroups[index];
+    setTmpValue(tmpValue => [ group.id, ...tmpValue ]);
+  }, [searchedGroups, setTmpValue, autocompleteRef]);
+
+  const handleUnselectGroup = useCallback(({ id }) => {
+    setTmpValue((tmpValue) => without(tmpValue, id))
+  }, [setTmpValue]);
+
+  const renderSelectedGroup = useCallback(({ item }) => {
+    return (
+      <ListItem
+        title={item.name}
+        description={usersCountString(item.usersCount)}
+        accessoryRight={
+          <Button
+            size="small"
+            appearance="ghost"
+            status="basic"
+            accessoryLeft={CloseIcon}
+            onPress={() => handleUnselectGroup(item)}
+          /> 
+        }
+      />
+    )
+  }, []);
 
   return (
     <Portal>
@@ -171,26 +143,45 @@ const UsersFiltersGroups = ({
         modalStyle={modalStyle}
         onClose={onClose}
         HeaderComponent={HeaderComponent}
-        sectionListProps={sectionListProps}
-      />
+      >
+        <View
+          style={styles.autocomplete}
+        >
+          <Autocomplete
+            placeholder='Search groups'
+            onSelect={handleSelectGroup}
+            onChangeText={onChangeText}
+            ref={autocompleteRef}
+            placement="bottom start"
+            size="large"
+          >
+            {
+              searchedGroups.map((group) => (
+                <AutocompleteItem
+                  key={group.id}
+                  title={group.name}
+                />
+              ))
+            }
+          </Autocomplete>
+        </View>
+        <List
+          renderItem={renderSelectedGroup}
+          data={selectedGroups}
+          ItemSeparatorComponent={Divider}
+          style={[ styles.groupList, { marginBottom: bottom } ]}
+        />
+      </ResponsiveModalize>
     </Portal>
   );
 }
 
 const styles = StyleSheet.create({
-  checkbox: {
-    paddingVertical: 9,
-    height: 38,
+  autocomplete: {
+    paddingHorizontal: 10
   },
-  categoryTitle: {
-    paddingBottom: 10,
-    paddingTop: 20,
-  },
-  categoryTitleFirst: {
-    paddingTop: 0,
-  },
-  contentContainer: {
-    paddingLeft: 10,
+  groupList: {
+    marginTop: 6
   }
 })
 

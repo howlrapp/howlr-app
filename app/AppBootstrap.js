@@ -1,6 +1,7 @@
 import 'react-native-gesture-handler';
 
 import React, { useState, useEffect } from 'react';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { ApolloProvider } from '@apollo/client';
 import apolloClient from '../graphql/apolloClient';
@@ -26,7 +27,9 @@ const AppBootstrap = () => {
     <AppearanceProvider>
       <DeviceTypeContext.Provider value={deviceType}>
         <ApolloProvider client={apolloClient}>
-          <AppWithAppearance />
+          <SafeAreaProvider>
+            <AppWithAppearance />
+          </SafeAreaProvider>
         </ApolloProvider>
       </DeviceTypeContext.Provider>
     </AppearanceProvider>

@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
-import { SafeAreaProvider, initialWindowMetrics } from 'react-native-safe-area-context';
+import { Platform } from 'react-native';
+import {
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 
 import * as eva from '@eva-design/eva';
 import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
@@ -33,17 +36,34 @@ const AppWithApperance = () => {
     }
   }, [fontsLoaded]);
 
+  const { top } = useSafeAreaInsets();
+
+  // See https://github.com/akveo/react-native-ui-kitten/issues/1465
+  const mappingFixForPopover = {
+    ...mapping,
+    components: Platform.OS === 'ios' ? {} : {
+      Popover: {
+        meta: { parameters: { marginTop: { type: 'number' } } },
+        appearances: {
+          default: {
+            mapping: { marginTop: top },
+          },
+        },
+      },
+    },
+  };
+
   return (
-    <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+    <>
       <IconRegistry icons={EvaIconsPack} />
       <ApplicationProvider
         {...eva}
         theme={colorScheme === 'dark' ? eva.dark : eva.light}
-        customMapping={mapping}
+        customMapping={mappingFixForPopover}
       >
         <AppLoader />
       </ApplicationProvider>
-    </SafeAreaProvider>
+    </>
   );
 }
 

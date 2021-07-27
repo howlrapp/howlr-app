@@ -30,8 +30,8 @@
     },
     "androidStatusBar": {
       "barStyle": "light-content",
-      "backgroundColor": "#00000000",
-      "translucent": true
+      "backgroundColor": "#222b45",
+      "translucent": false
     },
     "ios": {
       "bundleIdentifier": "im.howlr",

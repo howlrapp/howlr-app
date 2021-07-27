@@ -16,7 +16,7 @@ import ThemedOverflowMenu from '../components/ThemedOverflowMenu';
 import CancellableButton from '../components/CancellableButton';
 import GroupItem from '../components/groups/GroupItem';
 
-const SEARCH_OPTIONS = {
+export const GROUP_SEARCH_OPTIONS = {
   keys: [
     'name'
   ],
@@ -41,7 +41,7 @@ const Groups = () => {
   const [ groupStatus, setGroupStatus ] = useState(null);
   const [ groupStatusSelectorOpen, setGroupStatusSelectorOpen ] = useState(false);
 
-  const searchResult = useFuse(groups, matchString, SEARCH_OPTIONS);
+  const searchResult = useFuse(groups, matchString, GROUP_SEARCH_OPTIONS);
 
   const searchedGroups = useMemo(() => {
     if (isEmpty(matchString)) {

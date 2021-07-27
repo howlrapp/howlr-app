@@ -2,6 +2,9 @@ import React, { useMemo, useCallback, useState } from 'react';
 import { Button, MenuItem, Icon } from '@ui-kitten/components';
 import { View, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import {
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 
 import useViewer from '../../hooks/useViewer';
 import useApp from '../../hooks/useApp';
@@ -22,6 +25,7 @@ const MessageButton = ({
 }) => {
   const navigation = useNavigation();
   const { id: viewerId } = useViewer();
+  const { top } = useSafeAreaInsets();
 
   const { matchKinds } = useApp();
   const selectedMatchKinds = useMemo(() => (
@@ -92,7 +96,7 @@ const MessageButton = ({
       visible={chatFormOpen}
       onBackdropPress={handleCloseChatForm}
       placement="bottom"
-      style={{ marginTop: Platform.OS === 'ios' ? -20 : 0 }}
+      style={{ marginTop: Platform.OS === 'ios' ? -20 : 20 }}
     >
       {
         selectedMatchKinds.map((matchKind) => (

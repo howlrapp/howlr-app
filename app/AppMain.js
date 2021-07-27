@@ -224,7 +224,7 @@ const AppMain = () => {
               <EventsContext.Provider value={eventsData.viewer.events}>
                 <SentLikesUserIdsContext.Provider value={sentLikesUserIds}>
                   <ReceivedLikesUserIdsContext.Provider value={receivedLikesUserIds}>
-                    <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
+                    <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} translucent={false} />
                     <ErrorBoundary>
                       <Host>
                         <ActionSheetProvider>

@@ -1,6 +1,6 @@
-import React, { useRef, useEffect, useState, useCallback, useMemo } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { Portal } from 'react-native-portalize';
-import { CheckBox,  Text, useTheme } from '@ui-kitten/components';
+import { Menu, useTheme } from '@ui-kitten/components';
 import { StyleSheet } from 'react-native';
 import { without } from 'lodash';
 import {
@@ -11,6 +11,7 @@ import useApp from '../../hooks/useApp';
 
 import ResponsiveModalize from '../ResponsiveModalize';
 import FormTopNavigation from '../FormTopNavigation';
+import CheckBoxMenuGroup from '../CheckBoxMenuGroup';
 
 const UsersFiltersProfile = ({
   open,
@@ -86,66 +87,6 @@ const UsersFiltersProfile = ({
     }
   }
 
-  const renderGenderItem = useCallback(({ item: gender }) => (
-    <CheckBox
-      key={gender.id}
-      style={styles.checkbox}
-      checked={tmpValue.genderIds.includes(gender.id)}
-      onChange={(checked) => handleChangeGender(gender, checked)}
-    >
-      {gender.label}
-    </CheckBox>
-  ), [tmpValue.genderIds, handleChangeGender])
-
-  const renderSexualOrientationItem = useCallback(({ item: sexualOrientation }) => (
-    <CheckBox
-      key={sexualOrientation.id}
-      style={styles.checkbox}
-      checked={tmpValue.sexualOrientationIds.includes(sexualOrientation.id)}
-      onChange={(checked) => handleChangeSexualOrientation(sexualOrientation, checked)}
-    >
-      {sexualOrientation.label}
-    </CheckBox>
-  ), [tmpValue.sexualOrientationIds, handleChangeSexualOrientation])
-
-  const renderRelationshipStatusItem = useCallback(({ item: relationshipStatus }) => (
-    <CheckBox
-      key={relationshipStatus.id}
-      style={styles.checkbox}
-      checked={tmpValue.relationshipStatusIds.includes(relationshipStatus.id)}
-      onChange={(checked) => handleChangeRelationshipStatus(relationshipStatus, checked)}
-    >
-      {relationshipStatus.label}
-    </CheckBox>
-  ), [tmpValue.relationshipStatusIds, handleChangeRelationshipStatus])
-
-  const sections = useMemo(() => ([
-    {
-      label: "Gender",
-      data: genders,
-      first: true,
-      renderItem: renderGenderItem
-    },
-    {
-      label: "Sexual orientation",
-      data: sexualOrientations,
-      renderItem: renderSexualOrientationItem
-    },
-    {
-      label: "Relationship Status",
-      data: relationshipStatuses,
-      renderItem: renderRelationshipStatusItem
-    }
-  ]), [
-    renderGenderItem,
-    genders,
-
-    renderSexualOrientationItem,
-    sexualOrientations,
-
-    relationshipStatuses
-  ])
-
   const handleSave = () => {
     if (onSave) {
       onSave(tmpValue);
@@ -163,17 +104,7 @@ const UsersFiltersProfile = ({
     />
   ), [loading, handleClose, handleSave]);
 
-  const renderSectionHeader = useCallback(({ section: { label, first } }) => (
-    <Text
-      style={[ styles.categoryTitle, first ? styles.categoryTitleFirst : {} ]}
-      category="c2"
-      appearance="hint"
-    >
-      {label.toUpperCase()}
-    </Text>
-  ), []);
-
-  const keyExtractor = useCallback(({ id }) => id, []);
+  console.log(bottom);
 
   return (
     <Portal>
@@ -185,15 +116,30 @@ const UsersFiltersProfile = ({
         modalStyle={{ backgroundColor: theme['background-basic-color-1'] }}
         onClose={onClose}
         HeaderComponent={HeaderComponent}
-        sectionListProps={{
-          sections,
-          initialNumToRender: 20,
-          keyExtractor,
-          renderSectionHeader,
-          contentContainerStyle: [ styles.contentContainer, { paddingBottom: bottom } ],
-          stickySectionHeadersEnabled: false
-        }}
-      />
+      >
+        <Menu
+          style={{ marginBottom: bottom }}
+        >
+          <CheckBoxMenuGroup
+            title="Genders"
+            items={genders}
+            selectedItemIds={tmpValue.genderIds}
+            onChange={handleChangeGender}
+          />
+          <CheckBoxMenuGroup
+            title="Sexual orientation"
+            items={sexualOrientations}
+            selectedItemIds={tmpValue.sexualOrientationIds}
+            onChange={handleChangeSexualOrientation}
+          />
+          <CheckBoxMenuGroup
+            title="Relationship status"
+            items={relationshipStatuses}
+            selectedItemIds={tmpValue.relationshipStatusIds}
+            onChange={handleChangeRelationshipStatus}
+          />          
+        </Menu>
+      </ResponsiveModalize>
     </Portal>
   );
 }
@@ -202,16 +148,18 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingLeft: 10,
   },
+  menuItem: {
+    height: 38
+  },
   checkbox: {
-    paddingVertical: 9,
+    height: 38
   },
-  categoryTitle: {
-    paddingBottom: 10,
-    paddingTop: 20,
-  },
-  categoryTitleFirst: {
-    paddingTop: 0,
-  },
+  menuGroupTitleContainer: {
+    justifyContent: "space-between",
+    flex: 1,
+    flexDirection: 'row',
+    marginHorizontal: 8,
+  }
 })
 
 export default React.memo(UsersFiltersProfile);

@@ -5,14 +5,13 @@ import { useNavigation } from '@react-navigation/native';
 
 import { useActionSheet } from '@expo/react-native-action-sheet'
 
-import useViewer from '../../hooks/useViewer';
 import useApp from '../../hooks/useApp';
 import useToggleGroup from '../../hooks/useToggleGroup';
 import useSetUsersSearchCriteria from '../../hooks/useSetUsersSearchCriteria';
 
 import { DEFAULT_USERS_SEARCH_CRITERIA } from '../../graphql/apolloClient';
 
-const usersCountString = (usersCount) => {
+export const usersCountString = (usersCount) => {
   if (usersCount == 0) {
     return ("no members");
   } else if (usersCount == 1) {
@@ -23,7 +22,6 @@ const usersCountString = (usersCount) => {
 }
 
 const GroupItem = ({ group }) => {
-  const viewer = useViewer();
   const { groupCategories } = useApp();
 
   const groupCategory = useMemo(() => (

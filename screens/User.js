@@ -341,7 +341,7 @@ const styles = StyleSheet.create({
     flexGrow: 1
   },
   avatarModalBackdrop: {
-    backgroundColor: 'rgba(0, 0, 0, 0.75)',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   }
 });
 
