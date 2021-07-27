@@ -16,6 +16,7 @@ const UserProfileNoteLocation = ({ user, ...props }) => {
     <UserProfileNoteList
       value={[location]}
       iconName="pin"
+      numberOfLines={2}
       {...props}
     />
   );

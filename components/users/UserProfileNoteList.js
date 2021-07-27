@@ -2,7 +2,14 @@ import React, { useMemo } from 'react';
 import { Text, Icon, useTheme } from '@ui-kitten/components';
 import { View, StyleSheet } from 'react-native';
 
-const UserProfileNoteList = ({ value, iconName, style, prefix = '', ...props }) => {
+const UserProfileNoteList = ({
+  value,
+  iconName,
+  style,
+  prefix = '',
+  numberOfLines = 1,
+  ...props
+}) => {
   const theme = useTheme();
 
   const formattedValue = useMemo(() => {
@@ -36,7 +43,7 @@ const UserProfileNoteList = ({ value, iconName, style, prefix = '', ...props }) 
       />
       <Text
         category="s2"
-        numberOfLines={1}
+        numberOfLines={numberOfLines}
         appearance="hint"
         ellipsizeMode='tail'
       >
@@ -51,12 +58,13 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     marginTop: 4,
     maxWidth: '80%',
   },
   icon: {
     marginRight: 3,
+    marginTop: 2
   }
 });
 
