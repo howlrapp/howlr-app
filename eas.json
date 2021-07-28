@@ -5,6 +5,10 @@
         "buildType": "app-bundle",
         "releaseChannel": "sdk42-eas"
       },
+      "staging": {
+        "buildType": "apk",
+        "releaseChannel": "staging"
+      },
       "development": {
         "buildType": "development-client",
         "distribution": "internal"
@@ -14,6 +18,10 @@
       "release": {
         "schemeBuildConfiguration": "Release",
         "releaseChannel": "sdk42-eas"
+      },
+      "staging": {
+        "schemeBuildConfiguration": "Release",
+        "releaseChannel": "staging"
       },
       "development": {
         "schemeBuildConfiguration": "Debug",
