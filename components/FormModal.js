@@ -82,7 +82,7 @@ const FormModal = ({
         panGestureEnabled={false}
         disableScrollIfPossible={false}
         HeaderComponent={HeaderComponent}
-        keyboardAvoidingBehavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardAvoidingBehavior={'padding'}
         closeOnOverlayTap={false}
         {...props}
       >

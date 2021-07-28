@@ -72,7 +72,7 @@ const UsersFiltersGroups = ({
 
   const HeaderComponent = useCallback(() => (
     <FormTopNavigation
-      title="Groups"
+      title="Groups filter"
       saveLabel="Done"
       disabled={loading}
       onCancel={handleClose}
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
     marginTop: 6,
   },
   emptyListMessage: {
-    marginTop: 56,
+    marginTop: 25,
     textAlign: 'center'
   }
 })

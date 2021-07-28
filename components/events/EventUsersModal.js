@@ -157,7 +157,7 @@ const EventUsersModal = ({
         withHandle={true}
         panGestureEnabled={true}
         disableScrollIfPossible={false}
-        keyboardAvoidingBehavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardAvoidingBehavior={'padding'}
         flatListProps={flatListProps}
         modalTopOffset={20}
         onClose={onClose}

@@ -6,6 +6,7 @@ import Constants from 'expo-constants';
 import {
   useResponsiveScreenWidth,
 } from "react-native-responsive-dimensions";
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import useDeviceType from '../hooks/useDeviceType';
 
@@ -20,6 +21,8 @@ const ResponsiveLayout = ({
 
   const screenWidth = useResponsiveScreenWidth(100);
 
+  const { left, right } = useSafeAreaInsets();
+
   return (
     <View
       style={[
@@ -32,7 +35,9 @@ const ResponsiveLayout = ({
     >
       <View
         style={{
-          width: deviceType === Device.DeviceType.PHONE ? screenWidth : Math.min(Constants.manifest.extra.tabletBodyWidth, screenWidth)
+          width: deviceType === Device.DeviceType.PHONE ? screenWidth : Math.min(Constants.manifest.extra.tabletBodyWidth, screenWidth),
+          paddingRight: right,
+          paddingLeft: left
         }}
       >
         {children}
