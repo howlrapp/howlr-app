@@ -19,5 +19,9 @@ module.exports = {
       filename: 'app.json',
       updater: require.resolve('./appVersionBumper'),
     },
+    {
+      filename: 'eas.json',
+      updater: require.resolve('./releaseChannelVersionBumper'),
+    },
   ],
 };
