@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { MenuGroup, MenuItem, Text, CheckBox } from '@ui-kitten/components';
 import { View } from 'react-native';
 import { StyleSheet } from 'react-native';
+import { truncate } from 'lodash';
 
 const CheckBoxMenuGroup = ({
   title,
@@ -33,7 +34,7 @@ const CheckBoxMenuGroup = ({
             appearance="hint"
             numberOfLines={1}
           >
-            {selectedItemsLabel}
+            {truncate(selectedItemsLabel, 30)}
           </Text>
         </View>
       )}
