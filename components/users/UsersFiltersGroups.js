@@ -1,9 +1,9 @@
 import React, { useRef, useEffect, useState, useCallback, useMemo } from 'react';
 import { Portal } from 'react-native-portalize';
-import { Button, List, Icon, ListItem, useTheme, Autocomplete, AutocompleteItem, Divider } from '@ui-kitten/components';
-import { StyleSheet, View, SafeAreaView } from 'react-native';
-import { without } from 'lodash';
-import { isEmpty } from 'lodash';
+import { Button, List, Icon, ListItem, useTheme, Autocomplete, AutocompleteItem, Divider, Text } from '@ui-kitten/components';
+import { StyleSheet, View } from 'react-native';
+import { sampleSize, without } from 'lodash';
+import { isEmpty, trim } from 'lodash';
 import {
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
@@ -72,7 +72,7 @@ const UsersFiltersGroups = ({
 
   const HeaderComponent = useCallback(() => (
     <FormTopNavigation
-      title="Groups filters"
+      title="Groups"
       saveLabel="Done"
       disabled={loading}
       onCancel={handleClose}
@@ -133,6 +133,12 @@ const UsersFiltersGroups = ({
     )
   }, []);
 
+  const placeholder = useMemo(() => (
+    sampleSize(groups, 2)
+      .map(({ name }) => trim(name))
+      .join(', ')
+  ), [groups]);
+
   return (
     <Portal>
       <ResponsiveModalize
@@ -148,7 +154,7 @@ const UsersFiltersGroups = ({
           style={styles.autocomplete}
         >
           <Autocomplete
-            placeholder='Search groups'
+            placeholder={`Ex: ${placeholder}…`}
             onSelect={handleSelectGroup}
             onChangeText={onChangeText}
             ref={autocompleteRef}
@@ -165,12 +171,24 @@ const UsersFiltersGroups = ({
             }
           </Autocomplete>
         </View>
-        <List
-          renderItem={renderSelectedGroup}
-          data={selectedGroups}
-          ItemSeparatorComponent={Divider}
-          style={[ styles.groupList, { marginBottom: bottom } ]}
-        />
+        {
+          selectedGroups.length === 0 ? (
+            <Text
+              appearance="hint"
+              category="c2"
+              style={styles.emptyListMessage}
+            >
+              No group selected
+            </Text>
+          ) : (
+            <List
+              renderItem={renderSelectedGroup}
+              data={selectedGroups}
+              ItemSeparatorComponent={Divider}
+              style={[ styles.groupList, { marginBottom: bottom } ]}
+            />  
+          )
+        }
       </ResponsiveModalize>
     </Portal>
   );
@@ -181,7 +199,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10
   },
   groupList: {
-    marginTop: 6
+    marginTop: 6,
+  },
+  emptyListMessage: {
+    marginTop: 56,
+    textAlign: 'center'
   }
 })
 

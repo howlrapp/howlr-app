@@ -72,7 +72,7 @@ const UsersSearchBar = ({ usersSearchCriteria }) => {
       <UsersSearchBarProfileButton
         value={usersSearchCriteria}
         onSave={handleSaveProfile}
-        style={[ styles.button ]}
+        style={[ styles.button, styles.firstButton ]}
         size="tiny"
       />
       <UsersSearchBarGroupsButton
