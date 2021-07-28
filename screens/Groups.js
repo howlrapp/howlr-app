@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback, useRef } from 'react';
-import { Divider, MenuItem, Icon } from '@ui-kitten/components';
+import { Divider, MenuItem } from '@ui-kitten/components';
 
 import { isEmpty, orderBy } from 'lodash';
 import { Keyboard, StyleSheet } from 'react-native';
@@ -84,7 +84,6 @@ const Groups = () => {
 
   const ListEmptyComponent = useCallback(() => (
     <EmptyList
-      icon={(props) => <Icon name="heart-outline" {...props} />}
       title="No results found"
     />
   ), []);

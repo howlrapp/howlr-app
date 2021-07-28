@@ -9,6 +9,7 @@ export const GET_USER_SUMMARIES = gql`
     $matchKindIds: [String!],
     $online: Boolean,
     $recent: Boolean,
+    $ageIds: [String!],
     $q: String
   ) {
     viewer {
@@ -21,6 +22,7 @@ export const GET_USER_SUMMARIES = gql`
         matchKindIds: $matchKindIds,
         online: $online,
         recent: $recent,
+        ageIds: $ageIds
         q: $q
       ) {
         id

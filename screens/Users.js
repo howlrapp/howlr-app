@@ -27,6 +27,7 @@ import useGridDimensions from '../hooks/useGridDimensions';
 import { computeDistance } from '../hooks/useDistance';
 
 import { DEFAULT_USERS_SEARCH_CRITERIA } from '../graphql/apolloClient';
+import ResponsiveList from '../components/ResponsiveList';
 
 const UsersLists = React.memo(({ usersSearchCriteria }) => {
   const viewer = useViewer();
@@ -249,10 +250,21 @@ const UsersDistanceSections = React.memo(({
     />
   ), [itemDimension, itemsPerRow, itemPaddingCorrection, itemsSectionPadding, imageSpacing]);
 
+  if (usersByDistance.length === 0) {
+    // React-native-super-grid doesn't handle listEmptyComponent very well on Android
+    // so we just use a regular ResponsiveList in that case.
+    return (
+      <ResponsiveList
+        ListEmptyComponent={ListEmptyComponent}
+        data={[]}
+      />
+    )
+  }
+
   return (
     <SectionGrid
       style={{
-        backgroundColor: theme['background-basic-color-2']
+        backgroundColor: theme['background-basic-color-2'],
       }}
       itemContainerStyle={{
         width: itemDimension,

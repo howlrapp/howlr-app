@@ -7,7 +7,7 @@ import { truncate } from 'lodash';
 const CheckBoxMenuGroup = ({
   title,
   items,
-  selectedItemIds,
+  selectedItemIds = [],
   onChange
 }) => {
 

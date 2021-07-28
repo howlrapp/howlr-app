@@ -1,6 +1,10 @@
 import React from 'react';
 import { Text, Button, useTheme } from '@ui-kitten/components';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, StatusBar } from 'react-native';
+import {
+  useResponsiveScreenHeight,
+} from "react-native-responsive-dimensions";
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const EmptyList = ({
   title = "Nothing here",
@@ -14,6 +18,9 @@ const EmptyList = ({
   ...props
 }) => {
   const theme = useTheme();
+
+  const { top, bottom } = useSafeAreaInsets();
+  const fullHeight = useResponsiveScreenHeight(100);
 
   return (
     <View

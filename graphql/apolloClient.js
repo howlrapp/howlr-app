@@ -22,6 +22,7 @@ export const DEFAULT_USERS_SEARCH_CRITERIA = {
   online: null,
   recent: null,
   q: "",
+  ageIds: [],
 };
 
 /* eslint-disable */
@@ -139,6 +140,7 @@ let client = new ApolloClient({
       matchKindIds: [String!]
       online: Boolean
       recent: Boolean
+      ageIds: [String!]
       q: String
     }
   `,

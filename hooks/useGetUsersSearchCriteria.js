@@ -10,6 +10,7 @@ export const USERS_SEARCH_CRITERIA_FRAGMENT = gql`
     matchKindIds
     online
     recent
+    ageIds
     q
   }
 `

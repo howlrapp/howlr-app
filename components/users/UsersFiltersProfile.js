@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState, useCallback, useMemo } from 'react';
 import { Portal } from 'react-native-portalize';
-import { Menu, useTheme } from '@ui-kitten/components';
+import { Menu, MenuGroup, MenuItem, Input, useTheme } from '@ui-kitten/components';
 import { StyleSheet } from 'react-native';
 import { without } from 'lodash';
 import {
@@ -14,8 +14,16 @@ import FormTopNavigation from '../FormTopNavigation';
 import CheckBoxMenuGroup from '../CheckBoxMenuGroup';
 
 const LISTING_ITEMS = [
-  { label: "Online now", id: "online" },
-  { label: "Users who joined recently", id: "recent" },
+  { label: "Online now", id: "online"                 },
+  { label: "Users who joined recently", id: "recent"  },
+]
+
+const AGE_ITEMS = [
+  { label: "Between 18 and 25", id: "18_25",     },
+  { label: "Between 25 and 35", id: "25_35",     },
+  { label: "Between 35 and 50", id: "35_50",     },
+  { label: "Between 50 and 65", id: "50_65",     },
+  { label: "Above 65",          id: "65_150",    },
 ]
 
 const UsersFiltersProfile = ({
@@ -113,7 +121,15 @@ const UsersFiltersProfile = ({
     } else {
       setTmpValue(tmpValue => ({ ...tmpValue, matchKindIds: without(tmpValue.matchKindIds, matchKind.id) }));
     }
-  });
+  }, []);
+
+  const handleChangeAge = useCallback((ageItem, checked) => {
+    if (checked) {
+      setTmpValue(tmpValue => ({ ...tmpValue, ageIds: [ ...tmpValue.ageIds, ageItem.id ] }));
+    } else {
+      setTmpValue(tmpValue => ({ ...tmpValue, ageIds: without(tmpValue.ageIds, ageItem.id) }));
+    }
+  }, []);
 
   const handleSave = () => {
     if (onSave) {
@@ -151,6 +167,12 @@ const UsersFiltersProfile = ({
             items={LISTING_ITEMS}
             selectedItemIds={listingSelectedIds}
             onChange={handleChangeListing}
+          />
+          <CheckBoxMenuGroup
+            title="Age"
+            items={AGE_ITEMS}
+            selectedItemIds={tmpValue.ageIds}
+            onChange={handleChangeAge}
           />
           <CheckBoxMenuGroup
             title="Looking for"

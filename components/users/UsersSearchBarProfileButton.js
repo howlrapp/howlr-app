@@ -31,6 +31,7 @@ const UsersSearchBarProfileButton = ({
       sexualOrientationIds: [],
       relationshipStatusIds: [],
       matchKindIds: [],
+      ageIds: [],
       online: null,
       recent: null
     })
@@ -41,6 +42,7 @@ const UsersSearchBarProfileButton = ({
       value.sexualOrientationIds.length === 0 &&
       value.relationshipStatusIds.length === 0 &&
       value.matchKindIds.length === 0 &&
+      value.ageIds.length === 0 &&
       !value.recent &&
       !value.online
   );
