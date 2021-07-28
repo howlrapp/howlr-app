@@ -72,7 +72,7 @@ const UsersFiltersGroups = ({
 
   const HeaderComponent = useCallback(() => (
     <FormTopNavigation
-      title="Groups filter"
+      title="Groups"
       saveLabel="Done"
       disabled={loading}
       onCancel={handleClose}
