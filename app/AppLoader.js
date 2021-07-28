@@ -167,6 +167,7 @@ const styles = StyleSheet.create({
   flashMessageTitle: {
     fontSize: 16,
     fontWeight: 'bold',
+    textAlign: 'center'
   }
 })
 

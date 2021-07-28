@@ -96,7 +96,7 @@ const MessageButton = ({
       visible={chatFormOpen}
       onBackdropPress={handleCloseChatForm}
       placement="bottom"
-      style={{ marginTop: Platform.OS === 'ios' ? -20 : 20 }}
+      style={{ marginTop: Platform.OS === 'ios' ? -20 : 0 }}
     >
       {
         selectedMatchKinds.map((matchKind) => (
