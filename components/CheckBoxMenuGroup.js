@@ -43,7 +43,7 @@ const CheckBoxMenuGroup = ({
         items.map((item, index) => (
           <MenuItem
             key={item.id}
-            style={[ styles.menuItem, (index === items.length - 1) ? styles.menuItemLast : {} ]}
+            style={styles.menuItem}
             accessoryLeft={() => (
               <CheckBox
                 key={item.id}
@@ -67,9 +67,6 @@ const styles = StyleSheet.create({
   },
   menuItem: {
     height: 38,
-  },
-  menuItemLast: {
-    paddingBottom: 36,
   },
   checkbox: {
     height: 38
