@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useCallback } from 'react';
+import React, { useRef, useEffect, useState, useCallback, useMemo } from 'react';
 import { Portal } from 'react-native-portalize';
 import { Menu, useTheme } from '@ui-kitten/components';
 import { StyleSheet } from 'react-native';
@@ -12,6 +12,11 @@ import useApp from '../../hooks/useApp';
 import ResponsiveModalize from '../ResponsiveModalize';
 import FormTopNavigation from '../FormTopNavigation';
 import CheckBoxMenuGroup from '../CheckBoxMenuGroup';
+
+const LISTING_ITEMS = [
+  { label: "Online now", id: "online" },
+  { label: "Users who joined recently", id: "recent" },
+]
 
 const UsersFiltersProfile = ({
   open,
@@ -30,7 +35,7 @@ const UsersFiltersProfile = ({
     setTmpValue(value)
   ), [value]);
 
-  const { genders, sexualOrientations, relationshipStatuses } = useApp();
+  const { genders, sexualOrientations, relationshipStatuses, matchKinds } = useApp();
   useEffect(() => {
     if (open) {
       modalizeRef.current?.open();
@@ -87,6 +92,29 @@ const UsersFiltersProfile = ({
     }
   }
 
+  const handleChangeListing = useCallback((item, checked) => {
+    switch (item.id) {
+      case "online":
+        setTmpValue((tmpValue) => ({ ...tmpValue, online: checked }));
+        break ;
+      case "recent":
+        setTmpValue((tmpValue) => ({ ...tmpValue, recent: checked }));
+        break ;
+    }
+  }, [setTmpValue]);
+
+  const listingSelectedIds = useMemo(() => (
+    [tmpValue.online && "online", tmpValue.recent && "recent"].filter((item) => !!item)
+  ), [tmpValue.online, tmpValue.recent]);
+
+  const handleChangeMatchKind = useCallback((matchKind, checked) => {
+    if (checked) {
+      setTmpValue(tmpValue => ({ ...tmpValue, matchKindIds: [ ...tmpValue.matchKindIds, matchKind.id ] }));
+    } else {
+      setTmpValue(tmpValue => ({ ...tmpValue, matchKindIds: without(tmpValue.matchKindIds, matchKind.id) }));
+    }
+  });
+
   const handleSave = () => {
     if (onSave) {
       onSave(tmpValue);
@@ -96,15 +124,13 @@ const UsersFiltersProfile = ({
 
   const HeaderComponent = useCallback(() => (
     <FormTopNavigation
-      title="Profile filters"
+      title="Filters"
       saveLabel="Done"
       disabled={loading}
       onCancel={handleClose}
       onSave={handleSave}
     />
   ), [loading, handleClose, handleSave]);
-
-  console.log(bottom);
 
   return (
     <Portal>
@@ -120,6 +146,18 @@ const UsersFiltersProfile = ({
         <Menu
           style={{ marginBottom: bottom }}
         >
+          <CheckBoxMenuGroup
+            title="Status"
+            items={LISTING_ITEMS}
+            selectedItemIds={listingSelectedIds}
+            onChange={handleChangeListing}
+          />
+          <CheckBoxMenuGroup
+            title="Looking for"
+            items={matchKinds}
+            selectedItemIds={tmpValue.matchKindIds}
+            onChange={handleChangeMatchKind}
+          />
           <CheckBoxMenuGroup
             title="Genders"
             items={genders}

@@ -5,7 +5,6 @@ import useSetUsersSearchCriteria from '../../hooks/useSetUsersSearchCriteria';
 
 import UsersSearchBarGroupsButton from './UsersSearchBarGroupsButton';
 import UsersSearchBarProfileButton from './UsersSearchBarProfileButton';
-import UsersSearchBarStatusButton from './UsersSearchBarStatusButton';
 
 import SearchBar from '../SearchBar';
 
@@ -70,12 +69,6 @@ const UsersSearchBar = ({ usersSearchCriteria }) => {
     <View
       style={styles.root}
     >
-      <UsersSearchBarStatusButton
-        value={usersSearchCriteria}
-        onSave={handleSaveProfile}
-        style={[ styles.button, styles.firstButton ]}
-        size="tiny"
-      />
       <UsersSearchBarProfileButton
         value={usersSearchCriteria}
         onSave={handleSaveProfile}

@@ -30,21 +30,27 @@ const UsersSearchBarProfileButton = ({
       genderIds: [],
       sexualOrientationIds: [],
       relationshipStatusIds: [],
+      matchKindIds: [],
+      online: null,
+      recent: null
     })
   ), [onSave]);
 
   const hasValue = !(
     value.genderIds.length === 0 &&
       value.sexualOrientationIds.length === 0 &&
-      value.relationshipStatusIds.length === 0
+      value.relationshipStatusIds.length === 0 &&
+      value.matchKindIds.length === 0 &&
+      !value.recent &&
+      !value.online
   );
 
   const label = useMemo(() => {
     if (hasValue) {
-      return ("Some users");
+      return ("Filtered");
     }
 
-    return ("Profile");
+    return ("Filters");
   }, [hasValue]);
 
   return (

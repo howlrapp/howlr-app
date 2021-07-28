@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { AppState } from 'react-native';
+import { AppState, Platform } from 'react-native';
 
 import {
   ActionSheetProvider,
@@ -215,6 +215,11 @@ const AppMain = () => {
     );
   }
 
+  let statusBarStyle = colorScheme === 'dark' ? 'light' : 'dark'
+  if (Platform.OS === 'android') {
+    statusBarStyle = 'light';
+  }
+
   return (
     <SessionContext.Provider value={sessionData?.session}>
       <ViewerContext.Provider value={viewerData.viewer}>
@@ -224,7 +229,7 @@ const AppMain = () => {
               <EventsContext.Provider value={eventsData.viewer.events}>
                 <SentLikesUserIdsContext.Provider value={sentLikesUserIds}>
                   <ReceivedLikesUserIdsContext.Provider value={receivedLikesUserIds}>
-                    <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} translucent={false} />
+                    <StatusBar style={statusBarStyle} translucent={false} />
                     <ErrorBoundary>
                       <Host>
                         <ActionSheetProvider>
