@@ -65,7 +65,7 @@ const LikeButton = ({
     >
       <Button
         accessoryLeft={renderLikeIcon}
-        status={liked ? 'basic' : 'primary'}
+        status={liked ? 'danger' : 'primary'}
         onPress={liked ? handleRemoveLike : handleAddLike}
         disabled={removeLikeLoading || addLikeLoading || user.id === viewerId}
         appearance={liked ? 'outline' : 'filled'}

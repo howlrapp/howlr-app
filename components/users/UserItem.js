@@ -18,7 +18,7 @@ const UserItem = ({
 
   const handlePress = useCallback(() => {
     navigation.navigate('User', { id: user.id })
-  });
+  }, [user.id]);
 
   return (
     <TouchableOpacity

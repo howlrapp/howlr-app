@@ -23,6 +23,7 @@ export const DEFAULT_USERS_SEARCH_CRITERIA = {
   recent: null,
   q: "",
   ageIds: [],
+  eventIds: []
 };
 
 /* eslint-disable */
@@ -142,6 +143,7 @@ let client = new ApolloClient({
       recent: Boolean
       ageIds: [String!]
       q: String
+      eventIds: [String!]
     }
   `,
   resolvers: {

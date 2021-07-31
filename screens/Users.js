@@ -28,6 +28,7 @@ import { computeDistance } from '../hooks/useDistance';
 
 import { DEFAULT_USERS_SEARCH_CRITERIA } from '../graphql/apolloClient';
 import ResponsiveList from '../components/ResponsiveList';
+import useGetEvent from '../hooks/useGetEvent';
 
 const UsersLists = React.memo(({ usersSearchCriteria }) => {
   const viewer = useViewer();
@@ -88,9 +89,27 @@ const UsersLists = React.memo(({ usersSearchCriteria }) => {
     );
   }, [userSummaries]);
 
+  const { data: eventData } = useGetEvent({
+    variables: {
+      id: usersSearchCriteria.eventIds?.[0]
+    },
+    skip: usersSearchCriteria.eventIds?.length != 1
+  });
+  const event = eventData?.viewer?.event;
+
   const usersByDistance = useMemo(() => {
     if (!sortedUserSummaries) {
       return ([]);
+    }
+
+    if ((usersSearchCriteria.eventIds || []).length > 0) {
+      return ([
+        {
+          event,
+          key: "event",
+          data: sortedUserSummaries
+        }
+      ])
     }
 
     const usersByDistance =
@@ -114,7 +133,7 @@ const UsersLists = React.memo(({ usersSearchCriteria }) => {
     }
 
     return (usersByDistance);
-  }, [sortedUserSummaries]);
+  }, [sortedUserSummaries, usersSearchCriteria, event]);
 
   if (usersLoading) {
     return (null);
@@ -156,7 +175,47 @@ const UsersDistanceSections = React.memo(({
     })
   }, []);
 
-  const renderSectionHeader = useCallback(({ section: { distance } }) => {
+  const [ setUsersSearchCriteria ] = useSetUsersSearchCriteria();
+  const handlePressClearEvent = useCallback(() => {
+    setUsersSearchCriteria({
+      variables: {
+        usersSearchCriteria: DEFAULT_USERS_SEARCH_CRITERIA
+      }
+    })
+  }, [setUsersSearchCriteria]);
+
+  const renderSectionHeader = useCallback(({ section: { distance, event } }) => {
+    if (event) {
+      return (
+        <DistanceSeparator
+          height={lineHeight}
+        >
+          <TouchableOpacity
+            style={styles.localityButton}
+            onPress={handlePressClearEvent}
+          >
+            <Text
+              category="p1"
+              style={styles.distanceText}
+            >
+              {'Going to '}
+              <Text
+                category="s1"
+                style={styles.distanceText}
+              >
+                {truncate(event.title, 40)}
+              </Text>
+            </Text>
+            <Text
+              style={[ styles.changeLocationText, { color: theme['color-info-500'] } ]}
+            >
+              Clear event selection
+            </Text>
+          </TouchableOpacity>
+        </DistanceSeparator>
+      )
+    }
+
     if (distance === 0) {
       return (
         <DistanceSeparator

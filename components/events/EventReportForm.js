@@ -39,7 +39,7 @@ const EventReportForm = ({
 
   return (
     <FormModal
-      saveLabel="Send report"
+      saveLabel="Send"
       description="Please tell us more..."
       onSave={handleSendReport}
       title={`Report event`}

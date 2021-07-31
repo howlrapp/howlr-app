@@ -1,128 +1,119 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import {
   Text,
-  Divider,
   Button,
-  useTheme
+  Card,
 } from '@ui-kitten/components';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
-import { differenceInDays } from 'date-fns'
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { DEFAULT_USERS_SEARCH_CRITERIA } from '../../graphql/apolloClient';
 
-import useViewer from '../../hooks/useViewer';
+import useRandomColor from '../../hooks/useRandomColor';
 
-import UserListAvatar from '../UserListAvatar';
-import EventUsersModal from './EventUsersModal';
-import EventItemHeader from './EventItemHeader';
-import EventPresenceCheckbox from './EventPresenceCheckbox';
+import EventItemDate from './EventItemDate';
+import useApp from '../../hooks/useApp';
+import { useNavigation } from '@react-navigation/native';
+import useSetUsersSearchCriteria from '../../hooks/useSetUsersSearchCriteria';
+
+export const attendeesCountAsWords = (count) => {
+  if (count > 1) {
+    return (`${count} going`);
+  }
+  if (count === 1) {
+    return ("One going");
+  }
+
+  return("No attendees");
+}
 
 const EventItem = ({ event }) => {
-  const theme = useTheme();
+  const { eventCategories } = useApp();
 
-  const viewer = useViewer();
+  const eventCategory = useMemo(() => (
+    eventCategories.find(({ id }) => id === event.eventCategoryId)
+  ), [event, eventCategories]);
 
-  const [ usersModalOpen, setUsersModalOpen ] = useState(false);
+  const backgroundColor = useRandomColor(event.eventCategoryId);
 
-  const handleOpenUsersModal = useCallback(() => {
-    setUsersModalOpen(true)
-  }, [setUsersModalOpen])
+  const navigation = useNavigation();
 
-  const handleCloseUsersModal = useCallback(() => {
-    setUsersModalOpen(false)
-  }, [setUsersModalOpen])
+  const [ setUsersSearchCriteria ] = useSetUsersSearchCriteria();
+  const handleSeeAttendees = useCallback(async () => {
+    await setUsersSearchCriteria({
+      variables: {
+        usersSearchCriteria: {
+          ...DEFAULT_USERS_SEARCH_CRITERIA,
+          eventIds: [event.id]
+        }
+      }
+    });
+    navigation.navigate("Users");
+  }, [event.id, setUsersSearchCriteria]);
 
-  const joined = useMemo(() => (
-    event.users.some(({ id }) => id === viewer.id)
-  ), [event, viewer.id])
-
-  const participantsSentence = useMemo(() => {
-    if (event.users.length > 1) {
-      return (`${event.users.length} people going`);
-    }
-    if (event.users.length === 1) {
-      return ("One person going");
-    }
-
-    return("No participant");
-  }, [event.users]);
-
-  const pastEvent = useMemo(() => (
-    differenceInDays(new Date(event.date), new Date()) < 0
-  ), [event.date])
+  const handlePress = useCallback(() => {
+    navigation.navigate('Event', { id: event.id })
+  }, [event.id]);
 
   return (
-    <View
-      style={[ styles.root, { borderColor: theme['border-basic-color-3'], backgroundColor: theme['background-basic-color-1'] } ]}
-    >
-      <EventItemHeader event={event} />
-
-      <Button
-        appearance="outline"
-        size="tiny"
-        style={styles.seeMoreButton}
-        status="basic"
-        onPress={handleOpenUsersModal}
-      >
-        See more
-      </Button>
-
-      <Divider />
-
-      <View
-        style={styles.footer}
-      >
-        <TouchableOpacity
-          onPress={handleOpenUsersModal}
-        >
-        <View
-            style={styles.participantsList}
-          >
-            <UserListAvatar
-              users={event.users}
-              style={styles.userListAvatar}
-              last={joined ? viewer : null}
-            />
-            <Text category="p2" appearance="hint">
-              {participantsSentence}
-            </Text>
+    <>
+      <Card
+        disabled
+        header={({ style }) => (
+          <View style={[ ...style, styles.header ]}>
+            <View style={{ flex: 1 }}>
+              <Text category="h6" style={{ flex: 1 }} numberOfLines={1}>
+                {event.title}
+              </Text>
+              <Text category="s1" style={{ flex: 1, color: backgroundColor }}>
+                {eventCategory.label}
+              </Text>
+            </View>
+            <EventItemDate event={event} />
           </View>
-        </TouchableOpacity>
+
+        )}
+        footer={({ style }) => (
+          <View
+            style={[ style, styles.footer ]}
+          >
+            <TouchableOpacity
+              onPress={handleSeeAttendees}
+              style={styles.participantsList}
+            >
+              <Text category="p2" appearance="hint">
+                {attendeesCountAsWords(event.usersCount)}
+              </Text>
+            </TouchableOpacity>
+            <Button
+              size="small"
+              onPress={handlePress}
+            >
+              See more
+            </Button>
+          </View>
+        )}
+      >
         {
-          pastEvent && (
-            <Text category="c1" appearance="hint">Past event</Text>
-          )
+          <Text
+            category="p2"
+          >
+            {event.address}
+          </Text>
         }
-        {
-          !pastEvent && (event.user.id === viewer.id) && (
-            <Text category="c1" appearance="hint">Your event</Text>
-          )
-        }
-        {
-          !pastEvent && (event.user.id !== viewer.id) && (
-            <EventPresenceCheckbox event={event} />
-          )
-        }
-      </View>
-      <EventUsersModal
-        open={usersModalOpen}
-        event={event}
-        onClose={handleCloseUsersModal}
-      />
-    </View>
-  );
+      </Card>
+    </>
+  )
 }
 
 const styles = StyleSheet.create({
-  root: {
-    marginHorizontal: 10,
-    borderWidth: 1,
-    borderRadius: 5,
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   footer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 10,
-    height: 44,
   },
   participantsList: {
     flexDirection: 'row',
@@ -130,10 +121,6 @@ const styles = StyleSheet.create({
   },
   userListAvatar: {
     paddingRight: 10,
-  },
-  seeMoreButton: {
-    marginHorizontal: 10,
-    marginBottom: 10,
   }
 })
 

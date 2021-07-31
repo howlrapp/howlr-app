@@ -2,8 +2,9 @@ import React from 'react';
 import { Text, Divider, useTheme } from '@ui-kitten/components';
 import { View, StyleSheet } from 'react-native';
 import { isEmpty, trim } from 'lodash';
+import EnrichedText from './EnrichedText';
 
-const UserProfileItem = ({
+const ProfileItem = ({
   label,
   value,
   style,
@@ -38,7 +39,7 @@ const UserProfileItem = ({
         <Text
           category="p1"
         >
-          {trim(value)}
+          <EnrichedText body={value} />
         </Text>
       </View>
       <Divider />
@@ -57,4 +58,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default React.memo(UserProfileItem);
+export default React.memo(ProfileItem);

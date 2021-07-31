@@ -1,9 +1,9 @@
 import React from 'react';
 
-import UserProfileItem from './UserProfileItem';
+import ProfileItem from '../ProfileItem';
 
 const UserProfileItemDislike = ({ user, ...props }) => (
-  <UserProfileItem
+  <ProfileItem
     value={user.dislike}
     label="Dislike"
     {...props}

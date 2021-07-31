@@ -57,7 +57,6 @@
     "react": "16.13.1",
     "react-native": "~0.63.4",
     "react-native-app-link": "^1.0.0",
-    "react-native-appearance": "~0.3.3",
     "react-native-collapsible": "^1.6.0",
     "react-native-easy-content-loader": "^0.3.2",
     "react-native-fast-image": "^8.3.6",

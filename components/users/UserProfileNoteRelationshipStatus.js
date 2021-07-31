@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 
 import useApp from '../../hooks/useApp';
 
-import UserProfileNoteList from './UserProfileNoteList';
+import ProfileNoteList from '../ProfileNoteList';
 
 const UserProfileNoteRelationshipStatus = ({ user, ...props }) => {
   const { relationshipStatuses } = useApp();
@@ -16,7 +16,7 @@ const UserProfileNoteRelationshipStatus = ({ user, ...props }) => {
   }
 
   return (
-    <UserProfileNoteList
+    <ProfileNoteList
       value={[selectedRelationshipStatus?.label]}
       iconName="heart"
       {...props}

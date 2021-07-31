@@ -10,12 +10,8 @@ export const EVENT_FRAGMENT = gql`
     localities
     eventCategoryId
     privacyStatus
+    usersCount
     user {
-      id
-      name
-      avatarUrl
-    }
-    users {
       id
       name
       avatarUrl

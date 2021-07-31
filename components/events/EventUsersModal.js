@@ -1,81 +1,19 @@
-import React, { useRef, useEffect, useCallback, useMemo } from 'react';
-import { Text, ListItem, TopNavigation, Divider } from '@ui-kitten/components';
-import { StyleSheet, Platform, View, TouchableOpacity } from 'react-native';
+import React, { useRef, useEffect, useCallback, useMemo, useState } from 'react';
+import { Text, ListItem, Divider } from '@ui-kitten/components';
+import { StyleSheet, View } from 'react-native';
 import { Portal } from 'react-native-portalize';
 import {
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
+import { format } from "date-fns";
 import { useNavigation } from '@react-navigation/native';
-import { orderBy } from 'lodash';
-import { differenceInDays } from 'date-fns'
-
-import useViewer from '../../hooks/useViewer';
 
 import ResponsiveModalize from '../ResponsiveModalize';
 import UserAvatar from '../UserAvatar';
-import EventItemHeader from './EventItemHeader';
+import EventForm from './EventForm';
 import EventItemBody from './EventItemBody';
 import EventPresenceCheckbox from './EventPresenceCheckbox';
-
-const EventTopNavigation = ({
-  event,
-  onClose,
-  ...props
-}) => {
-  const viewer = useViewer();
-
-  const joined = useMemo(() => (
-    event.users.some(({ id }) => id === viewer.id)
-  ), [event, viewer.id]);
-
-  const pastEvent = useMemo(() => (
-    differenceInDays(new Date(event.date), new Date()) < 0
-  ), [event.date])
-
-  const accessoryLeft = useCallback(() => {
-    return (
-      <TouchableOpacity
-        onPress={onClose}
-      >
-        <Text
-          status="info"
-          category="p1"
-          style={[ styles.buttonText, styles.actionLeft ]}
-        >
-          Close
-        </Text>
-      </TouchableOpacity>
-    );
-  }, [onClose])
-
-  const accessoryRight = useCallback(() => {
-    if (pastEvent) {
-      return (
-        <Text category="s2" appearance="hint">Past event</Text>
-      );
-    }
-
-    if (!pastEvent && (event.user.id === viewer.id)) {
-      return (
-        <Text category="s2" appearance="hint">Your event</Text>
-      )
-    }
-
-    return (
-      <EventPresenceCheckbox event={event} />
-    );
-  }, [joined, pastEvent])
-
-  return (
-    <TopNavigation
-      style={styles.listItem}
-      accessoryLeft={accessoryLeft}
-      accessoryRight={accessoryRight}
-      alignment="center"
-      {...props}
-    />
-  )
-}
+import FormTopNavigation from '../FormTopNavigation';
 
 const EventUsersModal = ({
   event,
@@ -88,8 +26,8 @@ const EventUsersModal = ({
   const modalizeRef = useRef();
 
   const sortedUsers = useMemo(() => (
-    orderBy(event.users, ({ id }) => id !== event.user.id)
-  ), [event.users]);
+    [event.user].concat(event.users.filter(({ id }) => id !== event.user.id))
+  ), [event.user, event.users]);
 
   useEffect(() => {
     if (open) {
@@ -119,11 +57,37 @@ const EventUsersModal = ({
 
   const { bottom, left, right } = useSafeAreaInsets();
 
+  const [ editFormOpen, setEditFormOpen ] = useState(false);
+
+  const handleOpenEditForm = useCallback(() => {
+    setEditFormOpen(true)
+  });
+
+  const handleCloseEditForm = useCallback(() => {
+    setEditFormOpen(false);
+  })
+
   const ListHeaderComponent = useCallback(() => (
     <>
-      <EventTopNavigation event={event} onClose={onClose} />
-      <EventItemHeader event={event} />
+      <FormTopNavigation
+        title={({ style }) => (
+          <View
+            style={styles.topNavigationTitle}
+          >
+            <Text style={style}>{event.title}</Text>
+            <Text category="c2" appearance="hint">
+              {format(new Date(event.date), 'PP')}
+            </Text>
+          </View>
+
+        )}
+        cancelLabel="Close"
+        onCancel={onClose}
+        saveLabel="Edit"
+        onSave={handleOpenEditForm}
+      />
       <EventItemBody event={event} />
+      <EventPresenceCheckbox event={event} />
       <Divider />
       <Text
         category="c2"
@@ -132,6 +96,7 @@ const EventUsersModal = ({
        >
          PARTICIPANTS
        </Text>
+
     </>
   ), [event]);
 
@@ -150,16 +115,27 @@ const EventUsersModal = ({
     }
   }), [sortedUsers, renderItem, bottom, left, right]);
 
+  if (editFormOpen) {
+    return (
+      <EventForm
+        event={event}
+        open={true}
+        onCancel={handleCloseEditForm}
+        onSave={handleCloseEditForm}
+        title="Edit event"
+      />
+    )
+  }
+
   return (
     <Portal>
       <ResponsiveModalize
         ref={modalizeRef}
-        withHandle={true}
+        withHandle={false}
         panGestureEnabled={true}
         disableScrollIfPossible={false}
         keyboardAvoidingBehavior={'padding'}
         flatListProps={flatListProps}
-        modalTopOffset={20}
         onClose={onClose}
         {...props}
       />
@@ -168,6 +144,9 @@ const EventUsersModal = ({
 }
 
 const styles = StyleSheet.create({
+  topNavigationTitle: {
+    alignItems: 'center'
+  },
   listItem: {
     backgroundColor: "transparent",
   },
