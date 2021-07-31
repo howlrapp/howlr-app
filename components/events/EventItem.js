@@ -63,8 +63,8 @@ const EventItem = ({ event }) => {
               <Text category="h6" style={{ flex: 1 }} numberOfLines={1}>
                 {event.title}
               </Text>
-              <Text category="s1" style={{ flex: 1, color: backgroundColor }}>
-                {eventCategory.label}
+              <Text category="c2" style={{ flex: 1, color: backgroundColor }}>
+                {eventCategory?.label?.toUpperCase()}
               </Text>
             </View>
             <EventItemDate event={event} />

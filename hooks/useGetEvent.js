@@ -8,11 +8,6 @@ export const GET_EVENT = gql`
       id
       event(id: $id) {
         ...EventFragment
-        users {
-          id
-          name
-          avatarUrl
-        }
       }
     }
   }

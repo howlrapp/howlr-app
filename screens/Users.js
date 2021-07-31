@@ -3,11 +3,13 @@ import {
   Text,
   Divider,
   useTheme,
+  Button,
+  Icon,
 } from '@ui-kitten/components';
 import { showMessage, hideMessage } from "react-native-flash-message";
 import { useNavigation } from '@react-navigation/native';
 
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { SectionGrid } from 'react-native-super-grid';
 import { uniqBy, orderBy, truncate } from 'lodash';
 
@@ -190,9 +192,8 @@ const UsersDistanceSections = React.memo(({
         <DistanceSeparator
           height={lineHeight}
         >
-          <TouchableOpacity
+          <View
             style={styles.localityButton}
-            onPress={handlePressClearEvent}
           >
             <Text
               category="p1"
@@ -206,12 +207,17 @@ const UsersDistanceSections = React.memo(({
                 {truncate(event.title, 40)}
               </Text>
             </Text>
-            <Text
-              style={[ styles.changeLocationText, { color: theme['color-info-500'] } ]}
-            >
-              Clear event selection
-            </Text>
-          </TouchableOpacity>
+            <Button
+              status="basic"
+              appearance="outline"
+              style={[ styles.changeButton ]}
+              size="tiny"
+              onPress={handlePressClearEvent}
+              accessoryLeft={({ style }) => (
+                <Icon name="close-outline" style={style} />
+              )}
+            />  
+          </View>
         </DistanceSeparator>
       )
     }
@@ -221,9 +227,8 @@ const UsersDistanceSections = React.memo(({
         <DistanceSeparator
           height={lineHeight}
         >
-          <TouchableOpacity
+          <View
             style={styles.localityButton}
-            onPress={handlePressChangeLocation}
           >
             <Text
               category="p1"
@@ -239,14 +244,19 @@ const UsersDistanceSections = React.memo(({
             </Text>
             {
               canChangeLocation && (
-                <Text
-                  style={[ styles.changeLocationText, { color: theme['color-info-500'] } ]}
-                >
-                  Change your location
-                </Text>
+                <Button
+                  status="info"
+                  appearance="outline"
+                  style={[ styles.changeButton ]}
+                  size="tiny"
+                  onPress={handlePressChangeLocation}
+                  accessoryLeft={({ style }) => (
+                    <Icon name="edit-outline" style={style} />
+                  )}
+                />  
               )
             }
-          </TouchableOpacity>
+          </View>
         </DistanceSeparator>
       )
     }
@@ -370,8 +380,15 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   localityButton: {
-    flexDirection: 'column',
-    alignItems: 'center',
+    flexDirection: 'row',
+    alignItems: 'center' 
+  },
+  changeButton: {
+    height: 12,
+    width: 12,
+    borderRadius: 24,
+    borderWidth: 1,
+    marginLeft: 10
   }
 })
 
