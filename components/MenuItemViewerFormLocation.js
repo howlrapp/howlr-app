@@ -163,7 +163,7 @@ const MenuItemViewerFormLocation = ({
             description={`Please note that, for security reasons, you can only change your location up to once every ${locationChangeIntervalMinutes} minutes.`}
             open={modalOpen}
             onCancel={handleCancel}
-            onClose={handleSave}
+            onSave={handleSave}
             adjustToContentHeight
             {...props}
           >
