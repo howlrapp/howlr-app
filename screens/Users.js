@@ -100,7 +100,7 @@ const UsersLists = React.memo(({ usersSearchCriteria }) => {
   const event = eventData?.viewer?.event;
 
   const usersByDistance = useMemo(() => {
-    if (!sortedUserSummaries) {
+    if (!sortedUserSummaries || sortedUserSummaries.length === 0) {
       return ([]);
     }
 
@@ -204,7 +204,7 @@ const UsersDistanceSections = React.memo(({
                 category="s1"
                 style={styles.distanceText}
               >
-                {truncate(event.title, 40)}
+                {truncate(event.title, { length: 20 })}
               </Text>
             </Text>
             <Button
@@ -239,7 +239,7 @@ const UsersDistanceSections = React.memo(({
                 category="s1"
                 style={styles.distanceText}
               >
-                {truncate([ localities[0], localities[1] ].join(', '), 40)}
+                {truncate([ localities[0], localities[1] ].join(', '), { length: 20 })}
               </Text>
             </Text>
             {

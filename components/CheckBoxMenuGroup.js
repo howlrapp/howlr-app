@@ -34,7 +34,7 @@ const CheckBoxMenuGroup = ({
             appearance="hint"
             numberOfLines={1}
           >
-            {truncate(selectedItemsLabel, 30)}
+            {truncate(selectedItemsLabel, { length: 30 })}
           </Text>
         </View>
       )}

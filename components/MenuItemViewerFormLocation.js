@@ -152,7 +152,7 @@ const MenuItemViewerFormLocation = ({
             numberOfLines={1}
             ellipsizeMode='head'
           >
-            {!loading && truncate(hint, 30)}
+            {!loading && truncate(hint, { length: 30 })}
           </Text>
         )}
       />

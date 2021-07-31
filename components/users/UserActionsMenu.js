@@ -4,6 +4,8 @@ import { MenuItem, TopNavigationAction, Icon } from '@ui-kitten/components';
 import useBlockUser from '../../hooks/useBlockUser';
 
 import ThemedOverflowMenu from '../ThemedOverflowMenu';
+import useViewer from '../../hooks/useViewer';
+import { useNavigation } from '@react-navigation/native';
 
 const MenuIcon = (props) => (
   <Icon {...props} name='more-vertical' />
@@ -13,6 +15,7 @@ const UserActionsMenu = ({
   user,
   onPressReport,
 }) => {
+  const { id } = useViewer();
   const [ menuOpen, setMenuOpen ] = useState(false);
 
   const handleOpenMenu = useCallback(() => {
@@ -32,6 +35,12 @@ const UserActionsMenu = ({
     <TopNavigationAction icon={MenuIcon} onPress={handleOpenMenu}/>
   ), []);
 
+  const navigation = useNavigation();
+  const onPressEdit = useCallback(() => {
+    handleCloseMenu();
+    navigation.navigate("ProfileRouter");
+  }, []);
+
   return (
     <>
       <ThemedOverflowMenu
@@ -39,14 +48,26 @@ const UserActionsMenu = ({
         visible={menuOpen}
         onBackdropPress={handleCloseMenu}
       >
-        <MenuItem
-          title='Report'
-          onPress={onPressReport}
-        />
-        <MenuItem
-          title='Block'
-          onPress={handleBlockUser}
-        />
+        {
+          id === user?.id ? (
+            <MenuItem
+              title='Edit'
+              onPress={onPressEdit}
+            />
+          ) : (
+            <>
+              <MenuItem
+                title='Report'
+                onPress={onPressReport}
+              />
+              <MenuItem
+                title='Block'
+                onPress={handleBlockUser}
+              />
+            </>
+          )
+        }
+
       </ThemedOverflowMenu>
     </>
   );

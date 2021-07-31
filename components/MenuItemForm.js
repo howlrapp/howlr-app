@@ -43,7 +43,7 @@ const MenuItemForm = ({
       numberOfLines={1}
       ellipsizeMode='head'
     >
-      {(!loading && !disabled) && truncate(hint, 30)}
+      {(!loading && !disabled) && truncate(hint, { length: 30 })}
     </Text>
   ), [hint, loading]);
 

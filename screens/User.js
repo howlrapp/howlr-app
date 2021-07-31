@@ -155,10 +155,6 @@ const User = ({ route: { params: { id } }}) => {
   })
 
   const renderRightActions = useCallback(() => {
-    if (user?.id === viewerId) {
-      return (null);
-    }
-
     return (
       <UserActionsMenu
         user={user}
