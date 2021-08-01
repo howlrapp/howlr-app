@@ -1,30 +1,22 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Text } from '@ui-kitten/components';
 
-const LikesCountItem = ({ count, label }) => {
-  return (
-    <View
-      style={styles.headerLikesCountItem}
-    >
-      <Text category="s1">{count}</Text>
-      <Text category="s2" appearance="hint">{label}</Text>
-    </View>
-  );
-}
+import CountItem from '../CountItem';
 
 const LikesTop = ({ user }) => {
   return (
     <View
       style={styles.headerLikesCount}
     >
-      <LikesCountItem
+      <CountItem
         count={user.likedCount}
         label="LIKED"
+        disabled
       />
-      <LikesCountItem
+      <CountItem
         count={user.likersCount}
         label="LIKERS"
+        disabled
       />
     </View>
   );
@@ -41,10 +33,6 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     marginRight: 'auto',
   },
-  headerLikesCountItem: {
-    flexDirection: 'column',
-    alignItems: 'center'
-  }
 });
 
 export default React.memo(LikesTop);

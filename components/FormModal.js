@@ -39,14 +39,14 @@ const FormModal = ({
       await onSave();
     }
     modalizeRef.current?.close();
-  }, [onSave]);
+  }, [onSave, modalizeRef.current]);
 
   const handleCancel = useCallback(() => {
     modalizeRef.current?.close();
     if (onCancel) {
       onCancel();
     }
-  }, [modalizeRef]);
+  }, [modalizeRef.current]);
 
   const HeaderComponent = useCallback(() => (
     <>

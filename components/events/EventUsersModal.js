@@ -1,19 +1,19 @@
-import React, { useRef, useEffect, useCallback, useMemo, useState } from 'react';
+import React, { useRef, useEffect, useCallback, useMemo } from 'react';
 import { Text, ListItem, Divider } from '@ui-kitten/components';
 import { StyleSheet, View } from 'react-native';
 import { Portal } from 'react-native-portalize';
 import {
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
-import { format } from "date-fns";
 import { useNavigation } from '@react-navigation/native';
 
 import ResponsiveModalize from '../ResponsiveModalize';
 import UserAvatar from '../UserAvatar';
-import EventForm from './EventForm';
-import EventItemBody from './EventItemBody';
-import EventPresenceCheckbox from './EventPresenceCheckbox';
 import FormTopNavigation from '../FormTopNavigation';
+import useGetUserSummaries from '../../hooks/useGetUserSummaries';
+import useSetUsersSearchCriteria from '../../hooks/useSetUsersSearchCriteria';
+
+import { DEFAULT_USERS_SEARCH_CRITERIA } from '../../graphql/apolloClient';
 
 const EventUsersModal = ({
   event,
@@ -25,22 +25,50 @@ const EventUsersModal = ({
 
   const modalizeRef = useRef();
 
-  const sortedUsers = useMemo(() => (
-    [event.user].concat(event.users.filter(({ id }) => id !== event.user.id))
-  ), [event.user, event.users]);
+  const { data: usersData } = useGetUserSummaries({
+    variables: {
+      eventIds: [event.id]
+    },
+    skip: !open
+  });
+  const users = usersData?.viewer?.userSummaries || [];
 
+  const sortedUsers = useMemo(() => (
+    [event.user].concat(users.filter(({ id }) => id !== event.user.id))
+  ), [event.user, users]);
+
+  console.log(open)
   useEffect(() => {
     if (open) {
       modalizeRef.current?.open();
     } else {
       modalizeRef.current?.close();
     }
-  }, [open])
+  }, [open, modalizeRef.current]);
+
+  const handleGoToUser = useCallback((user) => {
+    navigation.navigate('User', { id: user.id });
+    onClose();
+  }, [navigation, onClose]);
+
+  const [ setUsersSearchCriteria ] = useSetUsersSearchCriteria();
+  const handleGoToSearch = useCallback(async () => {
+    await setUsersSearchCriteria({
+      variables: {
+        usersSearchCriteria: {
+          ...DEFAULT_USERS_SEARCH_CRITERIA,
+          eventIds: [event.id]
+        }
+      }
+    });
+    navigation.navigate("Users");
+    onClose();
+  }, [event, navigation, setUsersSearchCriteria, onClose])
 
   const renderItem = useCallback(({ item }) => (
     <ListItem
       style={styles.listItem}
-      onPress={() => navigation.navigate('User', { id: item.id })}
+      onPress={() => handleGoToUser(item)}
       title={(props) => (
         <View style={styles.item}>
           <Text {...props}>{item.name}</Text>
@@ -57,47 +85,13 @@ const EventUsersModal = ({
 
   const { bottom, left, right } = useSafeAreaInsets();
 
-  const [ editFormOpen, setEditFormOpen ] = useState(false);
-
-  const handleOpenEditForm = useCallback(() => {
-    setEditFormOpen(true)
-  });
-
-  const handleCloseEditForm = useCallback(() => {
-    setEditFormOpen(false);
-  })
-
   const ListHeaderComponent = useCallback(() => (
-    <>
-      <FormTopNavigation
-        title={({ style }) => (
-          <View
-            style={styles.topNavigationTitle}
-          >
-            <Text style={style}>{event.title}</Text>
-            <Text category="c2" appearance="hint">
-              {format(new Date(event.date), 'PP')}
-            </Text>
-          </View>
-
-        )}
-        cancelLabel="Close"
-        onCancel={onClose}
-        saveLabel="Edit"
-        onSave={handleOpenEditForm}
-      />
-      <EventItemBody event={event} />
-      <EventPresenceCheckbox event={event} />
-      <Divider />
-      <Text
-        category="c2"
-        appearance="hint"
-        style={styles.listHeader}
-       >
-         PARTICIPANTS
-       </Text>
-
-    </>
+    <FormTopNavigation
+      cancelLabel="Close"
+      onCancel={onClose}
+      saveLabel="Open in Search"
+      onSave={handleGoToSearch}
+    />
   ), [event]);
 
   const flatListProps = useMemo(() => ({
@@ -114,18 +108,6 @@ const EventUsersModal = ({
       overflow: 'hidden',
     }
   }), [sortedUsers, renderItem, bottom, left, right]);
-
-  if (editFormOpen) {
-    return (
-      <EventForm
-        event={event}
-        open={true}
-        onCancel={handleCloseEditForm}
-        onSave={handleCloseEditForm}
-        title="Edit event"
-      />
-    )
-  }
 
   return (
     <Portal>
@@ -164,4 +146,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default EventUsersModal;
+export default React.memo(EventUsersModal);

@@ -1,13 +1,10 @@
 import React, { useMemo, useState, useCallback } from 'react';
 import { View, StyleSheet, Animated, Platform } from 'react-native';
-import { Button, Icon, useTheme } from '@ui-kitten/components';
+import { Button, Divider, useTheme } from '@ui-kitten/components';
 
 import ScreenTopNavigation from '../components/ScreenTopNavigation';
 import useGetEvent from '../hooks/useGetEvent';
 import useApp from '../hooks/useApp';
-
-import { DEFAULT_USERS_SEARCH_CRITERIA } from '../graphql/apolloClient';
-import useSetUsersSearchCriteria from '../hooks/useSetUsersSearchCriteria';
 
 import EventActionsMenu from '../components/events/EventActionsMenu';
 import EventLoader from '../components/events/EventLoader';
@@ -16,9 +13,10 @@ import EventProfileNoteAddress from '../components/events/EventProfileNoteAddres
 import EventProfileNotePrivacyStatus from '../components/events/EventProfileNotePrivacyStatus';
 import EventProfileNoteDate from '../components/events/EventProfileNoteDate';
 import EventProfileItemDescription from '../components/events/EventProfileItemDescription';
-import { useNavigation } from '@react-navigation/native';
 
-import { attendeesCountAsWords } from '../components/events/EventItem';
+import EventUsersModal from '../components/events/EventUsersModal';
+
+import CountItem from '../components/CountItem';
 
 const Event = ({ route: { params: { id } }}) => {
   const { data: eventData } = useGetEvent({
@@ -36,20 +34,6 @@ const Event = ({ route: { params: { id } }}) => {
 
   const [ scrollY ] = useState(new Animated.Value(0));
 
-  const navigation = useNavigation();
-  const [ setUsersSearchCriteria ] = useSetUsersSearchCriteria();
-  const handleSeeAttendees = useCallback(async () => {
-    await setUsersSearchCriteria({
-      variables: {
-        usersSearchCriteria: {
-          ...DEFAULT_USERS_SEARCH_CRITERIA,
-          eventIds: [event.id]
-        }
-      }
-    });
-    navigation.navigate("Users");
-  }, [event?.id, setUsersSearchCriteria]);
-
   const navigationDefaultTitleOpacity =
     scrollY.interpolate({
       inputRange: [0, 100],
@@ -63,6 +47,16 @@ const Event = ({ route: { params: { id } }}) => {
       outputRange: [0, 1],
       extrapolate: 'clamp',
     });
+
+  const [ eventUsersModalOpen, setEventUsersModalOpen ] = useState(false);
+
+  const handleOpenEventUsersModal = useCallback(() => {
+    setEventUsersModalOpen(true);
+  }, [setEventUsersModalOpen]);
+
+  const handleCloseEventUsersModal = useCallback(() => {
+    setEventUsersModalOpen(false);
+  }, [setEventUsersModalOpen]);
 
   return (
     <>
@@ -126,27 +120,25 @@ const Event = ({ route: { params: { id } }}) => {
                   style={styles.headerActions}
                 >
                   <Button
-                    style={styles.headerActionsItemLeft}
-                    appearance="outline"
-                    onPress={handleSeeAttendees}
-                    status="basic"
-                    disabled={event.usersCount === 0}
-                    accessoryLeft={({ style }) => (
-                      <Icon style={style} name="people" />
-                    )}
-                  >
-                    {attendeesCountAsWords(event.usersCount)}
-                  </Button>
-                  <Button
                     style={styles.headerActionsItemRight}
-                    accessoryLeft={({ style }) => (
-                      <Icon style={style} name="plus" />
-                    )}
                   >
-                    Join event
+                    I'm going
                   </Button>
                 </View>
               </View>
+
+              <Divider />
+
+              <View
+                style={styles.goingCountContainer}
+              >
+                <CountItem
+                  count={event.usersCount}
+                  label="GOING"
+                  onPress={handleOpenEventUsersModal}
+                />
+              </View>
+
               <View
                 style={[ styles.eventItems, { backgroundColor: theme['background-basic-color-2'] }]}
               >
@@ -161,6 +153,15 @@ const Event = ({ route: { params: { id } }}) => {
           )
         }
       </Animated.ScrollView>
+      {
+        event && (
+          <EventUsersModal
+            event={event}
+            open={eventUsersModalOpen}
+            onClose={handleCloseEventUsersModal}
+          />
+        )
+      }
     </>
   );
 }
@@ -186,8 +187,6 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   headerActions: {
-    display: 'flex',
-    flexDirection: 'row',
     marginTop: 24,
   },
   headerActionsItemRight: {
@@ -211,6 +210,12 @@ const styles = StyleSheet.create({
   profileItem: {
     marginBottom: 20,
   },
+  goingCountContainer: {
+    paddingVertical: 24,
+    width: 300,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  }
 })
 
 export default React.memo(Event);

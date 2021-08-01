@@ -83,7 +83,6 @@ const MessageButton = ({
       style={style}
     >
       <Button
-        appearance="outline"
         accessoryLeft={renderMessageIcon}
         disabled={addChatLoading || user.id === viewerId || selectedMatchKinds.length === 0}
         onPress={chat ? handleGoToChat : handleOpenChatForm}

@@ -45,13 +45,13 @@ const PictureViewer = ({
     if (index !== null) {
       modalizeRef.current?.open();
     }
-  }, [index]);
+  }, [index, modalizeRef.current]);
 
   const manualClose = Platform.OS !== 'ios';
 
   const handleClose = useCallback(() => {
     modalizeRef.current?.close();
-  }, [modalizeRef]);
+  }, [modalizeRef.current]);
 
   return (
     <Portal>

@@ -61,7 +61,7 @@ const UsersFiltersGroups = ({
     if (onClose) {
       onClose();
     }
-  }, [modalizeRef, onClose]);
+  }, [modalizeRef.current, onClose]);
 
   const handleSave = useCallback(() => {
     if (onSave) {

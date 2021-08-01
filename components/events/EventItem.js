@@ -1,18 +1,17 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
   Text,
   Button,
   Card,
 } from '@ui-kitten/components';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { DEFAULT_USERS_SEARCH_CRITERIA } from '../../graphql/apolloClient';
 
 import useRandomColor from '../../hooks/useRandomColor';
 
 import EventItemDate from './EventItemDate';
+import EventUsersModal from './EventUsersModal';
 import useApp from '../../hooks/useApp';
 import { useNavigation } from '@react-navigation/native';
-import useSetUsersSearchCriteria from '../../hooks/useSetUsersSearchCriteria';
 
 export const attendeesCountAsWords = (count) => {
   if (count > 1) {
@@ -36,22 +35,19 @@ const EventItem = ({ event }) => {
 
   const navigation = useNavigation();
 
-  const [ setUsersSearchCriteria ] = useSetUsersSearchCriteria();
-  const handleSeeAttendees = useCallback(async () => {
-    await setUsersSearchCriteria({
-      variables: {
-        usersSearchCriteria: {
-          ...DEFAULT_USERS_SEARCH_CRITERIA,
-          eventIds: [event.id]
-        }
-      }
-    });
-    navigation.navigate("Users");
-  }, [event.id, setUsersSearchCriteria]);
-
   const handlePress = useCallback(() => {
     navigation.navigate('Event', { id: event.id })
   }, [event.id]);
+
+  const [ eventUsersModalOpen, setEventUsersModalOpen ] = useState(false);
+
+  const handleOpenEventUsersModal = useCallback(() => {
+    setEventUsersModalOpen(true);
+  }, [setEventUsersModalOpen]);
+
+  const handleCloseEventUsersModal = useCallback(() => {
+    setEventUsersModalOpen(false);
+  }, [setEventUsersModalOpen]);
 
   return (
     <>
@@ -76,11 +72,11 @@ const EventItem = ({ event }) => {
             style={[ style, styles.footer ]}
           >
             <TouchableOpacity
-              onPress={handleSeeAttendees}
+              onPress={handleOpenEventUsersModal}
               style={styles.participantsList}
             >
               <Text category="p2" appearance="hint">
-                {attendeesCountAsWords(event.usersCount)}
+                {attendeesCountAsWords(event.usersCount).toUpperCase()}
               </Text>
             </TouchableOpacity>
             <Button
@@ -100,6 +96,11 @@ const EventItem = ({ event }) => {
           </Text>
         }
       </Card>
+      <EventUsersModal
+        event={event}
+        open={eventUsersModalOpen}
+        onClose={handleCloseEventUsersModal}
+      />
     </>
   )
 }

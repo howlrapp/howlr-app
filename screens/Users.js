@@ -208,7 +208,7 @@ const UsersDistanceSections = React.memo(({
               </Text>
             </Text>
             <Button
-              status="info"
+              status="primary"
               appearance="outline"
               style={[ styles.changeButton ]}
               size="tiny"
@@ -245,7 +245,7 @@ const UsersDistanceSections = React.memo(({
             {
               canChangeLocation && (
                 <Button
-                  status="info"
+                  status="primary"
                   appearance="outline"
                   style={[ styles.changeButton ]}
                   size="tiny"
