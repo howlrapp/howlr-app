@@ -14,6 +14,7 @@ import useGetUserSummaries from '../../hooks/useGetUserSummaries';
 import useSetUsersSearchCriteria from '../../hooks/useSetUsersSearchCriteria';
 
 import { DEFAULT_USERS_SEARCH_CRITERIA } from '../../graphql/apolloClient';
+import EmptyList from '../EmptyList';
 
 const EventUsersModal = ({
   event,
@@ -37,11 +38,12 @@ const EventUsersModal = ({
     [event.user].concat(users.filter(({ id }) => id !== event.user.id))
   ), [event.user, users]);
 
-  console.log(open)
   useEffect(() => {
     if (open) {
+      console.log("OPEN")
       modalizeRef.current?.open();
     } else {
+      console.log("CLOSE")
       modalizeRef.current?.close();
     }
   }, [open, modalizeRef.current]);
@@ -61,8 +63,8 @@ const EventUsersModal = ({
         }
       }
     });
-    navigation.navigate("Users");
     onClose();
+    navigation.navigate("Users");
   }, [event, navigation, setUsersSearchCriteria, onClose])
 
   const renderItem = useCallback(({ item }) => (
@@ -94,11 +96,22 @@ const EventUsersModal = ({
     />
   ), [event]);
 
+  const ListEmptyComponent = useCallback(() => (
+    <Text
+      appearance="hint"
+      category="c2"
+      style={styles.emptyListMessage}
+    >
+      No visible attendees
+    </Text>
+  ), []);
+
   const flatListProps = useMemo(() => ({
     data: sortedUsers,
     renderItem,
     keyExtractor,
     ListHeaderComponent,
+    ListEmptyComponent,
     contentContainerStyle: {
       paddingBottom: bottom + 20,
       paddingLeft: left,
@@ -108,6 +121,7 @@ const EventUsersModal = ({
       overflow: 'hidden',
     }
   }), [sortedUsers, renderItem, bottom, left, right]);
+
 
   return (
     <Portal>
@@ -143,6 +157,10 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingTop: 20,
     paddingBottom: 10,
+  },
+  emptyListMessage: {
+    marginTop: 25,
+    textAlign: 'center'
   }
 })
 

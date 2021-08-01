@@ -64,6 +64,7 @@ export const APP_FRAGMENT = gql`
     eventCategories {
       id
       label
+      system
       createdAt
     }
     profileFieldGroups {

@@ -6,23 +6,12 @@ import { isEmpty, orderBy } from 'lodash';
 import useViewer from '../../hooks/useViewer';
 import useApp from '../../hooks/useApp';
 import useDistance from '../../hooks/useDistance';
-import useRandomColor from '../../hooks/useRandomColor';
 import useInsertEvent from '../../hooks/useInsertEvent';
 import { GET_EVENTS } from '../../hooks/useGetEvents';
 import { GET_VIEWER } from '../../hooks/useGetViewer';
 
 import FormModal from '../FormModal';
 import MenuSeparator from '../MenuSeparator';
-
-const EventCategoryCircle = React.memo(({ eventCategory, style }) => {
-  const backgroundColor = useRandomColor(eventCategory.id);
-
-  return (
-    <View
-      style={[ style, styles.eventCategoryCircle, { backgroundColor } ]}
-    />
-  );
-})
 
 const EventForm = ({
   event,
@@ -33,9 +22,14 @@ const EventForm = ({
 }) => {
   const { localities, latitude, longitude, canCreateEvent } = useViewer();
   const { eventCategories, eventsMaximumSearchableDistance, eventsMaxPerWeek } = useApp();
-  const sortedEventCategories = useMemo(() => (
-    orderBy(eventCategories, 'label')
+
+  const allowedEventCategories = useMemo(() => (
+    eventCategories.filter(({ system }) => system === false)
   ), [eventCategories]);
+
+  const sortedEventCategories = useMemo(() => (
+    orderBy(allowedEventCategories, 'label')
+  ), [allowedEventCategories]);
 
   const maximumEventsReached = !event?.id && !canCreateEvent;
   // check if user can create event
@@ -175,7 +169,6 @@ const EventForm = ({
             <SelectItem
               key={eventCategory.id}
               title={eventCategory.label}
-              accessoryRight={(props) => <EventCategoryCircle {...props} eventCategory={eventCategory} />}
             />
           ))
         }

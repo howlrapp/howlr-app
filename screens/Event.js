@@ -122,7 +122,7 @@ const Event = ({ route: { params: { id } }}) => {
                   <Button
                     style={styles.headerActionsItemRight}
                   >
-                    I'm going
+                    Join event 
                   </Button>
                 </View>
               </View>

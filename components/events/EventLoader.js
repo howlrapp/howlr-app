@@ -14,10 +14,9 @@ const EventLoader = () => {
       >
         <ThemedContentLoader
           active
-          avatar
-          aSize={48}
           pRows={4}
           reverse
+          tWidth={'100%'}
           tHeight={40}
           pWidth={["100%", 200, "25%", 45]}
         />
