@@ -12,8 +12,21 @@ import EventItemDate from './EventItemDate';
 import EventUsersModal from './EventUsersModal';
 import useApp from '../../hooks/useApp';
 import { useNavigation } from '@react-navigation/native';
+import useViewer from '../../hooks/useViewer';
 
-export const attendeesCountAsWords = (count) => {
+export const attendeesCountAsWords = (count, joined) => {
+  if (joined) {
+    if (count > 1) {
+      return (`You and ${count - 1} other going`);
+    }
+    if (count === 1) {
+      return ("You are going");
+    }
+  
+    // shouldn't happen
+    return("No attendees");
+  }
+
   if (count > 1) {
     return (`${count} going`);
   }
@@ -49,6 +62,11 @@ const EventItem = ({ event }) => {
     setEventUsersModalOpen(false);
   }, [setEventUsersModalOpen]);
 
+  const { eventsAsParticipant } = useViewer();
+  const joined = useMemo(() => (
+    eventsAsParticipant.some(({ id }) => id === event.id)
+  ), [eventsAsParticipant, event]);
+
   return (
     <>
       <Card
@@ -76,12 +94,13 @@ const EventItem = ({ event }) => {
               style={styles.participantsList}
             >
               <Text category="p2" appearance="hint">
-                {attendeesCountAsWords(event.usersCount).toUpperCase()}
+                {attendeesCountAsWords(event.usersCount, joined).toUpperCase()}
               </Text>
             </TouchableOpacity>
             <Button
               size="small"
               onPress={handlePress}
+              appearance="outline"
             >
               See more
             </Button>

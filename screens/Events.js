@@ -35,7 +35,6 @@ const Events = ({ events, callToAction }) => {
           Meet with other members of your local community
         </Text>
         <Button
-          appearance="outline"
           size="small"
           onPress={handleOpenEventForm}
         >

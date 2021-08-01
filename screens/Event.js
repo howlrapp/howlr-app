@@ -15,6 +15,7 @@ import EventProfileNoteDate from '../components/events/EventProfileNoteDate';
 import EventProfileItemDescription from '../components/events/EventProfileItemDescription';
 
 import EventUsersModal from '../components/events/EventUsersModal';
+import JoinEventButton from '../components/events/JoinEventButton';
 
 import CountItem from '../components/CountItem';
 
@@ -119,11 +120,10 @@ const Event = ({ route: { params: { id } }}) => {
                 <View
                   style={styles.headerActions}
                 >
-                  <Button
+                  <JoinEventButton
+                    event={event}
                     style={styles.headerActionsItemRight}
-                  >
-                    Join event 
-                  </Button>
+                  />
                 </View>
               </View>
 
