@@ -69,12 +69,17 @@ const EventItem = ({ event }) => {
     eventsAsParticipant.some(({ id }) => id === event.id)
   ), [eventsAsParticipant, event]);
 
+  const noAttendees = event.usersCount === 0;
+
   return (
     <>
       <Card
         disabled
         header={({ style }) => (
-          <View style={[ ...style, styles.header ]}>
+          <TouchableOpacity
+            style={[ ...style, styles.header ]}
+            onPress={handlePress}
+          >
             <View style={{ flex: 1 }}>
               <Text category="h6" style={{ flex: 1 }} numberOfLines={1}>
                 {event.title}
@@ -84,8 +89,7 @@ const EventItem = ({ event }) => {
               </Text>
             </View>
             <EventItemDate event={event} />
-          </View>
-
+          </TouchableOpacity>
         )}
         footer={({ style }) => (
           <View
@@ -94,8 +98,13 @@ const EventItem = ({ event }) => {
             <TouchableOpacity
               onPress={handleOpenEventUsersModal}
               style={styles.participantsList}
+              disabled={noAttendees}
             >
-              <Text category="c2" style={{ textDecorationLine: 'underline'}}>
+              <Text
+                category="c2"
+                style={noAttendees ? {} : { textDecorationLine: 'underline'}}
+                appearance={noAttendees ? 'hint' : 'default'}
+              >
                 {attendeesCountAsWords(event.usersCount, joined).toUpperCase()}
               </Text>
             </TouchableOpacity>
@@ -109,20 +118,23 @@ const EventItem = ({ event }) => {
           </View>
         )}
       >
-        <Text
-          category="p2"
+        <TouchableOpacity
+          onPress={handlePress}
         >
-          {event.address}
-        </Text>
-
-        <Text
-          appearance="hint"
-          category="p2"
-          style={{ marginTop: 6 }}
-          numberOfLines={2}
-        >
-          {event.description}
-        </Text>
+          <Text
+            category="p2"
+          >
+            {event.address}
+          </Text>
+          <Text
+            appearance="hint"
+            category="p2"
+            style={{ marginTop: 6 }}
+            numberOfLines={2}
+          >
+            {event.description}
+          </Text>
+        </TouchableOpacity>
       </Card>
       <EventUsersModal
         event={event}
