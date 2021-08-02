@@ -9,7 +9,7 @@ import {
 import { showMessage, hideMessage } from "react-native-flash-message";
 import { useNavigation } from '@react-navigation/native';
 
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { SectionGrid } from 'react-native-super-grid';
 import { uniqBy, orderBy, truncate } from 'lodash';
 
@@ -209,6 +209,7 @@ const UsersDistanceSections = React.memo(({
             </Text>
             <Button
               status="basic"
+              appearance="outline"
               style={[ styles.changeButton ]}
               size="tiny"
               onPress={handlePressClearEvent}
@@ -245,6 +246,7 @@ const UsersDistanceSections = React.memo(({
               canChangeLocation && (
                 <Button
                   status="basic"
+                  appearance="outline"
                   style={[ styles.changeButton ]}
                   size="tiny"
                   onPress={handlePressChangeLocation}

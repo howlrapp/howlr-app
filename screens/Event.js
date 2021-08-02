@@ -1,6 +1,6 @@
-import React, { useMemo, useState, useCallback, useEffect } from 'react';
+import React, { useMemo, useState, useCallback } from 'react';
 import { View, StyleSheet, Animated, Platform } from 'react-native';
-import { Button, Divider, useTheme } from '@ui-kitten/components';
+import { Divider, Text, useTheme } from '@ui-kitten/components';
 
 import ScreenTopNavigation from '../components/ScreenTopNavigation';
 import useGetEvent from '../hooks/useGetEvent';
@@ -14,10 +14,7 @@ import EventProfileNotePrivacyStatus from '../components/events/EventProfileNote
 import EventProfileNoteDate from '../components/events/EventProfileNoteDate';
 import EventProfileItemDescription from '../components/events/EventProfileItemDescription';
 import EventProfileItemAttendees from '../components/events/EventProfileItemAttendees';
-import EventUsersModal from '../components/events/EventUsersModal';
 import JoinEventButton from '../components/events/JoinEventButton';
-
-import CountItem from '../components/CountItem';
 
 const Event = ({ route: { params: { id } }}) => {
   const { data: eventData } = useGetEvent({
@@ -49,16 +46,6 @@ const Event = ({ route: { params: { id } }}) => {
       extrapolate: 'clamp',
     });
 
-  const [ eventUsersModalOpen, setEventUsersModalOpen ] = useState(false);
-
-  const handleOpenEventUsersModal = useCallback(() => {
-    setEventUsersModalOpen(true);
-  }, [setEventUsersModalOpen]);
-
-  const handleCloseEventUsersModal = useCallback(() => {
-    setEventUsersModalOpen(false);
-  }, [setEventUsersModalOpen]);
-
   return (
     <>
       <ScreenTopNavigation
@@ -71,12 +58,12 @@ const Event = ({ route: { params: { id } }}) => {
               >
                 {eventCategory?.label}
               </Animated.Text>
-              <Animated.Text
+              <Animated.View
                 style={[ styles.headerAnimatedItems, { opacity: navigationUserNameTitleOpacity }]}
                 {...props}
               >
-                {event?.title}
-              </Animated.Text>
+                <Text category="s1">{event?.title}</Text>
+              </Animated.View>
             </>
           )
         }}
@@ -147,15 +134,6 @@ const Event = ({ route: { params: { id } }}) => {
           )
         }
       </Animated.ScrollView>
-      {
-        eventUsersModalOpen && (
-          <EventUsersModal
-            event={event}
-            open={true}
-            onClose={handleCloseEventUsersModal}
-          />
-        )
-      }
     </>
   );
 }
@@ -164,7 +142,7 @@ const Event = ({ route: { params: { id } }}) => {
 const styles = StyleSheet.create({
   headerRoot: {
     paddingHorizontal: 20,
-    paddingBottom: 6,
+    paddingBottom: 20,
   },
   topNavigationTitle: {
     alignItems: 'center'

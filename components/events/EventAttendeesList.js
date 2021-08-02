@@ -1,10 +1,11 @@
 import React, { useCallback, useMemo } from 'react';
 import { Text, ListItem, List } from '@ui-kitten/components';
 import { StyleSheet, View } from 'react-native';
+import { times } from 'lodash';
 
 import UserAvatar from '../UserAvatar';
-import useGetUserSummaries from '../../hooks/useGetUserSummaries';
 import { useNavigation } from '@react-navigation/native';
+import ThemedContentLoader from '../ThemedContentLoader';
 
 const EventAttendeesListItem = ({ userId, item }) => {
   const navigation = useNavigation();
@@ -32,30 +33,17 @@ const EventAttendeesListItem = ({ userId, item }) => {
 
 const EventAttendeesList = ({
   event,
-  skip,
+  users,
+  loading,
   ...props
 }) => {
-  const { data: usersData } = useGetUserSummaries({
-    variables: {
-      eventIds: [event?.id]
-    },
-    skip
-  });
-  const users = usersData?.viewer?.userSummaries || [];
-
-  const sortedUsers = useMemo(() => {
-    if (!event) {
-      return [];
-    }
-
-    return (
-      [event.user].concat(users.filter(({ id }) => id !== event.user.id))
-    );
-  }, [event?.user, users]);
+  const sortedUsers = useMemo(() => (
+    [event.user].concat(users.filter(({ id }) => id !== event.user.id))
+  ), [event.user, users]);
 
   const renderItem = useCallback(({ item }) => (
-    <EventAttendeesListItem item={item} userId={event?.user?.id} />
-  ), [event?.user?.id]);
+    <EventAttendeesListItem item={item} userId={event.user.id} />
+  ), [event.user.id]);
 
   const keyExtractor = useCallback(({ id }) => id, []);
 
@@ -69,29 +57,60 @@ const EventAttendeesList = ({
     </Text>
   ), []);
 
+  if (loading) {
+    return (
+      times(7, (index) => (
+        <ThemedContentLoader
+          index={index}
+          active
+          avatar
+          pRows={0}
+          tWidth={'100%'}
+          tHeight={30}
+          aSize={30}
+          containerStyles={{
+            paddingHorizontal: 0,
+            paddingVertical: 10,
+          }}
+        />
+      ))
+    );
+  }
+
   return (
     <List
       data={sortedUsers}
       renderItem={renderItem}
       ListEmptyComponent={ListEmptyComponent}
       keyExtractor={keyExtractor}
+      refreshing={true}
+      style={styles.listStyle}
       {...props}
     />
   )
 }
 
 const styles = StyleSheet.create({
+  listStyle: {
+    backgroundColor: 'transparent'
+  },
   item: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   emptyListMessage: {
-    marginTop: 25,
-    textAlign: 'center'
+    marginVertical: 25,
+    textAlign: 'center',
+    backgroundColor: 'transparent'
   },
   listItem: {
     paddingHorizontal: 0
+  },
+  spinnerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 40
   }
 })
 

@@ -66,7 +66,6 @@ const JoinEventButton = ({ event, style }) => {
         onPress={handleLeave}
         disabled={leaveEventLoading}
         status="danger"
-        appearance="outline"
       >
         LEAVE EVENT
       </Button>

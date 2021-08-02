@@ -12,7 +12,7 @@ const ProfileItem = ({
 }) => {
   const theme = useTheme();
 
-  if (isEmpty(value) && !children) {
+  if (isEmpty(value)) {
     return (null);
   }
 

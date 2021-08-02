@@ -1,8 +1,8 @@
-import React, { useCallback, useMemo } from 'react';
-import { StyleSheet } from 'react-native';
+import React, { useCallback } from 'react';
 
 import { useNavigation } from '@react-navigation/native';
 import useSetUsersSearchCriteria from '../../hooks/useSetUsersSearchCriteria';
+import useGetUserSummaries from '../../hooks/useGetUserSummaries';
 
 import { DEFAULT_USERS_SEARCH_CRITERIA } from '../../graphql/apolloClient';
 import FormModal from '../FormModal';
@@ -28,7 +28,15 @@ const EventUsersModal = ({
     });
     onClose();
     navigation.navigate("Users");
-  }, [event, navigation, setUsersSearchCriteria, onClose])
+  }, [event, navigation, setUsersSearchCriteria, onClose]);
+
+  const { data: usersData, loading } = useGetUserSummaries({
+    variables: {
+      eventIds: [event.id]
+    },
+    skip: !open
+  });
+  const users = usersData?.viewer?.userSummaries || [];
 
   return (
     <FormModal
@@ -38,21 +46,13 @@ const EventUsersModal = ({
       onCancel={onClose}
       {...props}
     >
-      <EventAttendeesList event={event} skip={!open || !event} />
+      <EventAttendeesList
+        event={event}
+        users={users}
+        loading={loading}
+      />
     </FormModal>
   )
 }
-
-const styles = StyleSheet.create({
-  item: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  emptyListMessage: {
-    marginTop: 25,
-    textAlign: 'center'
-  }
-})
 
 export default React.memo(EventUsersModal);
