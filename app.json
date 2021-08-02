@@ -97,12 +97,12 @@
       "postPublish": []
     },
     "extra": {
-      "developmentApiUrl": "http://192.168.1.70:3001/graphql",
+      "_developmentApiUrl": "http://192.168.1.70:3001/graphql",
       "__developmentApiUrl": "http://172.20.10.7:3001/graphql",
-      "_developmentApiUrl": "https://graphql.howlr.im/graphql",
-      "developmentCableUrl": "ws://192.168.1.70:3001/cable",
+      "developmentApiUrl": "https://graphql.howlr.im/graphql",
+      "_developmentCableUrl": "ws://192.168.1.70:3001/cable",
       "__developmentCableUrl": "ws://172.20.10.7:3001/cable",
-      "_developmentCableUrl": "wss://graphql.howlr.im/cable",
+      "developmentCableUrl": "wss://graphql.howlr.im/cable",
       "productionApiUrl": "https://graphql.howlr.im/graphql",
       "productionCableUrl": "wss://graphql.howlr.im/cable",
       "appVersion": 34000,

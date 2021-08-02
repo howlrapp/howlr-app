@@ -58,17 +58,25 @@ const UsersLists = React.memo(({ usersSearchCriteria }) => {
     refetch();
   }, [refetch]);
 
+  const { data: eventData, error: eventError } = useGetEvent({
+    variables: {
+      id: usersSearchCriteria.eventIds?.[0]
+    },
+    skip: usersSearchCriteria.eventIds?.length != 1
+  });
+  const event = eventData?.viewer?.event;
+
   // reset usersSearchCriteria on error
   const [ setUsersSearchCriteria ] = useSetUsersSearchCriteria();
   useEffect(() => {
-    if (error) {
+    if (error || eventError) {
       setUsersSearchCriteria({
         variables: {
           usersSearchCriteria: DEFAULT_USERS_SEARCH_CRITERIA
         }
       })
     }
-  }, [error]);
+  }, [error, eventError]);
 
   useEffect(() => {
     if (usersLoading) {
@@ -91,19 +99,7 @@ const UsersLists = React.memo(({ usersSearchCriteria }) => {
     );
   }, [userSummaries]);
 
-  const { data: eventData } = useGetEvent({
-    variables: {
-      id: usersSearchCriteria.eventIds?.[0]
-    },
-    skip: usersSearchCriteria.eventIds?.length != 1
-  });
-  const event = eventData?.viewer?.event;
-
   const usersByDistance = useMemo(() => {
-    if (!sortedUserSummaries || sortedUserSummaries.length === 0) {
-      return ([]);
-    }
-
     if ((usersSearchCriteria.eventIds || []).length > 0) {
       return ([
         {
@@ -112,6 +108,10 @@ const UsersLists = React.memo(({ usersSearchCriteria }) => {
           data: sortedUserSummaries
         }
       ])
+    }
+
+    if (!sortedUserSummaries || sortedUserSummaries.length === 0) {
+      return ([]);
     }
 
     const usersByDistance =

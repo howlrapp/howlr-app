@@ -32,6 +32,7 @@ const EventUsersModal = ({
 
   const { data: usersData, loading } = useGetUserSummaries({
     variables: {
+      ...DEFAULT_USERS_SEARCH_CRITERIA,
       eventIds: [event.id]
     },
     skip: !open
