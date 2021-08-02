@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 
 import useApp from '../../hooks/useApp';
 
-import UserProfileNoteList from './UserProfileNoteList';
+import ProfileNoteList from '../ProfileNoteList';
 
 const UserProfileNoteMatchKinds = ({ user, ...props }) => {
   const { matchKinds } = useApp();
@@ -16,7 +16,7 @@ const UserProfileNoteMatchKinds = ({ user, ...props }) => {
   ), [selectedMatchKinds]);
 
   return (
-    <UserProfileNoteList
+    <ProfileNoteList
       value={value}
       iconName="smiling-face"
       {...props}

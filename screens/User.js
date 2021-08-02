@@ -155,10 +155,6 @@ const User = ({ route: { params: { id } }}) => {
   })
 
   const renderRightActions = useCallback(() => {
-    if (user?.id === viewerId) {
-      return (null);
-    }
-
     return (
       <UserActionsMenu
         user={user}
@@ -232,40 +228,36 @@ const User = ({ route: { params: { id } }}) => {
             <View
               style={[ styles.profileItems, { backgroundColor: theme['background-basic-color-2'] }]}
             >
-              <View
-                style={[ styles.profileItemsText ]}
-              >
-                <UserGallery
-                  user={user}
-                  style={styles.gallery}
-                />
-                <UserProfileItemBio
-                  user={user}
-                  style={styles.profileItem}
-                />
-                <UserProfileItemLike
-                  user={user}
-                  style={styles.profileItem}
-                />
-                <UserProfileItemDislike
-                  user={user}
-                  style={styles.profileItem}
-                />
-                <UserProfileProfileFieldValues
-                  user={user}
-                  style={styles.profileItem}
-                />
-                <UserProfileGroupsCommon
-                  user={user}
-                  style={styles.profileItem}
-                  editable={user?.id !== viewerId}
-                />
-                <UserProfileGroupsNotCommon
-                  user={user}
-                  style={styles.profileItem}
-                  editable={user?.id !== viewerId}
-                />
-              </View>
+              <UserGallery
+                user={user}
+                style={styles.gallery}
+              />
+              <UserProfileItemBio
+                user={user}
+                style={styles.profileItem}
+              />
+              <UserProfileItemLike
+                user={user}
+                style={styles.profileItem}
+              />
+              <UserProfileItemDislike
+                user={user}
+                style={styles.profileItem}
+              />
+              <UserProfileProfileFieldValues
+                user={user}
+                style={styles.profileItem}
+              />
+              <UserProfileGroupsCommon
+                user={user}
+                style={styles.profileItem}
+                editable={user?.id !== viewerId}
+              />
+              <UserProfileGroupsNotCommon
+                user={user}
+                style={styles.profileItem}
+                editable={user?.id !== viewerId}
+              />
             </View>
           </>
         ) : (

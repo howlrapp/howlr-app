@@ -1,6 +1,6 @@
 import React from 'react';
 
-import UserProfileNoteList from './UserProfileNoteList';
+import ProfileNoteList from '../ProfileNoteList';
 
 const UserProfileNoteGenders = ({ user, ...props }) => {
   if (!user.age) {
@@ -8,7 +8,7 @@ const UserProfileNoteGenders = ({ user, ...props }) => {
   }
 
   return (
-    <UserProfileNoteList
+    <ProfileNoteList
       value={[user.age]}
       iconName="gift"
       {...props}

@@ -56,7 +56,7 @@ const UsersFiltersProfile = ({
     if (onClose) {
       onClose();
     }
-  }, [modalizeRef, onClose]);
+  }, [modalizeRef.current, onClose]);
 
   const handleChangeRelationshipStatus = (relationshipStatus, enabled) => {
     if (enabled) {

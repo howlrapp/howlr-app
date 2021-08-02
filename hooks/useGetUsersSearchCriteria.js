@@ -12,6 +12,7 @@ export const USERS_SEARCH_CRITERIA_FRAGMENT = gql`
     recent
     ageIds
     q
+    eventIds
   }
 `
 

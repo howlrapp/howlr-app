@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { isEmpty } from 'lodash';
 
-import UserProfileNoteList from './UserProfileNoteList';
+import ProfileNoteList from '../ProfileNoteList';
 
 const UserProfileNoteLocation = ({ user, ...props }) => {
   const location = useMemo(() => (
@@ -13,7 +13,7 @@ const UserProfileNoteLocation = ({ user, ...props }) => {
   }
 
   return (
-    <UserProfileNoteList
+    <ProfileNoteList
       value={[location]}
       iconName="pin"
       numberOfLines={2}

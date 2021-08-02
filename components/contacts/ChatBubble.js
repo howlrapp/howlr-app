@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import { Card, Text, useTheme } from '@ui-kitten/components';
 import { View, StyleSheet, Image } from 'react-native';
-import { trim, isEmpty } from 'lodash';
+import { isEmpty } from 'lodash';
 import {
   useResponsiveScreenWidth,
 } from "react-native-responsive-dimensions";
@@ -9,15 +9,13 @@ import { format, differenceInHours } from 'date-fns';
 import { useActionSheet } from '@expo/react-native-action-sheet'
 import FastImage from 'react-native-fast-image';
 
-import ParsedText from 'react-native-parsed-text';
-import * as WebBrowser from 'expo-web-browser';
-
 import { GET_CHATS } from '../../hooks/useGetChats';
 import { GET_CHAT } from '../../hooks/useGetChat';
 
 import useViewer from '../../hooks/useViewer';
 import useRemoveMessage from '../../hooks/useRemoveMessage';
 import showTransactionMessage from '../../utils/showTransactionMessage';
+import EnrichedText from '../EnrichedText';
 
 const ChatBubble = React.memo(({
   message,
@@ -29,14 +27,6 @@ const ChatBubble = React.memo(({
   const isMe = message.senderId === viewer.id;
 
   const pictureSize = useResponsiveScreenWidth(67);
-
-  const handleUrlPress = useCallback((url) => {
-    WebBrowser.openBrowserAsync(url);
-  }, []);
-
-  const handleNamePress = useCallback((name) => {
-    WebBrowser.openBrowserAsync(`https://t.me/${name.replace('@', '')}`);
-  }, []);
 
   const date = useMemo(() => {
     const parsedCreatedAt = new Date(message.createdAt);
@@ -99,15 +89,7 @@ const ChatBubble = React.memo(({
                 category="p1"
                 style={isMe ? { color: theme['color-basic-100'] } : {}}
               >
-                <ParsedText
-                  parse={[
-                    { type: 'url', style: styles.url, onPress: handleUrlPress },
-                    { pattern: /@[a-z0-9_]{5,32}/i, style: styles.username, onPress: handleNamePress },
-
-                  ]}
-                >
-                  {trim(message.body)}
-                </ParsedText>
+                <EnrichedText body={message.body} />
               </Text>
               <Text
                 style={[ styles.date, isMe ? { color: theme['color-basic-100'] } : {} ]}
@@ -172,12 +154,6 @@ const styles = StyleSheet.create({
   },
   placeholderStyle: {
     position: 'absolute'
-  },
-  url: {
-    textDecorationLine: 'underline',
-  },
-  username: {
-    fontWeight: 'bold'
   },
   date: {
     textAlign: 'right',

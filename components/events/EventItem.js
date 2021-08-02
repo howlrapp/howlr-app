@@ -1,128 +1,160 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
   Text,
-  Divider,
   Button,
-  useTheme
+  Card,
 } from '@ui-kitten/components';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
-import { differenceInDays } from 'date-fns'
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { truncate } from 'lodash';
 
-import useViewer from '../../hooks/useViewer';
+import useRandomColor from '../../hooks/useRandomColor';
 
-import UserListAvatar from '../UserListAvatar';
+import EventItemDate from './EventItemDate';
 import EventUsersModal from './EventUsersModal';
-import EventItemHeader from './EventItemHeader';
-import EventPresenceCheckbox from './EventPresenceCheckbox';
+import useApp from '../../hooks/useApp';
+import { useNavigation } from '@react-navigation/native';
+import useViewer from '../../hooks/useViewer';
+import EnrichedText from '../EnrichedText';
+
+export const attendeesCountAsWords = (count, joined) => {
+  if (joined) {
+    if (count > 1) {
+      return (`You and ${count - 1} other going`);
+    }
+    if (count === 1) {
+      return ("You are going");
+    }
+  
+    // shouldn't happen
+    return("No attendees");
+  }
+
+  if (count > 1) {
+    return (`${count} going`);
+  }
+  if (count === 1) {
+    return ("One going");
+  }
+
+  return("No attendees");
+}
 
 const EventItem = ({ event }) => {
-  const theme = useTheme();
+  const { eventCategories } = useApp();
 
-  const viewer = useViewer();
+  const eventCategory = useMemo(() => (
+    eventCategories.find(({ id }) => id === event.eventCategoryId)
+  ), [event, eventCategories]);
 
-  const [ usersModalOpen, setUsersModalOpen ] = useState(false);
+  const backgroundColor = useRandomColor(event.eventCategoryId);
 
-  const handleOpenUsersModal = useCallback(() => {
-    setUsersModalOpen(true)
-  }, [setUsersModalOpen])
+  const navigation = useNavigation();
 
-  const handleCloseUsersModal = useCallback(() => {
-    setUsersModalOpen(false)
-  }, [setUsersModalOpen])
+  const handlePress = useCallback(() => {
+    navigation.navigate('Event', { id: event.id })
+  }, [event.id]);
 
+  const [ eventUsersModalOpen, setEventUsersModalOpen ] = useState(false);
+
+  const handleOpenEventUsersModal = useCallback(() => {
+    setEventUsersModalOpen(true);
+  }, [setEventUsersModalOpen]);
+
+  const handleCloseEventUsersModal = useCallback(() => {
+    setEventUsersModalOpen(false);
+  }, [setEventUsersModalOpen]);
+
+  const { eventsAsParticipant } = useViewer();
   const joined = useMemo(() => (
-    event.users.some(({ id }) => id === viewer.id)
-  ), [event, viewer.id])
+    eventsAsParticipant.some(({ id }) => id === event.id)
+  ), [eventsAsParticipant, event]);
 
-  const participantsSentence = useMemo(() => {
-    if (event.users.length > 1) {
-      return (`${event.users.length} people going`);
-    }
-    if (event.users.length === 1) {
-      return ("One person going");
-    }
-
-    return("No participant");
-  }, [event.users]);
-
-  const pastEvent = useMemo(() => (
-    differenceInDays(new Date(event.date), new Date()) < 0
-  ), [event.date])
+  const noAttendees = event.usersCount === 0;
 
   return (
-    <View
-      style={[ styles.root, { borderColor: theme['border-basic-color-3'], backgroundColor: theme['background-basic-color-1'] } ]}
-    >
-      <EventItemHeader event={event} />
-
-      <Button
-        appearance="outline"
-        size="tiny"
-        style={styles.seeMoreButton}
-        status="basic"
-        onPress={handleOpenUsersModal}
-      >
-        See more
-      </Button>
-
-      <Divider />
-
-      <View
-        style={styles.footer}
+    <>
+      <Card
+        disabled
+        header={({ style }) => (
+          <TouchableOpacity
+            style={[ ...style, styles.header ]}
+            onPress={handlePress}
+          >
+            <View style={{ flex: 1 }}>
+              <Text category="h6" style={{ flex: 1 }} numberOfLines={1}>
+                {event.title}
+              </Text>
+              <Text category="c2" style={{ flex: 1, color: backgroundColor }}>
+                {eventCategory?.label?.toUpperCase()}
+              </Text>
+            </View>
+            <EventItemDate event={event} />
+          </TouchableOpacity>
+        )}
+        footer={({ style }) => (
+          <View
+            style={[ style, styles.footer ]}
+          >
+            <TouchableOpacity
+              onPress={handleOpenEventUsersModal}
+              style={styles.participantsList}
+              disabled={noAttendees}
+            >
+              <Text
+                category="c2"
+                style={noAttendees ? {} : { textDecorationLine: 'underline'}}
+                appearance={noAttendees ? 'hint' : 'default'}
+              >
+                {attendeesCountAsWords(event.usersCount, joined).toUpperCase()}
+              </Text>
+            </TouchableOpacity>
+            <Button
+              size="small"
+              onPress={handlePress}
+              appearance="outline"
+            >
+              See more
+            </Button>
+          </View>
+        )}
       >
         <TouchableOpacity
-          onPress={handleOpenUsersModal}
+          onPress={handlePress}
         >
-        <View
-            style={styles.participantsList}
+          <Text
+            category="p2"
           >
-            <UserListAvatar
-              users={event.users}
-              style={styles.userListAvatar}
-              last={joined ? viewer : null}
-            />
-            <Text category="p2" appearance="hint">
-              {participantsSentence}
-            </Text>
-          </View>
+            {event.address}
+          </Text>
+          <Text
+            appearance="hint"
+            category="p2"
+            style={styles.description}
+            numberOfLines={2}
+          >
+            {event.description}
+          </Text>
         </TouchableOpacity>
-        {
-          pastEvent && (
-            <Text category="c1" appearance="hint">Past event</Text>
-          )
-        }
-        {
-          !pastEvent && (event.user.id === viewer.id) && (
-            <Text category="c1" appearance="hint">Your event</Text>
-          )
-        }
-        {
-          !pastEvent && (event.user.id !== viewer.id) && (
-            <EventPresenceCheckbox event={event} />
-          )
-        }
-      </View>
+      </Card>
       <EventUsersModal
-        open={usersModalOpen}
         event={event}
-        onClose={handleCloseUsersModal}
+        open={eventUsersModalOpen}
+        onClose={handleCloseEventUsersModal}
       />
-    </View>
-  );
+    </>
+  )
 }
 
 const styles = StyleSheet.create({
-  root: {
-    marginHorizontal: 10,
-    borderWidth: 1,
-    borderRadius: 5,
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   footer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 10,
-    height: 44,
   },
   participantsList: {
     flexDirection: 'row',
@@ -131,9 +163,8 @@ const styles = StyleSheet.create({
   userListAvatar: {
     paddingRight: 10,
   },
-  seeMoreButton: {
-    marginHorizontal: 10,
-    marginBottom: 10,
+  description: {
+    marginTop: 6,
   }
 })
 

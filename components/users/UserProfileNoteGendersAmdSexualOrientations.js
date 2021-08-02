@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 
 import useApp from '../../hooks/useApp';
 
-import UserProfileNoteList from './UserProfileNoteList';
+import ProfileNoteList from '../ProfileNoteList';
 
 const UserProfileNoteGendersAndSexualOrientations = ({ user, ...props }) => {
   const { genders, sexualOrientations } = useApp();
@@ -24,7 +24,7 @@ const UserProfileNoteGendersAndSexualOrientations = ({ user, ...props }) => {
   ), [selectedSexualOrientations]);
 
   return (
-    <UserProfileNoteList
+    <ProfileNoteList
       value={value}
       iconName="person"
       {...props}

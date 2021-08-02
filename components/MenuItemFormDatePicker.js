@@ -71,7 +71,7 @@ const MenuItemFormDatePicker = ({
               numberOfLines={1}
               ellipsizeMode='head'
             >
-              {truncate(hint, 30)}
+              {truncate(hint, { length: 30 })}
             </Text>
           )}
         />

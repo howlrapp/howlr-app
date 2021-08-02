@@ -9,7 +9,6 @@ const FormTopNavigation = ({
   saveLabel = "Save",
   onCancel,
   onSave,
-  title,
   disabled,
   invalid,
   loading,
@@ -67,7 +66,6 @@ const FormTopNavigation = ({
   return (
     <TopNavigation
       style={styles.root}
-      title={title}
       accessoryLeft={accessoryLeft}
       accessoryRight={accessoryRight}
       alignment="center"

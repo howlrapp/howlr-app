@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { Text, Icon, useTheme } from '@ui-kitten/components';
 import { View, StyleSheet } from 'react-native';
 
-const UserProfileNoteList = ({
+const ProfileNoteList = ({
   value,
   iconName,
   style,
@@ -58,13 +58,14 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     marginTop: 4,
     maxWidth: '80%',
   },
   icon: {
     marginRight: 3,
+    marginTop: 2
   }
 });
 
-export default React.memo(UserProfileNoteList);
+export default React.memo(ProfileNoteList);

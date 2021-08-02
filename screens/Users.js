@@ -3,11 +3,13 @@ import {
   Text,
   Divider,
   useTheme,
+  Button,
+  Icon,
 } from '@ui-kitten/components';
 import { showMessage, hideMessage } from "react-native-flash-message";
 import { useNavigation } from '@react-navigation/native';
 
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { SectionGrid } from 'react-native-super-grid';
 import { uniqBy, orderBy, truncate } from 'lodash';
 
@@ -28,6 +30,7 @@ import { computeDistance } from '../hooks/useDistance';
 
 import { DEFAULT_USERS_SEARCH_CRITERIA } from '../graphql/apolloClient';
 import ResponsiveList from '../components/ResponsiveList';
+import useGetEvent from '../hooks/useGetEvent';
 
 const UsersLists = React.memo(({ usersSearchCriteria }) => {
   const viewer = useViewer();
@@ -88,9 +91,27 @@ const UsersLists = React.memo(({ usersSearchCriteria }) => {
     );
   }, [userSummaries]);
 
+  const { data: eventData } = useGetEvent({
+    variables: {
+      id: usersSearchCriteria.eventIds?.[0]
+    },
+    skip: usersSearchCriteria.eventIds?.length != 1
+  });
+  const event = eventData?.viewer?.event;
+
   const usersByDistance = useMemo(() => {
-    if (!sortedUserSummaries) {
+    if (!sortedUserSummaries || sortedUserSummaries.length === 0) {
       return ([]);
+    }
+
+    if ((usersSearchCriteria.eventIds || []).length > 0) {
+      return ([
+        {
+          event,
+          key: "event",
+          data: sortedUserSummaries
+        }
+      ])
     }
 
     const usersByDistance =
@@ -114,7 +135,7 @@ const UsersLists = React.memo(({ usersSearchCriteria }) => {
     }
 
     return (usersByDistance);
-  }, [sortedUserSummaries]);
+  }, [sortedUserSummaries, usersSearchCriteria, event]);
 
   if (usersLoading) {
     return (null);
@@ -156,15 +177,58 @@ const UsersDistanceSections = React.memo(({
     })
   }, []);
 
-  const renderSectionHeader = useCallback(({ section: { distance } }) => {
+  const [ setUsersSearchCriteria ] = useSetUsersSearchCriteria();
+  const handlePressClearEvent = useCallback(() => {
+    setUsersSearchCriteria({
+      variables: {
+        usersSearchCriteria: DEFAULT_USERS_SEARCH_CRITERIA
+      }
+    })
+  }, [setUsersSearchCriteria]);
+
+  const renderSectionHeader = useCallback(({ section: { distance, event } }) => {
+    if (event) {
+      return (
+        <DistanceSeparator
+          height={lineHeight}
+        >
+          <View
+            style={styles.localityButton}
+          >
+            <Text
+              category="p1"
+              style={styles.distanceText}
+            >
+              {'Going to '}
+              <Text
+                category="s1"
+                style={styles.distanceText}
+              >
+                {truncate(event.title, { length: 20 })}
+              </Text>
+            </Text>
+            <Button
+              status="basic"
+              appearance="outline"
+              style={[ styles.changeButton ]}
+              size="tiny"
+              onPress={handlePressClearEvent}
+              accessoryLeft={({ style }) => (
+                <Icon name="close-outline" style={style} />
+              )}
+            />  
+          </View>
+        </DistanceSeparator>
+      )
+    }
+
     if (distance === 0) {
       return (
         <DistanceSeparator
           height={lineHeight}
         >
-          <TouchableOpacity
+          <View
             style={styles.localityButton}
-            onPress={handlePressChangeLocation}
           >
             <Text
               category="p1"
@@ -175,19 +239,24 @@ const UsersDistanceSections = React.memo(({
                 category="s1"
                 style={styles.distanceText}
               >
-                {truncate([ localities[0], localities[1] ].join(', '), 40)}
+                {truncate([ localities[0], localities[1] ].join(', '), { length: 20 })}
               </Text>
             </Text>
             {
               canChangeLocation && (
-                <Text
-                  style={[ styles.changeLocationText, { color: theme['color-info-500'] } ]}
-                >
-                  Change your location
-                </Text>
+                <Button
+                  status="basic"
+                  appearance="outline"
+                  style={[ styles.changeButton ]}
+                  size="tiny"
+                  onPress={handlePressChangeLocation}
+                  accessoryLeft={({ style }) => (
+                    <Icon name="edit-outline" style={style} />
+                  )}
+                />  
               )
             }
-          </TouchableOpacity>
+          </View>
         </DistanceSeparator>
       )
     }
@@ -311,8 +380,15 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   localityButton: {
-    flexDirection: 'column',
-    alignItems: 'center',
+    flexDirection: 'row',
+    alignItems: 'center' 
+  },
+  changeButton: {
+    height: 12,
+    width: 12,
+    borderRadius: 24,
+    borderWidth: 1,
+    marginLeft: 10
   }
 })
 

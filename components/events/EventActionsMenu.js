@@ -12,6 +12,7 @@ import showTransactionMessage from '../../utils/showTransactionMessage';
 import ThemedOverflowMenu from '../ThemedOverflowMenu';
 import EventReportForm from './EventReportForm';
 import EventForm from './EventForm';
+import { useNavigation } from '@react-navigation/native';
 
 const MenuIcon = (props) => (
   <Icon {...props} name='more-vertical' />
@@ -54,6 +55,7 @@ const EventActionsMenu = ({
     setEditFormOpen(false);
   })
 
+  const navigation = useNavigation();
   const [ removeEvent ] = useRemoveEvent();
   const handleRemoveEvent = useCallback(() => {
     setMenuOpen(false);
@@ -68,8 +70,8 @@ const EventActionsMenu = ({
           onPress: async () => {
             await showTransactionMessage(
               { message: "Deleting event" },
-              () => (
-                removeEvent({
+              async () => (
+                await removeEvent({
                   variables: {
                     input: { eventId: event.id }
                   },
@@ -81,6 +83,7 @@ const EventActionsMenu = ({
                 })
               )
             );
+            navigation.navigate("AllEvents");
           }
         },
         {

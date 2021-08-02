@@ -46,7 +46,7 @@ const GroupItem = ({ group }) => {
   const handleOpenGroupMenu = useCallback(() => {
     showActionSheetWithOptions(
       {
-        options: ['See members', 'Cancel'],
+        options: ['Open in Search', 'Cancel'],
         cancelButtonIndex: 1,
         title: group.name,
       },

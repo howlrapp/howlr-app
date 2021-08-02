@@ -1,9 +1,9 @@
 import React from 'react';
 
-import UserProfileItem from './UserProfileItem';
+import ProfileItem from '../ProfileItem';
 
 const UserProfileItemBio = ({ user, ...props }) => (
-  <UserProfileItem
+  <ProfileItem
     value={user.bio}
     label="About me"
     {...props}

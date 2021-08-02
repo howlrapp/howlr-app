@@ -61,7 +61,7 @@ const UsersFiltersGroups = ({
     if (onClose) {
       onClose();
     }
-  }, [modalizeRef, onClose]);
+  }, [modalizeRef.current, onClose]);
 
   const handleSave = useCallback(() => {
     if (onSave) {
@@ -72,7 +72,7 @@ const UsersFiltersGroups = ({
 
   const HeaderComponent = useCallback(() => (
     <FormTopNavigation
-      title="Groups"
+      title="Filter groups"
       saveLabel="Done"
       disabled={loading}
       onCancel={handleClose}
