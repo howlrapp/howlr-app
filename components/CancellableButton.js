@@ -48,4 +48,4 @@ const CancellableButton = React.forwardRef(({
   );
 });
 
-export default CancellableButton;
+export default React.memo(CancellableButton);

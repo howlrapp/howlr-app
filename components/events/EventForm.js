@@ -261,4 +261,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default EventForm;
+export default React.memo(EventForm);

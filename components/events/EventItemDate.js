@@ -29,4 +29,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default EventItemDate;
+export default React.memo(EventItemDate);

@@ -69,4 +69,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default DistanceSeparator;
+export default React.memo(DistanceSeparator);

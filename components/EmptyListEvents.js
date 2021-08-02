@@ -8,11 +8,11 @@ const EmptyListEvents = (props) => {
 
   const handleOpenEventForm = useCallback(() => (
     setEventFormOpen(true)
-  ), []);
+  ), [setEventFormOpen]);
 
   const handleCloseEventForm = useCallback(() => (
     setEventFormOpen(false)
-  ), []);
+  ), [setEventFormOpen]);
 
   return (
     <>
