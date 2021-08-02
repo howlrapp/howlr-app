@@ -234,52 +234,50 @@ const AppMain = () => {
                     <ErrorBoundary>
                       <Host>
                         <ActionSheetProvider>
-                          <>
-                            <MainNavigator.Navigator
-                              screenOptions={{ headerShown: false }}
-                            >
-                              <MainNavigator.Screen
-                                name="Home"
-                                component={HomeRouter}
-                              />
-                              <MainNavigator.Screen
-                                name="Settings"
-                                component={Settings}
-                              />
-                              <MainNavigator.Screen
-                                name="User"
-                                component={User}
-                              />
-                              <MainNavigator.Screen
-                                name="Event"
-                                component={Event}
-                              />
-                              <MainNavigator.Screen
-                                name="Chat"
-                                component={Chat}
-                              />
-                              <MainNavigator.Screen
-                                name="ProfileRouter"
-                                component={ProfileRouter}
-                              />
-                              <MainNavigator.Screen
-                                name="PrivacyPolicy"
-                                component={PrivacyPolicy}
-                              />
-                              <MainNavigator.Screen
-                                name="TermsAndConditions"
-                                component={TermsAndConditions}
-                              />
-                              <MainNavigator.Screen
-                                name="Changelog"
-                                component={Changelog}
-                              />
-                              <MainNavigator.Screen
-                                name="Faq"
-                                component={Faq}
-                              />
-                            </MainNavigator.Navigator>
-                          </>
+                          <MainNavigator.Navigator
+                            screenOptions={{ headerShown: false }}
+                          >
+                            <MainNavigator.Screen
+                              name="Home"
+                              component={HomeRouter}
+                            />
+                            <MainNavigator.Screen
+                              name="Settings"
+                              component={Settings}
+                            />
+                            <MainNavigator.Screen
+                              name="User"
+                              component={User}
+                            />
+                            <MainNavigator.Screen
+                              name="Event"
+                              component={Event}
+                            />
+                            <MainNavigator.Screen
+                              name="Chat"
+                              component={Chat}
+                            />
+                            <MainNavigator.Screen
+                              name="ProfileRouter"
+                              component={ProfileRouter}
+                            />
+                            <MainNavigator.Screen
+                              name="PrivacyPolicy"
+                              component={PrivacyPolicy}
+                            />
+                            <MainNavigator.Screen
+                              name="TermsAndConditions"
+                              component={TermsAndConditions}
+                            />
+                            <MainNavigator.Screen
+                              name="Changelog"
+                              component={Changelog}
+                            />
+                            <MainNavigator.Screen
+                              name="Faq"
+                              component={Faq}
+                            />
+                          </MainNavigator.Navigator>
                         </ActionSheetProvider>
                       </Host>
                     </ErrorBoundary>

@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback } from 'react';
+import React, { useMemo, useState, useCallback, useEffect } from 'react';
 import { View, StyleSheet, Animated, Platform } from 'react-native';
 import { Button, Divider, useTheme } from '@ui-kitten/components';
 
@@ -13,7 +13,7 @@ import EventProfileNoteAddress from '../components/events/EventProfileNoteAddres
 import EventProfileNotePrivacyStatus from '../components/events/EventProfileNotePrivacyStatus';
 import EventProfileNoteDate from '../components/events/EventProfileNoteDate';
 import EventProfileItemDescription from '../components/events/EventProfileItemDescription';
-
+import EventProfileItemAttendees from '../components/events/EventProfileItemAttendees';
 import EventUsersModal from '../components/events/EventUsersModal';
 import JoinEventButton from '../components/events/JoinEventButton';
 
@@ -130,19 +130,13 @@ const Event = ({ route: { params: { id } }}) => {
               <Divider />
 
               <View
-                style={styles.goingCountContainer}
-              >
-                <CountItem
-                  count={event.usersCount}
-                  label="GOING"
-                  onPress={handleOpenEventUsersModal}
-                />
-              </View>
-
-              <View
                 style={[ styles.eventItems, { backgroundColor: theme['background-basic-color-2'] }]}
               >
                 <EventProfileItemDescription
+                  event={event}
+                  style={styles.profileItem}
+                />
+                <EventProfileItemAttendees
                   event={event}
                   style={styles.profileItem}
                 />
@@ -154,10 +148,10 @@ const Event = ({ route: { params: { id } }}) => {
         }
       </Animated.ScrollView>
       {
-        event && (
+        eventUsersModalOpen && (
           <EventUsersModal
             event={event}
-            open={eventUsersModalOpen}
+            open={true}
             onClose={handleCloseEventUsersModal}
           />
         )
@@ -210,12 +204,6 @@ const styles = StyleSheet.create({
   profileItem: {
     marginBottom: 20,
   },
-  goingCountContainer: {
-    paddingVertical: 24,
-    width: 300,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  }
 })
 
 export default React.memo(Event);

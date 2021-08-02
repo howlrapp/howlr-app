@@ -5,6 +5,7 @@ import {
   Card,
 } from '@ui-kitten/components';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { truncate } from 'lodash';
 
 import useRandomColor from '../../hooks/useRandomColor';
 
@@ -13,6 +14,7 @@ import EventUsersModal from './EventUsersModal';
 import useApp from '../../hooks/useApp';
 import { useNavigation } from '@react-navigation/native';
 import useViewer from '../../hooks/useViewer';
+import EnrichedText from '../EnrichedText';
 
 export const attendeesCountAsWords = (count, joined) => {
   if (joined) {
@@ -93,7 +95,7 @@ const EventItem = ({ event }) => {
               onPress={handleOpenEventUsersModal}
               style={styles.participantsList}
             >
-              <Text category="p2" appearance="hint">
+              <Text category="c2" style={{ textDecorationLine: 'underline'}}>
                 {attendeesCountAsWords(event.usersCount, joined).toUpperCase()}
               </Text>
             </TouchableOpacity>
@@ -107,13 +109,20 @@ const EventItem = ({ event }) => {
           </View>
         )}
       >
-        {
-          <Text
-            category="p2"
-          >
-            {event.address}
-          </Text>
-        }
+        <Text
+          category="p2"
+        >
+          {event.address}
+        </Text>
+
+        <Text
+          appearance="hint"
+          category="p2"
+          style={{ marginTop: 6 }}
+          numberOfLines={2}
+        >
+          {event.description}
+        </Text>
       </Card>
       <EventUsersModal
         event={event}

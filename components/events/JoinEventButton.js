@@ -68,7 +68,7 @@ const JoinEventButton = ({ event, style }) => {
         status="danger"
         appearance="outline"
       >
-        Leave event
+        LEAVE EVENT
       </Button>
     );
   }
@@ -79,7 +79,7 @@ const JoinEventButton = ({ event, style }) => {
       onPress={handleJoin}
       disabled={joinEventLoading}
     >
-      Join event
+      JOIN EVENT
     </Button>
   );
 }

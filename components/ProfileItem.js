@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, Divider, useTheme } from '@ui-kitten/components';
 import { View, StyleSheet } from 'react-native';
-import { isEmpty, trim } from 'lodash';
+import { isEmpty } from 'lodash';
 import EnrichedText from './EnrichedText';
 
 const ProfileItem = ({
@@ -12,7 +12,7 @@ const ProfileItem = ({
 }) => {
   const theme = useTheme();
 
-  if (isEmpty(value)) {
+  if (isEmpty(value) && !children) {
     return (null);
   }
 
@@ -36,11 +36,15 @@ const ProfileItem = ({
             </Text>
           )
         }
-        <Text
-          category="p1"
-        >
-          <EnrichedText body={value} />
-        </Text>
+        {
+          value && (
+            <Text
+              category="p1"
+            >
+              <EnrichedText body={value} />
+            </Text>
+          )
+        }
       </View>
       <Divider />
     </View>

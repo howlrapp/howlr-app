@@ -165,6 +165,7 @@ const MenuItemViewerFormLocation = ({
             onCancel={handleCancel}
             onSave={handleSave}
             adjustToContentHeight
+            loading={loading}
             {...props}
           >
               <View
