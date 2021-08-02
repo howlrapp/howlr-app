@@ -7,7 +7,7 @@
     "eslint": "./node_modules/.bin/eslint .",
     "test": "./node_modules/.bin/jest",
     "web": "expo start --web",
-    "build": "yarn standard-version -r major && eas build -p all"
+    "build": "yarn standard-version -r major && eas build -p all --non-interactive"
   },
   "jest": {
     "preset": "jest-expo",
