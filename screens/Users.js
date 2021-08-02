@@ -264,7 +264,7 @@ const UsersDistanceSections = React.memo(({
     return (
       <DistanceSeparator
         height={lineHeight}
-        withStroke
+        withLine
       >
         <Text
           numberOfLines={1}
