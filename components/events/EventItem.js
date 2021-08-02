@@ -129,7 +129,7 @@ const EventItem = ({ event }) => {
           <Text
             appearance="hint"
             category="p2"
-            style={{ marginTop: 6 }}
+            style={styles.description}
             numberOfLines={2}
           >
             {event.description}
@@ -162,6 +162,9 @@ const styles = StyleSheet.create({
   },
   userListAvatar: {
     paddingRight: 10,
+  },
+  description: {
+    marginTop: 6,
   }
 })
 

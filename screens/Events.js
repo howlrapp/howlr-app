@@ -76,6 +76,7 @@ const Events = ({ events, callToAction }) => {
         ListEmptyComponent={ListEmptyComponent}
         refreshing={loading}
         onRefresh={handleRefresh}
+        style={styles.list}
       />
       <EventForm
         title="Add event"
@@ -97,6 +98,9 @@ const styles = StyleSheet.create({
   },
   callToActionText: {
     paddingBottom: 15
+  },
+  list: {
+    paddingHorizontal: 10,
   }
 })
 
