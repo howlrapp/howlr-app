@@ -211,7 +211,7 @@ const UsersDistanceSections = React.memo(({
               status="basic"
               appearance="outline"
               style={[ styles.changeButton ]}
-              size="tiny"
+              size="small"
               onPress={handlePressClearEvent}
               accessoryLeft={({ style }) => (
                 <Icon name="close-outline" style={style} />
@@ -248,7 +248,7 @@ const UsersDistanceSections = React.memo(({
                   status="basic"
                   appearance="outline"
                   style={[ styles.changeButton ]}
-                  size="tiny"
+                  size="small"
                   onPress={handlePressChangeLocation}
                   accessoryLeft={({ style }) => (
                     <Icon name="edit-outline" style={style} />
@@ -384,9 +384,9 @@ const styles = StyleSheet.create({
     alignItems: 'center' 
   },
   changeButton: {
-    height: 12,
-    width: 12,
-    borderRadius: 24,
+    height: 24,
+    width: 24,
+    borderRadius: 48,
     borderWidth: 1,
     marginLeft: 10
   }
