@@ -1,6 +1,6 @@
-import React, { useEffect, useCallback, useMemo } from 'react';
+import React, { useEffect, useCallback, useMemo, useState, useRef } from 'react';
 import { View, KeyboardAvoidingView, StyleSheet, Platform } from 'react-native';
-import { Divider, useTheme } from '@ui-kitten/components';
+import { Divider, Input, Text, useTheme } from '@ui-kitten/components';
 import {
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
@@ -18,10 +18,62 @@ import ChatBubble from '../components/contacts/ChatBubble';
 import ChatTopNavigation from '../components/contacts/ChatTopNavigation';
 import ChatInput from '../components/contacts/ChatInput';
 import ChatSummary from '../components/contacts/ChatSummary';
+import FormModal from '../components/FormModal';
+
+const ChatMessageList = ({ chat }) => {
+  const ListEmptyComponent = useCallback(() => (
+    <EmptyList
+      title={<ChatSummary chat={chat} />}
+    />
+  ), [chat]);
+
+  const renderItem = useCallback(({ item }) => (
+    <ChatBubble message={item} chatId={chat?.id} />
+  ), [chat?.id]);
+
+  const keyExtractor = useCallback(({ id }) => id, []);
+  return (
+    <ResponsiveList
+      ListFooterComponent={<MenuSeparator />}
+      ListEmptyComponent={ListEmptyComponent}
+      data={chat.messages}
+      inverted={chat.messages.length > 0}
+      keyExtractor={keyExtractor}
+      renderItem={renderItem}
+    />
+  )
+}
+
+const ChatContainer = ({ chat }) => {
+  const theme = useTheme();
+
+  const [ hideMessages, setHideMessages ] = useState(false);
+
+
+  return (
+    <KeyboardAvoidingView
+      style={styles.keyboardAvoidingView}
+      behavior='height'
+    >
+      {
+        (!hideMessages || Platform.OS === 'ios') && (
+          <View
+            style={[ styles.messagesContainer, { backgroundColor: theme['background-basic-color-2'] }]}
+          >
+            <ChatMessageList chat={chat} />
+          </View>
+        )
+      }
+      <ChatInput
+        style={styles.inputContainer}
+        chat={chat}
+      />
+    </KeyboardAvoidingView>
+  );
+}
 
 const Chat = ({ route: { params: { id } }}) => {
   const { bottom } = useSafeAreaInsets();
-  const theme = useTheme();
 
   usePreventMessageNotifications(id);
 
@@ -58,18 +110,6 @@ const Chat = ({ route: { params: { id } }}) => {
     }
   }, [messageChannelData]);
 
-  const ListEmptyComponent = useCallback(() => (
-    <EmptyList
-      title={<ChatSummary chat={chat} />}
-    />
-  ), [chat]);
-
-  const renderItem = useCallback(({ item }) => (
-    <ChatBubble message={item} chatId={chat?.id} />
-  ), [chat?.id]);
-
-  const keyExtractor = useCallback(({ id }) => id, []);
-
   return (
     <View
       style={[ styles.root, { paddingBottom: bottom } ]}
@@ -80,29 +120,7 @@ const Chat = ({ route: { params: { id } }}) => {
         !chat && <ChatLoader />
       }
       {
-        chat && (
-          <KeyboardAvoidingView
-            style={styles.keyboardAvoidingView}
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          >
-            <View
-              style={[ styles.messagesContainer, { backgroundColor: theme['background-basic-color-2'] }]}
-            >
-              <ResponsiveList
-                ListFooterComponent={<MenuSeparator />}
-                ListEmptyComponent={ListEmptyComponent}
-                data={chat.messages}
-                inverted={chat.messages.length > 0}
-                keyExtractor={keyExtractor}
-                renderItem={renderItem}
-              />
-            </View>
-            <ChatInput
-              style={styles.inputContainer}
-              chat={chat}
-            />
-          </KeyboardAvoidingView>
-        )
+        chat && <ChatContainer chat={chat} />
       }
     </View>
   )
@@ -118,12 +136,15 @@ const styles = StyleSheet.create({
   messagesContainer: {
     flexGrow: 1,
     flexShrink: 1,
+    paddingBottom: 60
   },
   inputContainer: {
     flexGrow: 0,
     flexShrink: 0,
     padding: 10,
-    paddingBottom: 5,
+    position: 'absolute',
+    bottom: 0,
+    width: '100%'
   },
 })
 
