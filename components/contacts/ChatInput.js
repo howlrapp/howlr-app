@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react';
-import { Input, Icon, Button, useTheme, Divider } from '@ui-kitten/components';
+import { Input, Icon, Button, Divider } from '@ui-kitten/components';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
-import { trim } from 'lodash';
+import { trim, isEmpty } from 'lodash';
 import Constants from 'expo-constants';
 
 import { GET_CHAT } from '../../hooks/useGetChat';
@@ -14,8 +14,7 @@ import showTransactionMessage from '../../utils/showTransactionMessage';
 
 const ChatInput = ({
   chat,
-  style,
-  ...props
+  style
 }) => {
   const { id: viewerId } = useViewer();
 
@@ -79,6 +78,20 @@ const ChatInput = ({
     );
   }, [handleAddImage, addMessageLoading, body]);
 
+  const renderAccessoryRight = useCallback(({ style }) => {
+    const disabled = isEmpty(trim(body));
+
+    return (
+      <TouchableOpacity
+        onPress={handleSendMessage}
+        style={styles.accessory}
+        disabled={addMessageLoading || disabled}
+      >
+        <Icon name={disabled ? "arrow-circle-up-outline" : "arrow-circle-up"} style={style} />
+      </TouchableOpacity>
+    );
+  }, [addMessageLoading, handleSendMessage, body]);
+
   if (chat.contact.system) {
     return (
       <View
@@ -94,61 +107,50 @@ const ChatInput = ({
     );
   }
 
-  const theme = useTheme();
-
   return (
-    <View
-      style={[
-        style,
+    <>
+      <Divider />
+      <View
+        style={style}
+      >
         {
-          backgroundColor: theme['background-basic-color-1'],
-          borderTopWidth: 1,
-          borderTopColor: theme['background-basic-color-3']
-        }
-      ]}
-    >
-      {
-        chat.acceptedAt && (
-          <>
+          chat.acceptedAt && (
             <Input
               ref={inputRef}
               disabled={addMessageLoading}
               onChangeText={handleChangeText}
               placeholder="Write your message..."
               accessoryLeft={renderAccessoryLeft}
-              enablesReturnKeyAutomatically={true}
-              returnKeyType="send"
-              onSubmitEditing={handleSendMessage}
-              keyboardVerticalOffset={40}
-              {...props}
+              accessoryRight={renderAccessoryRight}
+              multiline
             />
-          </>
-        )
-      }
-      {
-        (!chat.acceptedAt && chat.senderId === viewerId) && (
-          <Button
-            disabled
-            status="basic"
-            style={styles.button}
-          >
-            Waiting confirmation
-          </Button>
-        )
-      }
-      {
-        (!chat.acceptedAt && chat.senderId !== viewerId) && (
-          <Button
-            status="success"
-            disabled={acceptChatLoading}
-            onPress={handleAcceptChat}
-            style={styles.button}
-          >
-            Accept
-          </Button>
-        )
-      }
-    </View>
+          )
+        }
+        {
+          (!chat.acceptedAt && chat.senderId === viewerId) && (
+            <Button
+              disabled
+              status="basic"
+              style={styles.button}
+            >
+              Waiting confirmation
+            </Button>
+          )
+        }
+        {
+          (!chat.acceptedAt && chat.senderId !== viewerId) && (
+            <Button
+              status="success"
+              disabled={acceptChatLoading}
+              onPress={handleAcceptChat}
+              style={styles.button}
+            >
+              Accept
+            </Button>
+          )
+        }
+      </View>
+    </>
   )
 }
 
@@ -158,8 +160,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginBottom: 5,
-    alignSelf: 'center'
-  },
+  }
 })
 
 export default React.memo(ChatInput);
