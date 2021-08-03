@@ -9,7 +9,7 @@ import {
 import { showMessage, hideMessage } from "react-native-flash-message";
 import { useNavigation } from '@react-navigation/native';
 
-import { StyleSheet, View } from 'react-native';
+import { RefreshControl, StyleSheet, View } from 'react-native';
 import { SectionGrid } from 'react-native-super-grid';
 import { uniqBy, orderBy, truncate } from 'lodash';
 
@@ -154,6 +154,8 @@ const UsersLists = React.memo(({ usersSearchCriteria }) => {
 const UsersDistanceSections = React.memo(({
   usersByDistance,
   full,
+  refreshing,
+  onRefresh,
   ...props
 }) => {
   const theme = useTheme();
@@ -348,6 +350,7 @@ const UsersDistanceSections = React.memo(({
       stickySectionHeadersEnabled={false}
       renderSectionHeader={renderSectionHeader}
       renderItem={renderItem}
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={theme['text-basic-color']} />}
       {...props}
     />
   );
