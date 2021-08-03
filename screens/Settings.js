@@ -7,6 +7,7 @@ import ScreenTopNavigation from '../components/ScreenTopNavigation';
 import DistanceUnitForm from '../components/settings/DistanceUnitForm';
 import NotificationForm from '../components/settings/NotificationForm';
 import ColorSchemeForm from '../components/settings/ColorSchemeForm';
+import ChatModeForm from '../components/settings/ChatModeForm';
 
 import MaximumDistanceForm from '../components/settings/MaximumDistanceForm';
 import HideCityForm from '../components/settings/HideCityForm';
@@ -48,6 +49,8 @@ const Settings = () => {
             <NotificationForm />
             <Divider />
             <ColorSchemeForm />
+            <Divider />
+            <ChatModeForm />
           </MenuSection>
 
           <MenuSeparator />

@@ -7,6 +7,9 @@ import useRemoveChat from '../../hooks/useRemoveChat';
 import useClearChat from '../../hooks/useClearChat';
 import { GET_CHATS } from '../../hooks/useGetChats';
 
+import useGetChatMode from '../../hooks/useGetChatMode';
+import useSetChatMode from '../../hooks/useSetChatMode';
+
 import showTransactionMessage from '../../utils/showTransactionMessage';
 
 import ThemedOverflowMenu from '../ThemedOverflowMenu';
@@ -19,6 +22,20 @@ const ChatActionsMenu = ({
   chat,
 }) => {
   const navigation = useNavigation();
+
+  const { data: chatModeData } = useGetChatMode();
+  const chatMode = chatModeData?.chatMode || "inline";
+
+  const [ setChatMode, { loading } ] = useSetChatMode();
+  const handleSwitchToModalMode = useCallback(() => {
+    setChatMode({ variables: { chatMode: 'modal' }});
+    setMenuOpen(false);
+  }, [setChatMode, setMenuOpen]);
+
+  const handleSwitchToInlineMode = useCallback(() => {
+    setChatMode({ variables: { chatMode: 'inline' }});
+    setMenuOpen(false);
+  }, [setChatMode, setMenuOpen]);
 
   const [ menuOpen, setMenuOpen ] = useState(false);
 
@@ -112,6 +129,22 @@ const ChatActionsMenu = ({
         visible={menuOpen}
         onBackdropPress={handleCloseMenu}
       >
+        {
+          chatMode === 'inline' && (
+            <MenuItem
+              title='Switch to Modal'
+              onPress={handleSwitchToModalMode}
+          />
+          )
+        }
+        {
+          chatMode === 'modal' && (
+            <MenuItem
+              title='Switch to Inline'
+              onPress={handleSwitchToInlineMode}
+          />
+          )
+        }
         <MenuItem
           title='Clear chat'
           onPress={handleClearChat}

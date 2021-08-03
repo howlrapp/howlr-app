@@ -9,8 +9,10 @@ import useViewer from '../../hooks/useViewer';
 import useAddMessage from '../../hooks/useAddMessage';
 import useAcceptChat from '../../hooks/useAcceptChat';
 import usePickImage from '../../hooks/usePickImage';
+import useGetChatMode from '../../hooks/useGetChatMode';
 
 import showTransactionMessage from '../../utils/showTransactionMessage';
+import FormModal from '../FormModal';
 
 const ChatInput = ({
   chat,
@@ -19,6 +21,17 @@ const ChatInput = ({
   const { id: viewerId } = useViewer();
 
   const inputRef = useRef(null);
+  const modalInputRef = useRef(null);
+
+  const [ inputModalOpen, setInputModalOpen ] = useState(false);
+
+  const handleOpenInputModal = useCallback(() => {
+    setInputModalOpen(true);
+  }, [setInputModalOpen]);
+
+  const handleCloseInputModal = useCallback(() => {
+    setInputModalOpen(false);
+  }, [setInputModalOpen]);
 
   const [ addMessage, { loading: addMessageLoading } ] = useAddMessage({
     awaitRefetchQueries: true,
@@ -35,6 +48,7 @@ const ChatInput = ({
     await addMessage({ variables: { input: { chatId: chat.id, body: trim(body) }}});
     inputRef.current?.clear();
     setBody("");
+    handleCloseInputModal();
   }, [body]);
 
   const [ acceptChat, { loading: acceptChatLoading } ] = useAcceptChat();
@@ -54,6 +68,8 @@ const ChatInput = ({
     });
 
     if (uri) {
+      handleCloseInputModal();
+
       showTransactionMessage({
         message: "Uploading picture"
       }, () => (
@@ -107,6 +123,9 @@ const ChatInput = ({
     );
   }
 
+  const { data } = useGetChatMode();
+  const chatMode = data?.chatMode || "inline";
+
   return (
     <>
       <Divider />
@@ -114,16 +133,63 @@ const ChatInput = ({
         style={style}
       >
         {
-          chat.acceptedAt && (
+          (chat.acceptedAt && chatMode === "inline") && (
             <Input
               ref={inputRef}
               disabled={addMessageLoading}
               onChangeText={handleChangeText}
-              placeholder="Write your message..."
               accessoryLeft={renderAccessoryLeft}
               accessoryRight={renderAccessoryRight}
               multiline
+              placeholder="Write your message..."
             />
+          )
+        }
+        {
+          (chat.acceptedAt && chatMode === "modal") && (
+            <View
+              style={{
+                flexDirection: 'row',
+              }}
+            >
+              <Button
+                onPress={handleAddImage}
+                style={{ flex: 1, marginRight: 5 }}
+                appearance="outline"
+                accessoryLeft={({ style }) => (
+                  <Icon name="image-outline" style={style} />
+                )}
+                disabled={addMessageLoading}
+              >
+                Send image
+              </Button>
+              <Button
+                onPress={handleOpenInputModal}
+                style={{ flex: 1, marginLeft: 5 }}
+                accessoryLeft={({ style }) => (
+                  <Icon name="message-circle-outline" style={style} />
+                )}
+                disabled={addMessageLoading}
+              >
+                Send text
+              </Button>
+              <FormModal
+                open={inputModalOpen}
+                onCancel={handleCloseInputModal}
+                onSave={handleSendMessage}
+                saveLabel="Send"
+                loading={addMessageLoading}
+              >
+                <Input
+                  disabled={addMessageLoading}
+                  onChangeText={handleChangeText}
+                  multiline
+                  placeholder="Write your message..."
+                  ref={modalInputRef}
+                  autoFocus={true}
+                />
+              </FormModal>
+            </View>
           )
         }
         {
@@ -156,7 +222,7 @@ const ChatInput = ({
 
 const styles = StyleSheet.create({
   accessory: {
-    alignSelf: 'flex-start'
+    alignSelf: 'flex-end'
   },
   button: {
     marginBottom: 5,

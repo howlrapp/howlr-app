@@ -18,9 +18,10 @@ import ChatBubble from '../components/contacts/ChatBubble';
 import ChatTopNavigation from '../components/contacts/ChatTopNavigation';
 import ChatInput from '../components/contacts/ChatInput';
 import ChatSummary from '../components/contacts/ChatSummary';
+import useGetChatMode from '../hooks/useGetChatMode';
 
 const Chat = ({ route: { params: { id } }}) => {
-  const { bottom } = useSafeAreaInsets();
+  const { bottom, top } = useSafeAreaInsets();
   const theme = useTheme();
 
   usePreventMessageNotifications(id);
@@ -70,6 +71,11 @@ const Chat = ({ route: { params: { id } }}) => {
 
   const keyExtractor = useCallback(({ id }) => id, []);
 
+  const { data: chatModeData } = useGetChatMode();
+  const chatMode = chatModeData?.chatMode || "inline";
+
+  const ContainerCompoent = chatMode === 'inline' ? KeyboardAvoidingView : View;
+
   return (
     <View
       style={[ styles.root, { paddingBottom: bottom } ]}
@@ -81,7 +87,7 @@ const Chat = ({ route: { params: { id } }}) => {
       }
       {
         chat && (
-          <KeyboardAvoidingView
+          <ContainerCompoent
             style={styles.keyboardAvoidingView}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           >
@@ -101,7 +107,7 @@ const Chat = ({ route: { params: { id } }}) => {
               style={styles.inputContainer}
               chat={chat}
             />
-          </KeyboardAvoidingView>
+          </ContainerCompoent>
         )
       }
     </View>
@@ -123,7 +129,6 @@ const styles = StyleSheet.create({
     flexGrow: 0,
     flexShrink: 0,
     padding: 10,
-    paddingBottom: 5,
   },
 })
 

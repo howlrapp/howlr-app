@@ -11,6 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { GET_USERS_SEARCH_CRITERIA } from '../hooks/useGetUsersSearchCriteria';
 import { GET_TOKEN } from '../hooks/useToken';
 import { GET_COLOR_SCHEME } from '../hooks/useGetColorScheme';
+import { GET_CHAT_MODE } from '../hooks/useGetChatMode';
 
 export const DEFAULT_USERS_SEARCH_CRITERIA = {
   __typename: 'UsersSearchCriteria',
@@ -158,6 +159,11 @@ let client = new ApolloClient({
 
         return colorScheme;
       },
+      chatMode: async () => {
+        const chatMode = await AsyncStorage.getItem('chatMode');
+
+        return chatMode;
+      },
       usersSearchCriteria: async () => {
         const usersSearchCriteriaString = await AsyncStorage.getItem('usersSearchCriteria');
         if (!usersSearchCriteriaString) {
@@ -189,6 +195,14 @@ let client = new ApolloClient({
         cache.writeQuery({
           query: GET_COLOR_SCHEME,
           data: { colorScheme }
+        })
+        return null;
+      },
+      setChatMode: async (_, { chatMode }, { cache }) => {
+        await AsyncStorage.setItem('chatMode', chatMode);
+        cache.writeQuery({
+          query: GET_CHAT_MODE,
+          data: { chatMode }
         })
         return null;
       },
