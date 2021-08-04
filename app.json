@@ -9,7 +9,7 @@
       "ios",
       "android"
     ],
-    "version": "36.0.0",
+    "version": "37.0.0",
     "orientation": "default",
     "primaryColor": "#222B45",
     "userInterfaceStyle": "automatic",
@@ -35,7 +35,7 @@
     },
     "ios": {
       "bundleIdentifier": "im.howlr",
-      "buildNumber": "36.0.0",
+      "buildNumber": "37.0.0",
       "supportsTablet": true,
       "icon": "./assets/icon_ios.png",
       "infoPlist": {
@@ -45,7 +45,7 @@
       }
     },
     "android": {
-      "versionCode": 420360000,
+      "versionCode": 420370000,
       "package": "im.howlr.app",
       "googleServicesFile": "./google-services.json",
       "icon": "./assets/icon.png",
@@ -97,15 +97,15 @@
       "postPublish": []
     },
     "extra": {
-      "_developmentApiUrl": "http://192.168.1.70:3001/graphql",
+      "developmentApiUrl": "http://192.168.1.70:3001/graphql",
       "__developmentApiUrl": "http://172.20.10.7:3001/graphql",
-      "developmentApiUrl": "https://graphql.howlr.im/graphql",
-      "_developmentCableUrl": "ws://192.168.1.70:3001/cable",
+      "_developmentApiUrl": "https://graphql.howlr.im/graphql",
+      "developmentCableUrl": "ws://192.168.1.70:3001/cable",
       "__developmentCableUrl": "ws://172.20.10.7:3001/cable",
-      "developmentCableUrl": "wss://graphql.howlr.im/cable",
+      "_developmentCableUrl": "wss://graphql.howlr.im/cable",
       "productionApiUrl": "https://graphql.howlr.im/graphql",
       "productionCableUrl": "wss://graphql.howlr.im/cable",
-      "appVersion": 36000,
+      "appVersion": 37000,
       "appId": "48fc026d-b2b3-4bd4-b685-163bb8a9696b",
       "gridItemSize": 90,
       "imageQuality": 0.95,

@@ -3,7 +3,7 @@
     "android": {
       "release": {
         "buildType": "app-bundle",
-        "releaseChannel": "36.0.0"
+        "releaseChannel": "37.0.0"
       },
       "staging": {
         "buildType": "apk",
@@ -17,7 +17,7 @@
     "ios": {
       "release": {
         "schemeBuildConfiguration": "Release",
-        "releaseChannel": "36.0.0"
+        "releaseChannel": "37.0.0"
       },
       "staging": {
         "schemeBuildConfiguration": "Release",
