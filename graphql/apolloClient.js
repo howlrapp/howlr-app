@@ -219,6 +219,7 @@ let client = new ApolloClient({
   link: ApolloLink.from([
     onError(({ graphQLErrors, networkError }) => {
       var skipMessage = false;
+      var errorMessage = false;
 
       if (graphQLErrors) {
         graphQLErrors.map(({ message, locations, path }) => {
@@ -227,15 +228,19 @@ let client = new ApolloClient({
           if (path == "sessionByCode") { // we already show an error on sessionByCode
             skipMessage = true;
           }
+
+          if (message.match(/Not authorized/)) {
+            errorMessage = "Not authorized";
+          } else {
+            errorMessage = "Unexpected error";
+          }
         });
       }
       if (networkError) {
         console.log(`[Network error]: ${networkError}`);
       }
       if (!skipMessage) {
-        showMessage({
-          message: "Unexpected error"
-        })
+        showMessage({ message: errorMessage });
       }
     }),
     retryLink,
