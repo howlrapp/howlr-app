@@ -217,7 +217,7 @@ const Groups = () => {
           )}
         />
       </ResponsiveLayout>
-      <Divider/>
+      <Divider style={styles.divider} />
       <ResponsiveList
         ref={listRef}
         initialNumToRender={20}
@@ -237,6 +237,9 @@ const styles = StyleSheet.create({
   button: {
     marginLeft: 4,
     maxWidth: '40%'
+  },
+  divider: {
+    marginTop: 5,
   },
   firstButton: {
     marginLeft: 0,

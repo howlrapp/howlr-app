@@ -370,13 +370,16 @@ const Users = () => {
       <ResponsiveLayout grow={false} background="background-basic-color-1">
         <UsersSearchBar usersSearchCriteria={usersSearchCriteria}  />
       </ResponsiveLayout>
-      <Divider />
+      <Divider style={styles.divider} />
       <UsersLists usersSearchCriteria={usersSearchCriteria} />
     </>
   );
 }
 
 const styles = StyleSheet.create({
+  divider: {
+    marginTop: 5,
+  },
   changeLocationText: {
     color: "blue",
     fontSize: 12,
