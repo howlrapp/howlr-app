@@ -1,7 +1,9 @@
 import React, { useCallback, useMemo } from 'react';
-import { ListItem, Button } from '@ui-kitten/components';
-import { StyleSheet, Alert } from 'react-native';
+import { ListItem, Button, Text, useTheme } from '@ui-kitten/components';
+import { StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { trim } from 'lodash';
+import { differenceInDays } from 'date-fns'
 
 import { useActionSheet } from '@expo/react-native-action-sheet'
 
@@ -100,10 +102,33 @@ const GroupItem = ({ group }) => {
     `${groupCategoryLabel} - ${usersCountString(group.usersCount)}`
   ), [groupCategoryLabel, group.usersCount]);
 
+  const theme = useTheme();
+
+  const renderTitle = useCallback(({ style }) => {
+    return (
+      <View
+        style={styles.title}
+      >
+        <Text style={style}>
+          {trim(group.name)}
+        </Text>
+        {
+          differenceInDays(new Date(), new Date(group.createdAt)) < 100 && (
+            <View style={[ styles.newBadge, { backgroundColor: theme['color-danger-focus'] } ]}>
+              <Text category="label" appearance='alternative'>
+                NEW
+              </Text>
+            </View>
+          )
+        }
+      </View>
+    )
+  }, [theme]);
+
   return (
     <ListItem
       onPress={handleOpenGroupMenu}
-      title={group.name}
+      title={renderTitle}
       description={groupDescription}
       accessoryRight={renderAction}
     />
@@ -113,6 +138,13 @@ const GroupItem = ({ group }) => {
 const styles = StyleSheet.create({
   button: {
     width: 70,
+  },
+  newBadge: {
+    paddingHorizontal: 4,
+  },
+  title: {
+    flexDirection: 'row',
+    alignItems: 'center',
   }
 })
 
