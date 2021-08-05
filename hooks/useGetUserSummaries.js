@@ -32,7 +32,6 @@ export const GET_USER_SUMMARIES = gql`
         avatarUrl
         online
         distance
-        contributor
       }
     }
   }

@@ -42,6 +42,7 @@ const EventUsersModal = ({
   return (
     <FormModal
       open={open}
+      cancelLabel="Close"
       saveLabel="Open in Search"
       onSave={handleGoToSearch}
       onCancel={onClose}

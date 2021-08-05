@@ -15,6 +15,7 @@ export const EVENT_FRAGMENT = gql`
       id
       name
       avatarUrl
+      system
     }
   }
 `;

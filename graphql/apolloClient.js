@@ -219,7 +219,7 @@ let client = new ApolloClient({
   link: ApolloLink.from([
     onError(({ graphQLErrors, networkError }) => {
       var skipMessage = false;
-      var errorMessage = false;
+      var errorMessage = "Unexpected error";
 
       if (graphQLErrors) {
         graphQLErrors.map(({ message, locations, path }) => {

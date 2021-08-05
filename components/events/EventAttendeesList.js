@@ -45,7 +45,7 @@ const EventAttendeesList = ({
   ), [viewer.eventsAsParticipant, event]);
 
   const sortedUsers = useMemo(() => (
-    compact([event.user, joined ? viewer : null ])
+    compact([event.user.system ? null : event.user, joined ? viewer : null ])
     .concat(
       users.filter(({ id }) => (
         id !== event.user.id && id !== viewer.id
