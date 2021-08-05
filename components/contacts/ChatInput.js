@@ -1,6 +1,6 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { Input, Icon, Button, Divider } from '@ui-kitten/components';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { trim, isEmpty } from 'lodash';
 import Constants from 'expo-constants';
 
@@ -53,12 +53,28 @@ const ChatInput = ({
 
   const [ acceptChat, { loading: acceptChatLoading } ] = useAcceptChat();
   const handleAcceptChat = useCallback(() => {
-    acceptChat({
-      variables: {
-        input: { chatId: chat.id }
-      }
-    })
-  }, []);
+    Alert.alert(
+      'Beware of scammers',
+      'Never accept money or share any kind of personal information with someone you don\'t trust.',
+      [
+        {
+          text: 'Understood',
+          onPress: () => {
+            acceptChat({
+              variables: {
+                input: { chatId: chat.id }
+              }
+            })
+          }
+        },
+        {
+          text: 'Cancel',
+          style: 'cancel'
+        },
+      ],
+      { cancelable: true }
+    );
+  }, [acceptChat]);
 
   const pickImage = usePickImage();
   const handleAddImage = async () => {
@@ -199,7 +215,7 @@ const ChatInput = ({
               status="basic"
               style={styles.button}
             >
-              Waiting confirmation
+              WAITING CONFIRMATION
             </Button>
           )
         }
@@ -211,7 +227,7 @@ const ChatInput = ({
               onPress={handleAcceptChat}
               style={styles.button}
             >
-              Accept
+              ACCEPT CHAT
             </Button>
           )
         }
