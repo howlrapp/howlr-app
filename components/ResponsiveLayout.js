@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { useTheme } from '@ui-kitten/components';
 import * as Device from 'expo-device';
 import Constants from 'expo-constants';
 import {
@@ -8,6 +7,7 @@ import {
 } from "react-native-responsive-dimensions";
 
 import useDeviceType from '../hooks/useDeviceType';
+import { useTheme } from '@ui-kitten/components';
 
 const ResponsiveLayout = ({
   children,
@@ -20,20 +20,24 @@ const ResponsiveLayout = ({
 
   const screenWidth = useResponsiveScreenWidth(100);
 
+  const rootStyle = useMemo(() => [
+    styles.root,
+    {
+      flexGrow: grow ? 1 : 0,
+      backgroundColor: theme[background],
+    }
+  ], [theme])
+
+  const childrenStyle = useMemo(() => ({
+    width: deviceType === Device.DeviceType.PHONE ? screenWidth : Math.min(Constants.manifest.extra.tabletBodyWidth, screenWidth),
+  }), [deviceType, screenWidth])
+
   return (
     <View
-      style={[
-        styles.root,
-        {
-          flexGrow: grow ? 1 : 0,
-          backgroundColor: theme[background],
-        }
-      ]}
+      style={rootStyle}
     >
       <View
-        style={{
-          width: deviceType === Device.DeviceType.PHONE ? screenWidth : Math.min(Constants.manifest.extra.tabletBodyWidth, screenWidth),
-        }}
+        style={childrenStyle}
       >
         {children}
       </View>
@@ -51,4 +55,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default ResponsiveLayout;
+export default React.memo(ResponsiveLayout);

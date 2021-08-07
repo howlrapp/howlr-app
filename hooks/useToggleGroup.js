@@ -29,6 +29,15 @@ const useToggleGroup = ({ group }) => {
             groupId: group.id
           }
         },
+        optimisticResponse: {
+          joinGroup: {
+            "__typename": "JoinGroupPayload",
+            group: {
+              ...group,
+              usersCount: group.usersCount + 1
+            }
+          }
+        },
         update: (cache, { data: { joinGroup } }) => {
           cache.modify({
             id: cache.identify(viewer),
@@ -43,7 +52,7 @@ const useToggleGroup = ({ group }) => {
         }
       })
     );
-  }, [groupLimitReached, group.id])
+  }, [groupLimitReached, joinGroup, group.id, group.usersCount])
 
   const [ leaveGroup, { loading: leaveLoading } ] = useLeaveGroup();
   const leave = useCallback(() => (
@@ -51,6 +60,15 @@ const useToggleGroup = ({ group }) => {
       variables: {
         input: {
           groupId: group.id
+        }
+      },
+      optimisticResponse: {
+        leaveGroup: {
+          "__typename": "LeaveGroupPayload",
+          group: {
+            ...group,
+            usersCount: group.usersCount - 1
+          }
         }
       },
       update: (cache, { data: { leaveGroup } }) => {
@@ -66,7 +84,7 @@ const useToggleGroup = ({ group }) => {
         })
       }
     })
-  ), [group.id]);
+  ), [leaveGroup, group.id, group.usersCount]);
 
   const joined = useMemo(() => (
     viewer.groupIds.includes(group.id)

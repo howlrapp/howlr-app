@@ -1,13 +1,15 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { ListItem, Text, Button } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
-import { View, StyleSheet, Alert } from 'react-native';
+import { Alert } from 'react-native';
+import { showMessage, hideMessage } from "react-native-flash-message";
 
 import useAddLike from '../../hooks/useAddLike';
 import useRemoveLike from '../../hooks/useRemoveLike';
 import useDistance from '../../hooks/useDistance';
 import { GET_LIKES } from '../../hooks/useGetLikes';
 import { GET_VIEWER } from '../../hooks/useGetViewer';
+import useResponsiveActionSheet from '../../hooks/useResponsiveActionSheet';
 
 import UserAvatar from '../UserAvatar';
 
@@ -15,8 +17,7 @@ const LikeItem = ({
   like,
   liked,
   comment,
-  addLikeLabel = "LIKE",
-  removeLikeLabel = "UNLIKE"
+  addLikeLabel = "LIKE BACK",
 }) => {
   const navigation = useNavigation();
 
@@ -41,7 +42,7 @@ const LikeItem = ({
                 { query: GET_LIKES },
                 { query: GET_VIEWER },
               ],
-            })
+            });
           }
         },
         {
@@ -53,9 +54,23 @@ const LikeItem = ({
     );
   }, [like.user]);
 
+  useEffect(() => {
+    if (removeLikeLoading) {
+      showMessage({
+        message: `Removing like`,
+        hideOnPress: false,
+        withLoader: true,
+      });
+    }
+    else {
+      hideMessage();
+
+    }
+  }, [removeLikeLoading]);
+
   const [ addLike, { loading: addLikeLoading }] = useAddLike();
-  const handleAddLike = useCallback(() => {
-    addLike({
+  const handleAddLike = useCallback(async () => {
+    await addLike({
       variables: {
         input: {
           likedId: like.user.id
@@ -66,51 +81,39 @@ const LikeItem = ({
         { query: GET_LIKES },
         { query: GET_VIEWER },
       ],
-    })
+    });
   }, [like.user]);
 
-  const renderAction = useCallback(() => {
-    let action;
-    if (liked) {
-      action = (
+  useEffect(() => {
+    if (addLikeLoading) {
+      showMessage({
+        message: `Sending like`,
+        hideOnPress: false,
+        withLoader: true,
+      });  
+    }
+    else {
+      hideMessage();
+    }
+  }, [addLikeLoading]);
+
+  const renderAccessoryRight = useCallback(({ style }) => {
+    if (!liked) {
+      return (
         <Button
           size="tiny"
-          appearance="outline"
-          status="basic"
-          onPress={handleRemoveLike}
-          disabled={removeLikeLoading}
-          style={styles.button}
-        >
-          {removeLikeLabel}
-        </Button>
-      );
-    } else {
-      action = (
-        <Button
-          size="tiny"
-          appearance="outline"
           onPress={handleAddLike}
           disabled={addLikeLoading}
-          style={styles.button}
         >
           {addLikeLabel}
         </Button>
-      );
+      )
     }
 
     return (
-      <View
-        style={styles.actionContainer}
-      >
-        <View
-          style={styles.actionContainerComment}
-        >
-          {comment && <Text appearance="hint" category="c2">{comment}</Text>}
-        </View>
-        {action}
-      </View>
+      comment && <Text category="label" appearance="hint">{comment}</Text>
     );
-  }, [liked, comment, addLikeLoading, removeLikeLoading, handleAddLike]);
+  }, [liked, comment, addLikeLoading, removeLikeLoading]);
 
   const renderAccessoryLeft = useCallback(({ style: { height } }) => (
     <UserAvatar user={like.user} size={height} />
@@ -120,35 +123,49 @@ const LikeItem = ({
     `More than ${distance} ${unit}`
   ));
 
-  const handleGoToUser = useCallback(() => (
-    navigation.navigate('User', { id: like.user.id })
-  ), [like.user.id]);
+  const showActionSheetWithOptions = useResponsiveActionSheet();
+
+  const handleOpenActions = useCallback(() => {
+    showActionSheetWithOptions(
+      {
+        options: [liked ? 'Remove like' : 'Like back', 'Open profile', 'Cancel'],
+        cancelButtonIndex: 2,
+        destructiveButtonIndex: liked ? 0 : undefined,
+        title: like.user.name,
+      },
+      async (buttonIndex) => {
+        if (buttonIndex === 0) {
+          if (liked) {
+            handleRemoveLike()
+          } else {
+            handleAddLike();
+          }
+        }
+        if (buttonIndex === 1) {
+          navigation.navigate('User', { id: like.user.id })
+        }
+      }
+    )
+
+  }, [
+    liked,
+    like.user,
+    showActionSheetWithOptions,
+    handleAddLike,
+    handleRemoveLike
+  ]);
 
   return (
     <ListItem
       key={like.id}
-      onPress={handleGoToUser}
+      onPress={handleOpenActions}
       title={like.user.name}
       description={distanceSentence}
       accessoryLeft={renderAccessoryLeft}
-      accessoryRight={renderAction}
+      accessoryRight={renderAccessoryRight}
       disabled={removeLikeLoading || addLikeLoading}
     />
   );
 }
-
-const styles = StyleSheet.create({
-  actionContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  actionContainerComment: {
-    paddingRight: 10
-  },
-  button: {
-    width: 70
-  }
-})
 
 export default React.memo(LikeItem);

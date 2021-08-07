@@ -65,23 +65,22 @@ const LikeButton = ({
     >
       <Button
         accessoryLeft={renderLikeIcon}
-        status={liked ? 'danger' : 'primary'}
+        status={liked ? 'danger' : 'info'}
         onPress={liked ? handleRemoveLike : handleAddLike}
         disabled={removeLikeLoading || addLikeLoading || user.id === viewerId}
-        appearance="outline"
         {...props}
       >
         {liked ? "UNLIKE" : "LIKE"}
       </Button>
       <Text
         style={styles.text}
-        category="c1"
+        category="label"
         numberOfLines={1}
         ellipsizeMode='middle'
         appearance="hint"
       >
         {
-          receivedLikesUserIds[user.id] ? `Liked you` : ""
+          receivedLikesUserIds[user.id] ? `LIKES YOU` : ""
         }
       </Text>
     </View>

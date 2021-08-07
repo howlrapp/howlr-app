@@ -30,6 +30,7 @@ const ReceivedLikes = (props) => {
     <Likes
       {...props}
       likes={limitedReceivedLikes}
+      direction="received"
       ListEmptyComponent={ListEmptyComponent}
       ListFooterComponent={ListFooterComponent}
     />

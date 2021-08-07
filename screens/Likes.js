@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Divider } from '@ui-kitten/components';
 import { useLazyQuery } from '@apollo/client';
 
@@ -12,7 +12,7 @@ import LikeLimitDisclaimer from '../components/likes/LikeLimitDisclaimer';
 
 const Likes = ({
   likes,
-  showLikeBack,
+  direction,
   ...props
 }) => {
   const sentLikesUserIds = useSentLikesUserIds();
@@ -24,13 +24,26 @@ const Likes = ({
 
   const keyExtractor = useCallback(({ id }) => id, []);
 
-  const renderItem = useCallback(({ item }) => (
-    <LikeItem
-      like={item}
-      liked={sentLikesUserIds[item.user.id]}
-      comment={showLikeBack && receivedLikesUserIds[item.user.id] && sentLikesUserIds[item.user.id] ? "Likes you" : null}
-    />
-  ), [showLikeBack, sentLikesUserIds, receivedLikesUserIds]);
+  const renderItem = useCallback(({ item }) => {
+    let comment = null;
+
+    console.log(direction, receivedLikesUserIds[item.user.id])
+
+    if (direction === 'received' && sentLikesUserIds[item.user.id]) {
+      comment = "LIKED";
+    }
+    else if (direction === 'sent' && receivedLikesUserIds[item.user.id]) {
+      comment = "LIKES YOU";
+    }
+
+    return (
+      <LikeItem
+        like={item}
+        liked={sentLikesUserIds[item.user.id]}
+        comment={comment}
+      />
+    );
+  }, [sentLikesUserIds, receivedLikesUserIds]);
 
   const ListFooterComponent = () => (
     <LikeLimitDisclaimer />

@@ -1,17 +1,16 @@
-import React, { useCallback, useMemo } from 'react';
-import { ListItem, Button, Text, useTheme } from '@ui-kitten/components';
+import React, { useCallback, useEffect, useMemo } from 'react';
+import { ListItem, Text, useTheme } from '@ui-kitten/components';
 import { StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { trim } from 'lodash';
 import { differenceInDays } from 'date-fns'
-
-import { useActionSheet } from '@expo/react-native-action-sheet'
 
 import useApp from '../../hooks/useApp';
 import useToggleGroup from '../../hooks/useToggleGroup';
 import useSetUsersSearchCriteria from '../../hooks/useSetUsersSearchCriteria';
 
 import { DEFAULT_USERS_SEARCH_CRITERIA } from '../../graphql/apolloClient';
+import useResponsiveActionSheet from '../../hooks/useResponsiveActionSheet';
 
 export const usersCountString = (usersCount) => {
   if (usersCount == 0) {
@@ -38,22 +37,28 @@ const GroupItem = ({ group }) => {
     join: handleJoin,
     leave: handleLeave,
     joined,
-    leaveLoading,
-    joinLoading
   } = useToggleGroup({ group });
 
-  const { showActionSheetWithOptions } = useActionSheet();
+  const showActionSheetWithOptions = useResponsiveActionSheet();
   const [ setUsersSearchCriteria ] = useSetUsersSearchCriteria();
   const navigation = useNavigation();
   const handleOpenGroupMenu = useCallback(() => {
     showActionSheetWithOptions(
       {
-        options: ['Open in Search', 'Cancel'],
-        cancelButtonIndex: 1,
+        options: [joined ? 'Leave group' : 'Join group', 'Open in Search', 'Cancel'],
+        cancelButtonIndex: 2,
+        destructiveButtonIndex: joined ? 0 : undefined,
         title: group.name,
       },
       async (buttonIndex) => {
         if (buttonIndex === 0) {
+          if (joined) {
+            handleLeave()
+          } else {
+            handleJoin();
+          }
+        }
+        if (buttonIndex === 1) {
           await setUsersSearchCriteria({
             variables: {
               usersSearchCriteria: {
@@ -66,37 +71,24 @@ const GroupItem = ({ group }) => {
         }
       }
     )
-  }, [group, showActionSheetWithOptions, setUsersSearchCriteria, navigation]);
+  }, [
+    group,
+    showActionSheetWithOptions,
+    setUsersSearchCriteria,
+    navigation,
+    joined,
+    handleLeave,
+    handleJoin
+  ]);
 
-  const renderAction = useCallback(() => {
+  const renderJoined = useCallback(() => {
     if (joined) {
       return (
-        <Button
-          size="tiny"
-          appearance="outline"
-          status="basic"
-          onPress={handleLeave}
-          disabled={leaveLoading}
-          style={styles.button}
-        >
-          LEAVE
-        </Button>
-      );
-    } else {
-      return (
-        <Button
-          size="tiny"
-          onPress={handleJoin}
-          disabled={joinLoading}
-          style={styles.button}
-          status="warning"
-          appearance="outline"
-        >
-          JOIN
-        </Button>
-      );
+        <Text category="label" appearance="hint">JOINED</Text>
+      )
     }
-  }, [handleLeave, handleJoin, joined, leaveLoading, joinLoading]);
+    return (null);
+  }, [joined]);
 
   const groupDescription = useMemo(() => (
     `${groupCategoryLabel} - ${usersCountString(group.usersCount)}`
@@ -130,7 +122,7 @@ const GroupItem = ({ group }) => {
       onPress={handleOpenGroupMenu}
       title={renderTitle}
       description={groupDescription}
-      accessoryRight={renderAction}
+      accessoryRight={renderJoined}
     />
   );
 }

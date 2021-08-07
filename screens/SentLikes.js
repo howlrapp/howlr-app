@@ -30,7 +30,7 @@ const SentLikes = (props) => {
     <Likes
       {...props}
       likes={limitedSentLikes}
-      showLikeBack
+      direction="sent"
       ListEmptyComponent={ListEmptyComponent}
       ListFooterComponent={ListFooterComponent}
     />
