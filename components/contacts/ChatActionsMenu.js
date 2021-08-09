@@ -10,7 +10,7 @@ import { GET_CHATS } from '../../hooks/useGetChats';
 import useGetChatMode from '../../hooks/useGetChatMode';
 import useSetChatMode from '../../hooks/useSetChatMode';
 
-import showTransactionMessage from '../../utils/showTransactionMessage';
+import showTransactionLoader from '../../utils/showTransactionLoader';
 
 import ThemedOverflowMenu from '../ThemedOverflowMenu';
 
@@ -59,9 +59,7 @@ const ChatActionsMenu = ({
           text: 'Confirm deletion',
           style: 'destructive',
           onPress: async () => {
-            await showTransactionMessage(
-              { message: "Deleting chat" },
-              () => (
+            await showTransactionLoader(() => (
                 removeChat({
                   variables: {
                     input: { chatId: chat.id }
@@ -95,9 +93,7 @@ const ChatActionsMenu = ({
           text: 'Confirm',
           style: 'destructive',
           onPress: () => {
-            showTransactionMessage(
-              { message: "Clearing chat" },
-              () => (
+            showTransactionLoader(() => (
                 clearChat({
                   variables: {
                     input: { chatId: chat.id }

@@ -5,6 +5,7 @@ import useViewer from './useViewer';
 import useApp from './useApp';
 import useJoinGroup from './useJoinGroup';
 import useLeaveGroup from './useLeaveGroup';
+import { GET_VIEWER } from './useGetViewer';
 
 const useToggleGroup = ({ group }) => {
   const { maximumJoinedGroupsCount } = useApp();
@@ -29,30 +30,13 @@ const useToggleGroup = ({ group }) => {
             groupId: group.id
           }
         },
-        optimisticResponse: {
-          joinGroup: {
-            "__typename": "JoinGroupPayload",
-            group: {
-              ...group,
-              usersCount: group.usersCount + 1
-            }
-          }
-        },
-        update: (cache, { data: { joinGroup } }) => {
-          cache.modify({
-            id: cache.identify(viewer),
-            fields: {
-              groupIds(groupIds) {
-                return (
-                  [ ...groupIds, joinGroup.group.id ]
-                )
-              }
-            }
-          })
-        }
+        refetchQueries: [{
+          query: GET_VIEWER
+        }],
+        awaitRefetchQueries: true
       })
     );
-  }, [groupLimitReached, joinGroup, group.id, group.usersCount])
+  }, [groupLimitReached, joinGroup, group.id])
 
   const [ leaveGroup, { loading: leaveLoading } ] = useLeaveGroup();
   const leave = useCallback(() => (
@@ -62,29 +46,12 @@ const useToggleGroup = ({ group }) => {
           groupId: group.id
         }
       },
-      optimisticResponse: {
-        leaveGroup: {
-          "__typename": "LeaveGroupPayload",
-          group: {
-            ...group,
-            usersCount: group.usersCount - 1
-          }
-        }
-      },
-      update: (cache, { data: { leaveGroup } }) => {
-        cache.modify({
-          id: cache.identify(viewer),
-          fields: {
-            groupIds(groupIds) {
-              return (
-                groupIds.filter((groupId) => groupId !== leaveGroup.group.id)
-              )
-            }
-          }
-        })
-      }
+      refetchQueries: [{
+        query: GET_VIEWER
+      }],
+      awaitRefetchQueries: true,
     })
-  ), [leaveGroup, group.id, group.usersCount]);
+  ), [leaveGroup, group.id]);
 
   const joined = useMemo(() => (
     viewer.groupIds.includes(group.id)

@@ -11,7 +11,7 @@ import useAcceptChat from '../../hooks/useAcceptChat';
 import usePickImage from '../../hooks/usePickImage';
 import useGetChatMode from '../../hooks/useGetChatMode';
 
-import showTransactionMessage from '../../utils/showTransactionMessage';
+import showTransactionLoader from '../../utils/showTransactionLoader';
 import FormModal from '../FormModal';
 
 const ChatInput = ({
@@ -86,7 +86,7 @@ const ChatInput = ({
     if (uri) {
       handleCloseInputModal();
 
-      showTransactionMessage({
+      showTransactionLoader({
         message: "Uploading picture"
       }, () => (
         addMessage({

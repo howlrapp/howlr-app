@@ -7,7 +7,7 @@ import useViewer from '../../hooks/useViewer';
 import { GET_EVENTS } from '../../hooks/useGetEvents';
 import { GET_VIEWER } from '../../hooks/useGetViewer';
 
-import showTransactionMessage from '../../utils/showTransactionMessage';
+import showTransactionLoader from '../../utils/showTransactionLoader';
 
 import ThemedOverflowMenu from '../ThemedOverflowMenu';
 import EventReportForm from './EventReportForm';
@@ -68,10 +68,8 @@ const EventActionsMenu = ({
           text: 'Confirm deletion',
           style: 'destructive',
           onPress: async () => {
-            await showTransactionMessage(
-              { message: "Deleting event" },
-              async () => (
-                await removeEvent({
+            await showTransactionLoader(() => (
+                removeEvent({
                   variables: {
                     input: { eventId: event.id }
                   },

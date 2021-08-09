@@ -22,7 +22,7 @@ import useGridDimensions from '../../hooks/useGridDimensions';
 import PictureViewer from '../PictureViewer';
 import ResponsiveLayout from '../ResponsiveLayout';
 
-import showTransactionMessage from '../../utils/showTransactionMessage';
+import showTransactionLoader from '../../utils/showTransactionLoader';
 
 const renderAddPictureIcon = (props) => (
   <Icon name="camera" {...props} />
@@ -51,9 +51,7 @@ const ProfilePictures = () => {
     });
 
     if (uri) {
-      showTransactionMessage({
-        message: "Uploading picture"
-      }, () => (
+      showTransactionLoader(() => (
         addPicture({
           variables: {
             input: {
@@ -83,9 +81,7 @@ const ProfilePictures = () => {
       },
       (buttonIndex) => {
         if (buttonIndex === 0) {
-          showTransactionMessage({
-            message: "Deleting picture"
-          }, () => (
+          showTransactionLoader(() => (
             removePicture({ variables: { input: { pictureId: picture.id } } })
           ));
         }

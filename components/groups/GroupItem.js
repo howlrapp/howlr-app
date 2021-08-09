@@ -11,6 +11,7 @@ import useSetUsersSearchCriteria from '../../hooks/useSetUsersSearchCriteria';
 
 import { DEFAULT_USERS_SEARCH_CRITERIA } from '../../graphql/apolloClient';
 import useResponsiveActionSheet from '../../hooks/useResponsiveActionSheet';
+import showTransactionLoader from '../../utils/showTransactionLoader';
 
 export const usersCountString = (usersCount) => {
   if (usersCount == 0) {
@@ -52,11 +53,7 @@ const GroupItem = ({ group }) => {
       },
       async (buttonIndex) => {
         if (buttonIndex === 0) {
-          if (joined) {
-            handleLeave()
-          } else {
-            handleJoin();
-          }
+          showTransactionLoader(joined ? handleLeave : handleJoin);
         }
         if (buttonIndex === 1) {
           await setUsersSearchCriteria({

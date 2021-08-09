@@ -11,6 +11,8 @@ import useViewer from '../../hooks/useViewer';
 import { GET_VIEWER } from '../../hooks/useGetViewer';
 import { GET_LIKES } from '../../hooks/useGetLikes';
 
+import showTransactionLoader from '../../utils/showTransactionLoader';
+
 const renderLikeIcon = (props) => (
   <Icon name="heart" {...props} />
 );
@@ -29,34 +31,38 @@ const LikeButton = ({
 
   const [ removeLike, { loading: removeLikeLoading }] = useRemoveLike();
   const handleRemoveLike = useCallback(() => {
-    removeLike({
-      variables: {
-        input: {
-          likedId: user.id
-        }
-      },
-      awaitRefetchQueries: true,
-      refetchQueries: [
-        { query: GET_LIKES },
-        { query: GET_VIEWER },
-      ]
-    })
+    showTransactionLoader(() => (
+      removeLike({
+        variables: {
+          input: {
+            likedId: user.id
+          }
+        },
+        awaitRefetchQueries: true,
+        refetchQueries: [
+          { query: GET_LIKES },
+          { query: GET_VIEWER },
+        ]
+      })
+    ));
   }, [removeLike, user.id]);
 
   const [ addLike, { loading: addLikeLoading }] = useAddLike();
   const handleAddLike = useCallback(() => {
-    addLike({
-      variables: {
-        input: {
-          likedId: user.id
-        }
-      },
-      awaitRefetchQueries: true,
-      refetchQueries: [
-        { query: GET_LIKES },
-        { query: GET_VIEWER },
-      ],
-    })
+    showTransactionLoader(() => (
+      addLike({
+        variables: {
+          input: {
+            likedId: user.id
+          }
+        },
+        awaitRefetchQueries: true,
+        refetchQueries: [
+          { query: GET_LIKES },
+          { query: GET_VIEWER },
+        ],
+      })
+    ))
   }, [addLike, user.id]);
 
   return (

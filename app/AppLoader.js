@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 
 import Constants from 'expo-constants';
 
-import { withStyles, useTheme } from '@ui-kitten/components';
+import { Text, withStyles, useTheme } from '@ui-kitten/components';
 
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
@@ -126,17 +126,29 @@ const AppLoader = ({ eva }) => {
                 borderColor: theme["background-basic-color-3"]
               }
             ]}
-            titleStyle={[ styles.flashMessageTitle, { color: theme['text-basic-color'] }]}
-            renderCustomContent={({ withLoader }) => {
-              if (!withLoader) {
-                return (null);
-              }
-
+            titleStyle={[ styles.flashMessageTitle ]}
+            renderCustomContent={({ withLoader, message, hideMessage }) => {
               return (
-                <View
-                  style={styles.activityIndicator}
-                >
-                  <ActivityIndicator />
+                <View>
+                  {
+                    !hideMessage && (
+                      <Text
+                        category="s1"
+                        style={withLoader ? { marginBottom: 20 } : {}}
+                      >
+                        {message}
+                      </Text>
+                    )
+                  }
+                  {
+                    withLoader && (
+                      <View
+                        style={styles.activityIndicator}
+                      >
+                        <ActivityIndicator />
+                      </View>
+                    )
+                  }
                 </View>
               );
             }}
@@ -156,7 +168,6 @@ const AppLoaderWithStyles = withStyles(AppLoader, (theme) => ({
 const styles = StyleSheet.create({
   activityIndicator: {
     flexDirection: 'row',
-    marginTop: 20,
     justifyContent: 'center'
   },
   flashMessage: {
@@ -165,9 +176,7 @@ const styles = StyleSheet.create({
     borderRadius: 5
   },
   flashMessageTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'center'
+    height: 0,
   }
 })
 

@@ -8,7 +8,7 @@ import usePickImage from '../../hooks/usePickImage';
 
 import UserAvatar from '../UserAvatar';
 
-import showTransactionMessage from '../../utils/showTransactionMessage';
+import showTransactionLoader from '../../utils/showTransactionLoader';
 
 const AvatarUploader = ({ user, size }) => {
   const theme = useTheme();
@@ -24,9 +24,7 @@ const AvatarUploader = ({ user, size }) => {
     });
 
     if (uri) {
-      showTransactionMessage({
-        message: "Uploading avatar"
-      }, () => (
+      showTransactionLoader(() => (
         updateViewer({
           variables: {
             input: {

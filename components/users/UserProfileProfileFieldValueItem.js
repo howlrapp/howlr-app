@@ -1,7 +1,8 @@
 import React, { useMemo, useCallback } from 'react';
 import { Card, Text, Icon, useTheme } from '@ui-kitten/components';
 import { isEmpty } from 'lodash';
-import { StyleSheet, View, Clipboard } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import Clipboard from '@react-native-community/clipboard';
 import { compact } from 'lodash';
 import * as WebBrowser from 'expo-web-browser';
 import { showMessage } from "react-native-flash-message";

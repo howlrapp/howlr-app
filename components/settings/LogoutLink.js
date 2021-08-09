@@ -5,7 +5,7 @@ import { Alert } from 'react-native';
 import useDeleteToken from '../../hooks/useDeleteToken';
 import useApp from '../../hooks/useApp';
 import useRemoveSession from '../../hooks/useRemoveSession';
-import showTransactionMessage from '../../utils/showTransactionMessage';
+import showTransactionLoader from '../../utils/showTransactionLoader';
 
 const LogoutLink = () => {
   const [ deleteToken ] = useDeleteToken();
@@ -21,9 +21,7 @@ const LogoutLink = () => {
         {
           text: 'Confirm',
           onPress: async () => {
-            await showTransactionMessage({
-              message: "Deleting session"
-            }, () => (
+            await showTransactionLoader(() => (
               removeSession({
                 variables: {
                   input: {}

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { MenuItem } from '@ui-kitten/components';
-import { Alert, Clipboard } from 'react-native';
+import { Alert } from 'react-native';
+import Clipboard from '@react-native-community/clipboard';
 import { useLazyQuery } from '@apollo/client';
 import { showMessage } from "react-native-flash-message";
 

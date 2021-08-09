@@ -7,7 +7,7 @@ import useAddReport from '../../hooks/useAddReport';
 
 import FormModal from '../FormModal';
 
-import showTransactionMessage from '../../utils/showTransactionMessage';
+import showTransactionLoader from '../../utils/showTransactionLoader';
 
 const UserReportForm = ({
   user,
@@ -18,12 +18,7 @@ const UserReportForm = ({
   const [ addReport, { loading: addReportLoading } ] = useAddReport();
 
   const handleSendReport = useCallback(async () => {
-    showTransactionMessage(
-      {
-        message: "Sending report",
-        confirmation: "Report sent, thank you!"
-      },
-      () => (
+    showTransactionLoader(() => (
         addReport({
           variables: {
             input: {
@@ -33,7 +28,7 @@ const UserReportForm = ({
             }
           }
         })
-      )
+      ), { confirmation: "Report sent, thank you!" }
     )
   }, [description]);
 

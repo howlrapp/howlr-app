@@ -2,7 +2,6 @@ import React, { useCallback, useEffect } from 'react';
 import { ListItem, Text, Button } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import { Alert } from 'react-native';
-import { showMessage, hideMessage } from "react-native-flash-message";
 
 import useAddLike from '../../hooks/useAddLike';
 import useRemoveLike from '../../hooks/useRemoveLike';
@@ -10,6 +9,7 @@ import useDistance from '../../hooks/useDistance';
 import { GET_LIKES } from '../../hooks/useGetLikes';
 import { GET_VIEWER } from '../../hooks/useGetViewer';
 import useResponsiveActionSheet from '../../hooks/useResponsiveActionSheet';
+import showTransactionLoader from '../../utils/showTransactionLoader';
 
 import UserAvatar from '../UserAvatar';
 
@@ -31,18 +31,20 @@ const LikeItem = ({
           text: 'Confirm',
           style: 'destructive',
           onPress: () => {
-            removeLike({
-              variables: {
-                input: {
-                  likedId: like.user.id
-                }
-              },
-              awaitRefetchQueries: true,
-              refetchQueries: [
-                { query: GET_LIKES },
-                { query: GET_VIEWER },
-              ],
-            });
+            showTransactionLoader(() => (
+              removeLike({
+                variables: {
+                  input: {
+                    likedId: like.user.id
+                  }
+                },
+                awaitRefetchQueries: true,
+                refetchQueries: [
+                  { query: GET_LIKES },
+                  { query: GET_VIEWER },
+                ],
+              })
+            ))
           }
         },
         {
@@ -54,48 +56,23 @@ const LikeItem = ({
     );
   }, [like.user]);
 
-  useEffect(() => {
-    if (removeLikeLoading) {
-      showMessage({
-        message: `Removing like`,
-        hideOnPress: false,
-        withLoader: true,
-      });
-    }
-    else {
-      hideMessage();
-
-    }
-  }, [removeLikeLoading]);
-
   const [ addLike, { loading: addLikeLoading }] = useAddLike();
-  const handleAddLike = useCallback(async () => {
-    await addLike({
-      variables: {
-        input: {
-          likedId: like.user.id
-        }
-      },
-      awaitRefetchQueries: true,
-      refetchQueries: [
-        { query: GET_LIKES },
-        { query: GET_VIEWER },
-      ],
-    });
-  }, [like.user]);
-
-  useEffect(() => {
-    if (addLikeLoading) {
-      showMessage({
-        message: `Sending like`,
-        hideOnPress: false,
-        withLoader: true,
-      });  
-    }
-    else {
-      hideMessage();
-    }
-  }, [addLikeLoading]);
+  const handleAddLike = useCallback(() => (
+    showTransactionLoader(() => (
+      addLike({
+        variables: {
+          input: {
+            likedId: like.user.id
+          }
+        },
+        awaitRefetchQueries: true,
+        refetchQueries: [
+          { query: GET_LIKES },
+          { query: GET_VIEWER },
+        ],
+      })
+    ))
+  ), [like.user]);
 
   const renderAccessoryRight = useCallback(({ style }) => {
     if (!liked) {

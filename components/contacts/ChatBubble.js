@@ -14,7 +14,7 @@ import { GET_CHAT } from '../../hooks/useGetChat';
 
 import useViewer from '../../hooks/useViewer';
 import useRemoveMessage from '../../hooks/useRemoveMessage';
-import showTransactionMessage from '../../utils/showTransactionMessage';
+import showTransactionLoader from '../../utils/showTransactionLoader';
 import EnrichedText from '../EnrichedText';
 
 const ChatBubble = React.memo(({
@@ -50,9 +50,7 @@ const ChatBubble = React.memo(({
       },
       (buttonIndex) => {
         if (buttonIndex === 0) {
-          showTransactionMessage(
-            { message: "Deleting message" },
-            () => (
+          showTransactionLoader(() => (
               removeMessage({
                 variables: {
                   input: { messageId: message.id }

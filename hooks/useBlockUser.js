@@ -7,7 +7,7 @@ import { GET_LIKES } from './useGetLikes';
 import { GET_CHATS } from './useGetChats';
 import useUpdateViewer from './useUpdateViewer';
 
-import showTransactionMessage from '../utils/showTransactionMessage';
+import showTransactionLoader from '../utils/showTransactionLoader';
 
 const useBlockUser = () => {
   const navigation = useNavigation();
@@ -16,9 +16,7 @@ const useBlockUser = () => {
   const [ updateViewer ] = useUpdateViewer();
 
   const blockUser = useCallback(async (id) => {
-    await showTransactionMessage({
-      message: "Blocking user"
-    }, () => (
+    await showTransactionLoader(() => (
       updateViewer({
         variables: {
           input: {

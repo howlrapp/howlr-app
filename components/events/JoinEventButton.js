@@ -10,6 +10,8 @@ import useLeaveEvent from '../../hooks/useLeaveEvent';
 
 import { GET_VIEWER } from '../../hooks/useGetViewer';
 
+import showTransactionLoader from '../../utils/showTransactionLoader';
+
 const JoinEventButton = ({ event, style }) => {
   const { eventsAsParticipant } = useViewer();
   const joined = useMemo(() => (
@@ -31,15 +33,17 @@ const JoinEventButton = ({ event, style }) => {
         {
           text: "I'm going",
           onPress: () => {
-            joinEvent({
-              variables: {
-                input: { eventId: event.id }
-              },
-              awaitRefetchQueries: true,
-              refetchQueries: [
-                { query: GET_VIEWER }
-              ],
-            });
+            showTransactionLoader(() => (
+              joinEvent({
+                variables: {
+                  input: { eventId: event.id }
+                },
+                awaitRefetchQueries: true,
+                refetchQueries: [
+                  { query: GET_VIEWER }
+                ],
+              })  
+            ))
           }
         },
       ],
@@ -48,15 +52,17 @@ const JoinEventButton = ({ event, style }) => {
   }, [event.id, joinEvent]);
 
   const handleLeave = useCallback(() => {
-    leaveEvent({
-      variables: {
-        input: { eventId: event.id }
-      },
-      awaitRefetchQueries: true,
-      refetchQueries: [
-        { query: GET_VIEWER }
-      ],
-    });
+    showTransactionLoader(() => (
+      leaveEvent({
+        variables: {
+          input: { eventId: event.id }
+        },
+        awaitRefetchQueries: true,
+        refetchQueries: [
+          { query: GET_VIEWER }
+        ],
+      })
+    ))
   }, [event.id, leaveEvent])
 
   if (joined) {

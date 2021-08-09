@@ -81,12 +81,14 @@ const UsersLists = React.memo(({ usersSearchCriteria }) => {
   useEffect(() => {
     if (usersLoading) {
       showMessage({
-        message: "Loading results",
+        message: "",
+        hideMessage: true,
         hideOnPress: false,
         autoHide: false,
         withLoader: true,
       })
-    } else {
+    }
+    else {
       hideMessage();
     }
   }, [usersLoading])

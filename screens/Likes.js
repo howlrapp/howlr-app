@@ -27,8 +27,6 @@ const Likes = ({
   const renderItem = useCallback(({ item }) => {
     let comment = null;
 
-    console.log(direction, receivedLikesUserIds[item.user.id])
-
     if (direction === 'received' && sentLikesUserIds[item.user.id]) {
       comment = "LIKED";
     }
