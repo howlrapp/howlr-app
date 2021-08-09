@@ -1,14 +1,12 @@
 import React, { useMemo } from 'react';
-import { useTheme } from '@ui-kitten/components';
+import { useTheme, Text } from '@ui-kitten/components';
 import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import FastImage from 'react-native-fast-image';
 
 import useSentLikesUserIds from '../hooks/useSentLikesUserIds';
 import useReceivedLikesUserIds from '../hooks/useReceivedLikesUserIds';
+import useViewer from '../hooks/useViewer';
 
-const contributorIconPicture = require('../assets/badges/contributor.png');
-const halfLikeIconPicture = require('../assets/badges/half-like.png');
-const likeIconPicture = require('../assets/badges/like.png');
 const placeHolderImage = require('../assets/default-avatar.png');
 
 const Indicator = React.memo(({
@@ -44,16 +42,23 @@ const Indicator = React.memo(({
           position: 'absolute',
           height: size + borderSize * 2,
           width: size + borderSize * 2,
-          borderRadius: size,
           backgroundColor: theme[indicatorsBackground],
           flexDirection: 'row',
           justifyContent: 'center',
-          alignItems: 'center'
+          alignItems: 'center',
+          borderRadius: size,
         },
         style
       ]}
     >
-      {children}
+      <View
+        style={{
+          overflow: 'hidden',
+          borderRadius: size,
+        }}
+      >
+        {children}
+      </View>
     </View>
   );
 })
@@ -66,7 +71,6 @@ const UserAvatar = ({
   indicators = [],
 
   onlineIndicatorAngle = 50,
-  contributorIconAngle = 230,
   likeIconAngle = 130,
 
   indicatorsBackground  = 'background-basic-color-1',
@@ -80,6 +84,8 @@ const UserAvatar = ({
   ...props
 }) => {
   const theme = useTheme();
+
+  const viewer = useViewer();
 
   const source = useMemo(() => {
     if (Number.isInteger(user[avatarProperty])) {
@@ -126,7 +132,7 @@ const UserAvatar = ({
         />
       </TouchableOpacity>
       {
-        (user.online && indicators.includes("online")) && (
+        (user.online && (user.id !== viewer.id || viewer.shareOnlineStatus) && indicators.includes("online")) && (
           <Indicator
             radius={size / 2}
             angle={onlineIndicatorAngle}
@@ -138,7 +144,6 @@ const UserAvatar = ({
                 {
                   width: indicatorsSize,
                   height: indicatorsSize,
-                  borderRadius: indicatorsSize / 2,
                   backgroundColor: theme['color-success-700'],
                 }
               ]}
@@ -147,55 +152,29 @@ const UserAvatar = ({
         )
       }
       {
-        (user.badge && indicators.includes("contributor")) && (
-          <Indicator
-            radius={size / 2}
-            angle={contributorIconAngle}
-            size={indicatorsSize}
-            indicatorsBackground={indicatorsBackground}
-          >
-            <Image
-              source={contributorIconPicture}
-              style={{
-                width: indicatorsSize,
-                height: indicatorsSize
-              }}
-            />
-          </Indicator>
-        )
-      }
-      {
-        (likedByThem && !likedByMe && indicators.includes("like")) && (
+        (likedByThem || likedByMe) && indicators.includes("like") && (
           <Indicator
             radius={size / 2}
             angle={likeIconAngle}
             size={indicatorsSize}
             indicatorsBackground={indicatorsBackground}
           >
-            <Image
-              source={halfLikeIconPicture}
-              style={{
-                width: indicatorsSize,
-                height: indicatorsSize
-              }}
-            />
-          </Indicator>
-        )
-      }
-      {
-        (likedByMe && indicators.includes("like")) && (
-          <Indicator
-            radius={size / 2}
-            angle={likeIconAngle}
-            size={indicatorsSize}
-            indicatorsBackground={indicatorsBackground}
-          >
-            <Image
-              source={likeIconPicture}
-              style={{
-                width: indicatorsSize,
-                height: indicatorsSize
-              }}
+            <View
+              style={[
+                {
+                  width: indicatorsSize,
+                  height: indicatorsSize,
+                  backgroundColor: theme['color-info-default'],
+                },
+                likedByMe && !likedByThem ? {
+                  width: indicatorsSize / 2,
+                  marginRight: indicatorsSize / 2,
+                } : {},
+                !likedByMe && likedByThem ? {
+                  width: indicatorsSize / 2,
+                  marginLeft: indicatorsSize / 2,
+                } : {}
+              ]}
             />
           </Indicator>
         )

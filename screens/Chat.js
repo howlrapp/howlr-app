@@ -21,12 +21,15 @@ import ChatSummary from '../components/contacts/ChatSummary';
 import useGetChatMode from '../hooks/useGetChatMode';
 
 const Chat = ({ route: { params: { id } }}) => {
-  const { bottom, top } = useSafeAreaInsets();
+  const { bottom } = useSafeAreaInsets();
   const theme = useTheme();
 
   usePreventMessageNotifications(id);
 
-  const { data, refetch: refetchChat } = useGetChat({ variables: { id }, fetchPolicy: "cache-and-network" });
+  const { data, refetch: refetchChat } = useGetChat({
+    variables: { id },
+    fetchPolicy: "cache-and-network"
+  });
   const chat = data?.viewer?.chat;
 
   const [ readChat ] = useReadChat();

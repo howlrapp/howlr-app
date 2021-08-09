@@ -7,7 +7,7 @@ import isDeepEqualBy from '../../utils/isDeepEqualBy';
 
 import UserAvatar from '../UserAvatar';
 
-const INDICATORS = ['contributor', 'like', 'online']
+const INDICATORS = ['like', 'online']
 
 const UserItem = ({
   user,
