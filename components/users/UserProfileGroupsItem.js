@@ -2,10 +2,15 @@ import React, { useMemo, useCallback } from 'react';
 import { Card, Text } from '@ui-kitten/components';
 import { StyleSheet, View } from 'react-native';
 import { useActionSheet } from '@expo/react-native-action-sheet'
-import { showMessage } from "react-native-flash-message";
+import { useNavigation } from '@react-navigation/native';
 
 import useApp from '../../hooks/useApp';
 import useToggleGroup from '../../hooks/useToggleGroup';
+import useSetUsersSearchCriteria from '../../hooks/useSetUsersSearchCriteria';
+
+import showTransactionLoader from '../../utils/showTransactionLoader';
+
+import { DEFAULT_USERS_SEARCH_CRITERIA } from '../../graphql/apolloClient';
 
 const UserProfileGroupsItem = ({
   group,
@@ -28,33 +33,48 @@ const UserProfileGroupsItem = ({
     joinLoading
   } = useToggleGroup({ group });
 
+  const [ setUsersSearchCriteria ] = useSetUsersSearchCriteria();
+  const navigation = useNavigation();
   const { showActionSheetWithOptions } = useActionSheet();
 
   const handleToggleGroup = useCallback(() => {
     showActionSheetWithOptions(
       {
-        options: [joined ? "Leave group" : "Join group", 'Cancel'],
+        options: [joined ? "Leave group" : "Join group", "Open in Search", 'Cancel'],
         destructiveButtonIndex: joined ? 0 : null,
-        cancelButtonIndex: 1,
+        cancelButtonIndex: 2,
         title: group.name,
       },
       async (buttonIndex) => {
         if (buttonIndex === 0) {
           if (joined) {
-            await leave();
-            showMessage({
-              message: "Removed from Common groups",
-            });
+            showTransactionLoader(leave, { confirmation: "Removed from Common groups" });
           } else {
-            await join();
-            showMessage({
-              message: "Added to Common groups",
-            });
+            showTransactionLoader(join, { confirmation: "Added to Common groups" });
           }
+        }
+        if (buttonIndex === 1) {
+          await setUsersSearchCriteria({
+            variables: {
+              usersSearchCriteria: {
+                ...DEFAULT_USERS_SEARCH_CRITERIA,
+                groupIds: [group.id]
+              }
+            }
+          });
+          navigation.navigate("Users");
         }
       }
     )
-  }, [ showActionSheetWithOptions, join, leave, joined, group.id, group.name ])
+  }, [
+    showActionSheetWithOptions,
+    join,
+    leave,
+    joined,
+    group,
+    setUsersSearchCriteria,
+    navigation
+])
 
   const loading = leaveLoading || joinLoading;
 
