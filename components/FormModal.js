@@ -100,7 +100,7 @@ const FormModal = ({
 const styles = StyleSheet.create({
   childrenView: {
     paddingHorizontal: 10,
-    paddingVertical: 0
+    paddingVertical: 0,
   },
   description: {
     paddingHorizontal: 10,

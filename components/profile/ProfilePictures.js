@@ -3,11 +3,12 @@ import { View, StyleSheet } from 'react-native';
 import { Button, Icon, Text, useTheme } from '@ui-kitten/components';
 import { FlatGrid } from 'react-native-super-grid';
 import { orderBy } from 'lodash';
-import { useActionSheet } from '@expo/react-native-action-sheet'
 import Constants from 'expo-constants';
 import {
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
+
+import useResponsiveActionSheet from '../../hooks/useResponsiveActionSheet';
 
 import ProfilePicture from './ProfilePicture';
 
@@ -65,7 +66,7 @@ const ProfilePictures = () => {
     }
   }, [addPicture]);
 
-  const { showActionSheetWithOptions } = useActionSheet();
+  const showActionSheetWithOptions = useResponsiveActionSheet();
 
   const [ removePicture ] = useRemovePicture({
     refetchQueries: [{ query: GET_VIEWER }],
@@ -77,6 +78,7 @@ const ProfilePictures = () => {
       {
         options: ['Delete picture', 'Cancel'],
         cancelButtonIndex: 1,
+        destructiveButtonIndex: 0,
         title: 'Select action',
       },
       (buttonIndex) => {

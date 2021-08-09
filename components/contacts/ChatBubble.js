@@ -6,7 +6,6 @@ import {
   useResponsiveScreenWidth,
 } from "react-native-responsive-dimensions";
 import { format, differenceInHours } from 'date-fns';
-import { useActionSheet } from '@expo/react-native-action-sheet'
 import FastImage from 'react-native-fast-image';
 
 import { GET_CHATS } from '../../hooks/useGetChats';
@@ -16,6 +15,8 @@ import useViewer from '../../hooks/useViewer';
 import useRemoveMessage from '../../hooks/useRemoveMessage';
 import showTransactionLoader from '../../utils/showTransactionLoader';
 import EnrichedText from '../EnrichedText';
+
+import useResponsiveActionSheet from '../../hooks/useResponsiveActionSheet';
 
 const ChatBubble = React.memo(({
   message,
@@ -38,7 +39,7 @@ const ChatBubble = React.memo(({
     }
   }, [message.createdAt]);
 
-  const { showActionSheetWithOptions } = useActionSheet();
+  const showActionSheetWithOptions = useResponsiveActionSheet();
   const [ removeMessage ] = useRemoveMessage();
   const handleShowOptions = useCallback(() => {
     showActionSheetWithOptions(

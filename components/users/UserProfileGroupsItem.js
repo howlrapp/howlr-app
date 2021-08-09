@@ -1,12 +1,12 @@
 import React, { useMemo, useCallback } from 'react';
 import { Card, Text } from '@ui-kitten/components';
 import { StyleSheet, View } from 'react-native';
-import { useActionSheet } from '@expo/react-native-action-sheet'
 import { useNavigation } from '@react-navigation/native';
 
 import useApp from '../../hooks/useApp';
 import useToggleGroup from '../../hooks/useToggleGroup';
 import useSetUsersSearchCriteria from '../../hooks/useSetUsersSearchCriteria';
+import useResponsiveActionSheet from '../../hooks/useResponsiveActionSheet';
 
 import showTransactionLoader from '../../utils/showTransactionLoader';
 
@@ -35,7 +35,7 @@ const UserProfileGroupsItem = ({
 
   const [ setUsersSearchCriteria ] = useSetUsersSearchCriteria();
   const navigation = useNavigation();
-  const { showActionSheetWithOptions } = useActionSheet();
+  const showActionSheetWithOptions = useResponsiveActionSheet();
 
   const handleToggleGroup = useCallback(() => {
     showActionSheetWithOptions(

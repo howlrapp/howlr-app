@@ -2,11 +2,12 @@ import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { isEmpty } from 'lodash';
 import { format, subYears } from 'date-fns'
-import { Platform } from 'react-native';
-import { MenuItem, Text } from '@ui-kitten/components';
+import { Platform, View } from 'react-native';
+import { MenuItem, Text, useTheme } from '@ui-kitten/components';
 import { truncate } from 'lodash';
 
 import MenuItemForm from './MenuItemForm';
+import useGetColorScheme from '../hooks/useGetColorScheme';
 
 const MenuItemFormDatePicker = ({
   initialValue,
@@ -57,6 +58,9 @@ const MenuItemFormDatePicker = ({
     setPickerOpen(true)
   ), [setPickerOpen]);
 
+  const { data: colorSchemeData } = useGetColorScheme();
+  const colorScheme = colorSchemeData?.colorScheme || "system";
+
   if (Platform.OS === 'android') {
     return (
       <>
@@ -99,13 +103,13 @@ const MenuItemFormDatePicker = ({
       onSave={handleSave}
       title={title}
       loading={loading}
-      adjustToContentHeight
       {...props}
     >
       <DateTimePicker
+        themeVariant={colorScheme !== "system" ? colorScheme : undefined}
         value={value}
         mode={'date'}
-        display="default"
+        display="spinner"
         minimumDate={minBirthDate}
         maximumDate={maxBirthDate}
         onChange={handleOnChange}

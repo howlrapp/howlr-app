@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
-import { useActionSheet } from '@expo/react-native-action-sheet'
 import * as ImagePicker from 'expo-image-picker';
 import * as ImageManipulator from "expo-image-manipulator";
 import { Alert } from 'react-native';
+import useResponsiveActionSheet from './useResponsiveActionSheet';
 
 const handleDenied = () => {
   Alert.alert(
@@ -86,7 +86,7 @@ const handleTakePhoto = async ({ aspect, ...options }) => {
 }
 
 const usePickImage = () => {
-  const { showActionSheetWithOptions } = useActionSheet();
+  const showActionSheetWithOptions = useResponsiveActionSheet();
 
   const pickImage = useCallback((options) => (
     new Promise((resolve) => {

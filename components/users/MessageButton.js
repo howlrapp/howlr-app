@@ -2,7 +2,6 @@ import React, { useMemo, useCallback } from 'react';
 import { Button, Icon } from '@ui-kitten/components';
 import { View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useActionSheet } from '@expo/react-native-action-sheet'
 
 import useViewer from '../../hooks/useViewer';
 import useApp from '../../hooks/useApp';
@@ -10,7 +9,7 @@ import useAddChat from '../../hooks/useAddChat';
 import useChats from '../../hooks/useChats';
 import { GET_CHATS } from '../../hooks/useGetChats';
 
-import ThemedOverflowMenu from '../ThemedOverflowMenu';
+import useResponsiveActionSheet from '../../hooks/useResponsiveActionSheet';
 
 const renderMessageIcon = (props) => (
   <Icon name="message-circle" {...props} />
@@ -59,7 +58,7 @@ const MessageButton = ({
   }, []);
 
 
-  const { showActionSheetWithOptions } = useActionSheet();
+  const showActionSheetWithOptions = useResponsiveActionSheet();
 
   const handleOpenChatForm = useCallback(() => {
     showActionSheetWithOptions(
