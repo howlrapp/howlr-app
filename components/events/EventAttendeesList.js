@@ -73,6 +73,7 @@ const EventAttendeesList = ({
     return (
       times(7, (index) => (
         <ThemedContentLoader
+          key={index}
           index={index}
           active
           avatar
