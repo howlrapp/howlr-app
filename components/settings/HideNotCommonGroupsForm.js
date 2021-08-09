@@ -3,8 +3,8 @@ import React from 'react';
 import MenuItemViewerFormSingleChoice from '../MenuItemViewerFormSingleChoice';
 
 const OPTIONS = [
-  { value: false, label: "No"   },
   { value: true,  label: "Yes"  },
+  { value: false, label: "No"   },
 ];
 
 const HideNotCommonGroupsForm = (props) => {

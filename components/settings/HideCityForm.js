@@ -3,8 +3,8 @@ import React from 'react';
 import MenuItemViewerFormSingleChoice from '../MenuItemViewerFormSingleChoice';
 
 const OPTIONS = [
-  { value: true,   label: "No"   },
   { value: false,  label: "Yes"  },
+  { value: true,   label: "No"   },
 ];
 
 const HideCityForm = (props) => {
