@@ -8,11 +8,12 @@ import ScreenTopNavigation from '../components/ScreenTopNavigation';
 import MenuSeparator from '../components/MenuSeparator';
 import ResponsiveLayout from '../components/ResponsiveLayout';
 
-const renderItem = ({ item: { title, body } }) => {
+export const renderInfoScreenItem = ({ item: { title, body } }) => {
   return (
     <ListItem
+      disabled
       title={trim(isEmpty(title) ? body : title)}
-      description={({ style, ...props }) => {
+      description={({ style }) => {
         if (isEmpty(title) || isEmpty(body)) {
           return (null);
         }
@@ -49,7 +50,7 @@ const InfoScreenSeparator = () => (
   </>
 )
 
-const InfoScreen = ({ data, title }) => {
+const InfoScreen = ({ data, title, ...props }) => {
   return (
     <>
       <ScreenTopNavigation title={title} />
@@ -57,11 +58,12 @@ const InfoScreen = ({ data, title }) => {
       <ResponsiveLayout>
         <List
           data={data}
-          renderItem={renderItem}
+          renderItem={renderInfoScreenItem}
           ListHeaderComponent={InfoScreenHeader}
           ListFooterComponent={InfoScreenFooter}
           ItemSeparatorComponent={InfoScreenSeparator}
           contentContainerStyle={styles.contentContainerStyle}
+          {...props}
         />
       </ResponsiveLayout>
     </>

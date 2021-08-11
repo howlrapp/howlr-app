@@ -103,7 +103,6 @@ const ProfilePictures = () => {
     <Button
       onPress={handleAddImage}
       disabled={addPictureLoading}
-      appearance="outline"
       style={styles.addPictureButton}
       accessoryLeft={renderAddPictureIcon}
     >

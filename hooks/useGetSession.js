@@ -5,6 +5,10 @@ export const SESSION_FRAGMENT = gql`
     id
     expoToken
     version
+    device
+    ip
+    lastSeenAt
+    createdAt
   }
 `;
 

@@ -13,7 +13,7 @@ import useHandleMessageNotifications from '../hooks/useHandleMessageNotification
 import useHandleEventNotifications from '../hooks/useHandleEventNotifications';
 
 import useNotificationsPermissions from '../hooks/useNotificationsPermissions';
-import useSaveVersion from '../hooks/useSaveVersion';
+import useSaveSessionInfo from '../hooks/useSaveSessionInfo';
 
 import UsersRouter from './UsersRouter';
 import EventsRouter from './EventsRouter';
@@ -37,7 +37,7 @@ const BottomTabBar = ({ navigation, state, withTitle }) => {
   }, [unreadChats.length])
 
   useNotificationsPermissions();
-  useSaveVersion();
+  useSaveSessionInfo();
 
   useHandleLikeNotifications();
   useHandleChatNotifications();

@@ -16,6 +16,8 @@ import ShareOnlineStatusForm from '../components/settings/ShareOnlineStatusForm'
 import HideNotCommonGroupsForm from '../components/settings/HideNotCommonGroupsForm';
 
 import BlockedUsersForm from '../components/settings/BlockedUsersForm';
+
+import SessionsLink from '../components/settings/SessionsLink';
 import LogoutLink from '../components/settings/LogoutLink';
 import RemoveAccountLink from '../components/settings/RemoveAccountLink';
 import DataConservationLink from '../components/settings/DataConservationLink';
@@ -84,7 +86,9 @@ const Settings = () => {
           <MenuSeparator />
 
           <MenuSection>
-          <DataConservationLink />
+            <SessionsLink />
+            <Divider />
+            <DataConservationLink />
           </MenuSection>
 
           <MenuSeparator />

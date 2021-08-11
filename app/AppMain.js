@@ -21,6 +21,7 @@ import TermsAndConditions from '../screens/TermsAndConditions';
 import PrivacyPolicy from '../screens/PrivacyPolicy';
 import Changelog from '../screens/Changelog';
 import Faq from '../screens/Faq';
+import Sessions from '../screens/Sessions';
 
 import useGetViewer from '../hooks/useGetViewer';
 import useGetLikes from '../hooks/useGetLikes';
@@ -276,6 +277,10 @@ const AppMain = () => {
                             <MainNavigator.Screen
                               name="Faq"
                               component={Faq}
+                            />
+                            <MainNavigator.Screen
+                              name="Sessions"
+                              component={Sessions}
                             />
                           </MainNavigator.Navigator>
                         </ActionSheetProvider>

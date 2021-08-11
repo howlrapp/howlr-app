@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 import Constants from 'expo-constants';
+import * as Device from 'expo-device';
 
 import useUpdateSession from './useUpdateSession';
 import useSession from './useSession';
 
-const useSaveVersion = () => {
+const useSaveSessionInfo = () => {
   const [ updateSession ] = useUpdateSession();
   const session = useSession();
 
@@ -13,15 +14,15 @@ const useSaveVersion = () => {
       return ;
     }
 
-    if (Constants.manifest.extra.appVersion !== session.version) {
-      updateSession({
-        variables: {
-          input: { version: Constants.manifest.extra.appVersion }
+    updateSession({
+      variables: {
+        input: {
+          version: Constants.manifest.extra.appVersion,
+          device: `${Device.brand} ${Device.modelName} - ${Device.osName} ${Device.osVersion}`
         }
-      });
-    }
-
+      }
+    });
   }, [updateSession, session]);
 }
 
-export default useSaveVersion;
+export default useSaveSessionInfo;
