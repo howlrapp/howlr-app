@@ -8,12 +8,6 @@ import MenuItemFormInput from './MenuItemFormInput';
 import useViewer from '../hooks/useViewer';
 import useSetProfileFieldValue from '../hooks/useSetProfileFieldValue';
 
-const VISIBILITY_LABELS = {
-  "everyone": "Make it visible to everyone",
-  "liked": "Make it visible only to people you liked",
-  "nobody": "Make it invisible"
-}
-
 const MenuItemProfileFieldFormInput = ({
   profileField,
   inputProps,

@@ -71,7 +71,7 @@ const EventAttendeesList = ({
 
   if (loading) {
     return (
-      times(7, (index) => (
+      times(Math.min(event.usersCount, 20), (index) => (
         <ThemedContentLoader
           key={index}
           index={index}
