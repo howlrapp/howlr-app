@@ -33,7 +33,7 @@ const useToggleGroup = ({ group }) => {
         refetchQueries: [{
           query: GET_VIEWER
         }],
-        awaitRefetchQueries: true
+        awaitRefetchQueries: true,
       })
     );
   }, [groupLimitReached, joinGroup, group.id])

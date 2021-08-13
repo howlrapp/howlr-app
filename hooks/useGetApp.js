@@ -24,7 +24,7 @@ export const APP_FRAGMENT = gql`
     eventsMaximumSearchableDistance
     eventsMaxPerWeek
     codeBotUsername
-    maximumLikesCount
+    
     websiteLink
     githubLink
     logo

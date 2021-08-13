@@ -8,7 +8,6 @@ import { GET_LIKES } from '../hooks/useGetLikes';
 
 import LikeItem from '../components/likes/LikeItem';
 import ResponsiveList from '../components/ResponsiveList';
-import LikeLimitDisclaimer from '../components/likes/LikeLimitDisclaimer';
 
 const Likes = ({
   likes,
@@ -43,10 +42,6 @@ const Likes = ({
     );
   }, [sentLikesUserIds, receivedLikesUserIds]);
 
-  const ListFooterComponent = () => (
-    <LikeLimitDisclaimer />
-  )
-
   const [ refreshLikes, { loading } ] = useLazyQuery(GET_LIKES, { fetchPolicy: "network-only" });
   const handleRefresh = useCallback(() => {
     refreshLikes();
@@ -59,7 +54,6 @@ const Likes = ({
       data={likes}
       keyExtractor={keyExtractor}
       ItemSeparatorComponent={Divider}
-      ListFooterComponent={ListFooterComponent}
       renderItem={renderItem}
       onRefresh={handleRefresh}
       refreshing={loading}

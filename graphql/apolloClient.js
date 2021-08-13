@@ -22,6 +22,8 @@ export const DEFAULT_USERS_SEARCH_CRITERIA = {
   matchKindIds: [],
   online: null,
   recent: null,
+  likedByMe: null,
+  likingMe: null,
   q: "",
   ageIds: [],
   eventIds: []
@@ -142,6 +144,8 @@ let client = new ApolloClient({
       matchKindIds: [String!]
       online: Boolean
       recent: Boolean
+      likedByMe: Boolean
+      likingMe: Boolean
       ageIds: [String!]
       q: String
       eventIds: [String!]
@@ -221,6 +225,7 @@ let client = new ApolloClient({
       var skipMessage = false;
       var errorMessage = "Unexpected error";
 
+      console.log(graphQLErrors, networkError);
       if (graphQLErrors) {
         graphQLErrors.map(({ message, locations, path }) => {
           console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`);

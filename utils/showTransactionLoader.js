@@ -11,6 +11,7 @@ const showTransactionLoader = async (transaction, options = {}) => {
   try {
     await transaction();
   } catch (e) {
+    console.log(e);
     showMessage({ message: options.error || "Unexpected error" });
     return ;
   }

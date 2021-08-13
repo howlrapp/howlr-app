@@ -9,6 +9,8 @@ export const GET_USER_SUMMARIES = gql`
     $matchKindIds: [String!],
     $online: Boolean,
     $recent: Boolean,
+    $likedByMe: Boolean,
+    $likingMe: Boolean,
     $ageIds: [String!],
     $q: String,
     $eventIds: [String!]
@@ -23,6 +25,8 @@ export const GET_USER_SUMMARIES = gql`
         matchKindIds: $matchKindIds,
         online: $online,
         recent: $recent,
+        likedByMe: $likedByMe,
+        likingMe: $likingMe,
         ageIds: $ageIds,
         q: $q,
         eventIds: $eventIds

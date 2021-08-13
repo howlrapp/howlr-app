@@ -5,16 +5,9 @@ import useApp from '../hooks/useApp';
 
 import Likes from './Likes';
 import EmptyListProfile from '../components/EmptyListProfile';
-import LikeLimitDisclaimer from '../components/likes/LikeLimitDisclaimer';
 
 const ReceivedLikes = (props) => {
-  const { maximumLikesCount } = useApp();
-
   const receivedLikes = useReceivedLikes();
-
-  const limitedReceivedLikes = useMemo(() => (
-    receivedLikes.slice(0, maximumLikesCount)
-  ), [receivedLikes, maximumLikesCount]);
 
   const ListEmptyComponent = useCallback(() => (
     <EmptyListProfile
@@ -22,17 +15,12 @@ const ReceivedLikes = (props) => {
     />
   ), []);
 
-  const ListFooterComponent = useCallback(() => (
-    <LikeLimitDisclaimer active={maximumLikesCount <= receivedLikes.length} />
-  ), [receivedLikes.length, maximumLikesCount]);
-
   return (
     <Likes
       {...props}
-      likes={limitedReceivedLikes}
+      likes={receivedLikes}
       direction="received"
       ListEmptyComponent={ListEmptyComponent}
-      ListFooterComponent={ListFooterComponent}
     />
   )
 }

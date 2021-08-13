@@ -9,7 +9,6 @@ import useRemoveLike from '../../hooks/useRemoveLike';
 import useViewer from '../../hooks/useViewer';
 
 import { GET_VIEWER } from '../../hooks/useGetViewer';
-import { GET_LIKES } from '../../hooks/useGetLikes';
 
 import showTransactionLoader from '../../utils/showTransactionLoader';
 
@@ -22,7 +21,7 @@ const LikeButton = ({
   style,
   ...props
 }) => {
-  const { id: viewerId } = useViewer();
+  const viewer = useViewer();
 
   const sentLikesUserIds = useSentLikesUserIds();
   const receivedLikesUserIds = useReceivedLikesUserIds();
@@ -40,12 +39,23 @@ const LikeButton = ({
         },
         awaitRefetchQueries: true,
         refetchQueries: [
-          { query: GET_LIKES },
           { query: GET_VIEWER },
-        ]
+        ],
+        update: (cache, { data: { removeLike } }) => {
+          cache.modify({
+            id: cache.identify(viewer),
+            fields: {
+              sentLikes(sentLikes) {
+                return (
+                  sentLikes.filter((like) => like.id !== removeLike.id)
+                )
+              }
+            }
+          })
+        }
       })
     ));
-  }, [removeLike, user.id]);
+  }, [removeLike, user.id, viewer]);
 
   const [ addLike, { loading: addLikeLoading }] = useAddLike();
   const handleAddLike = useCallback(() => {
@@ -58,12 +68,23 @@ const LikeButton = ({
         },
         awaitRefetchQueries: true,
         refetchQueries: [
-          { query: GET_LIKES },
           { query: GET_VIEWER },
         ],
+        update: (cache, { data: { addLike } }) => {
+          cache.modify({
+            id: cache.identify(viewer),
+            fields: {
+              sentLikes(sentLikes) {
+                return (
+                  [  addLike.like, ...sentLikes ]
+                )
+              }
+            }
+          })
+        }
       })
     ))
-  }, [addLike, user.id]);
+  }, [addLike, user.id, viewer]);
 
   return (
     <View
@@ -73,7 +94,7 @@ const LikeButton = ({
         accessoryLeft={renderLikeIcon}
         status={liked ? 'danger' : 'info'}
         onPress={liked ? handleRemoveLike : handleAddLike}
-        disabled={removeLikeLoading || addLikeLoading || user.id === viewerId}
+        disabled={removeLikeLoading || addLikeLoading || user.id === viewer.id}
         {...props}
       >
         {liked ? "UNLIKE" : "LIKE"}

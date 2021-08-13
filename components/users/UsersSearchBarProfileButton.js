@@ -33,7 +33,9 @@ const UsersSearchBarProfileButton = ({
       matchKindIds: [],
       ageIds: [],
       online: null,
-      recent: null
+      recent: null,
+      likedByMe: null,
+      likingMe: null,
     })
   ), [onSave]);
 
@@ -44,7 +46,9 @@ const UsersSearchBarProfileButton = ({
       value.matchKindIds.length === 0 &&
       value.ageIds.length === 0 &&
       !value.recent &&
-      !value.online
+      !value.online &&
+      !value.likedByMe &&
+      !value.likingMe
   );
 
   const label = useMemo(() => {

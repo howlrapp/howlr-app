@@ -14,8 +14,13 @@ import FormTopNavigation from '../FormTopNavigation';
 import CheckBoxMenuGroup from '../CheckBoxMenuGroup';
 
 const LISTING_ITEMS = [
-  { label: "Online now", id: "online"                 },
-  { label: "Users who joined recently", id: "recent"  },
+  { label: "Online now", id: "online"            },
+  { label: "New members", id: "recent"           },
+]
+
+const LIKE_ITEMS = [
+  { label: "Liked by me", id: "likedByMe"  },
+  { label: "Liking me", id: "likingMe"  },
 ]
 
 const AGE_ITEMS = [
@@ -101,19 +106,16 @@ const UsersFiltersProfile = ({
   }
 
   const handleChangeListing = useCallback((item, checked) => {
-    switch (item.id) {
-      case "online":
-        setTmpValue((tmpValue) => ({ ...tmpValue, online: checked }));
-        break ;
-      case "recent":
-        setTmpValue((tmpValue) => ({ ...tmpValue, recent: checked }));
-        break ;
-    }
+    setTmpValue((tmpValue) => ({ ...tmpValue, [item.id]: checked }));
   }, [setTmpValue]);
 
   const listingSelectedIds = useMemo(() => (
     [tmpValue.online && "online", tmpValue.recent && "recent"].filter((item) => !!item)
   ), [tmpValue.online, tmpValue.recent]);
+
+  const likesSelectedIds = useMemo(() => (
+    [tmpValue.likedByMe && "likedByMe", tmpValue.likingMe && "likingMe"].filter((item) => !!item)
+  ), [tmpValue.likedByMe, tmpValue.likingMe]);
 
   const handleChangeMatchKind = useCallback((matchKind, checked) => {
     if (checked) {
@@ -166,6 +168,12 @@ const UsersFiltersProfile = ({
             title="Status"
             items={LISTING_ITEMS}
             selectedItemIds={listingSelectedIds}
+            onChange={handleChangeListing}
+          />
+          <CheckBoxMenuGroup
+            title="Likes"
+            items={LIKE_ITEMS}
+            selectedItemIds={likesSelectedIds}
             onChange={handleChangeListing}
           />
           <CheckBoxMenuGroup
