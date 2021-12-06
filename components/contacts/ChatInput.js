@@ -86,9 +86,7 @@ const ChatInput = ({
     if (uri) {
       handleCloseInputModal();
 
-      showTransactionLoader({
-        message: "Uploading picture"
-      }, () => (
+      showTransactionLoader(() => (
         addMessage({
           variables: {
             input: { chatId: chat.id, pictureUrl: uri }
