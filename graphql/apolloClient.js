@@ -166,7 +166,7 @@ let client = new ApolloClient({
       chatMode: async () => {
         const chatMode = await AsyncStorage.getItem('chatMode');
 
-        return chatMode;
+        return chatMode || (Platform.OS === 'ios' ? 'inline' :  'modal');
       },
       usersSearchCriteria: async () => {
         const usersSearchCriteriaString = await AsyncStorage.getItem('usersSearchCriteria');
