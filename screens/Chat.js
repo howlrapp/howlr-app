@@ -77,7 +77,7 @@ const Chat = ({ route: { params: { id } }}) => {
   const { data: chatModeData } = useGetChatMode();
   const chatMode = chatModeData?.chatMode || "inline";
 
-  const ContainerCompoent = chatMode === 'inline' ? KeyboardAvoidingView : View;
+  const ContainerComponent = chatMode === 'inline' ? KeyboardAvoidingView : View;
 
   return (
     <View
@@ -90,9 +90,10 @@ const Chat = ({ route: { params: { id } }}) => {
       }
       {
         chat && (
-          <ContainerCompoent
+          <ContainerComponent
             style={styles.keyboardAvoidingView}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            keyboardVerticalOffset={Platform.OS === 'android' ? '25' : '0'}
           >
             <View
               style={[ styles.messagesContainer, { backgroundColor: theme['background-basic-color-2'] }]}
@@ -110,7 +111,7 @@ const Chat = ({ route: { params: { id } }}) => {
               style={styles.inputContainer}
               chat={chat}
             />
-          </ContainerCompoent>
+          </ContainerComponent>
         )
       }
     </View>
