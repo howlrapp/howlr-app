@@ -16,7 +16,7 @@ Sure thing! Please fork and post some pull requests, if you're thinking about ad
 
 ### I'm not happy with Howlr, can I fork it and distribute my own app?
 
-Of course! Two things though: you may want to wait until we open-source the backend code so you can run your own server and also don't forget that Howlr is distributed under the GPL3 licence.
+Of course! Two things though: you may want to wait until we open-source the backend code so you can run your own server.
 
 ### How much does Howlr cost?
 
