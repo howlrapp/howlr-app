@@ -1,6 +1,7 @@
-# Howlr
+# Howlr - *This application is unmaintained*
 
 This is the main repository for the Howlr app.
+
 
 ### Which languages and/or framework does Howlr use?
 
