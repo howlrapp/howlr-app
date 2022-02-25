@@ -1,6 +1,4 @@
 import React, { useCallback } from 'react';
-import { Text } from '@ui-kitten/components';
-import Constants from 'expo-constants';
 import * as WebBrowser from 'expo-web-browser';
 
 import useApp from '../../hooks/useApp';

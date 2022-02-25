@@ -1,11 +1,12 @@
 import React, { useMemo } from 'react';
-import { useTheme, Text } from '@ui-kitten/components';
-import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import FastImage from 'react-native-fast-image';
+import { useTheme } from '@ui-kitten/components';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 
 import useSentLikesUserIds from '../hooks/useSentLikesUserIds';
 import useReceivedLikesUserIds from '../hooks/useReceivedLikesUserIds';
 import useViewer from '../hooks/useViewer';
+
+import Image from './Image';
 
 const placeHolderImage = require('../assets/default-avatar.png');
 
@@ -125,7 +126,7 @@ const UserAvatar = ({
         disabled={!onPress}
         onPress={onPress}
       >
-        <FastImage
+        <Image
           style={{ width: size, height: size, borderRadius: size }}
           source={source}
           {...props}

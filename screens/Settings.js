@@ -1,6 +1,9 @@
 import React from 'react';
 
+import { View } from 'react-native';
 import { Menu, Divider } from '@ui-kitten/components';
+
+import { compact } from 'lodash';
 
 import ScreenTopNavigation from '../components/ScreenTopNavigation';
 
@@ -34,7 +37,53 @@ import MenuSeparator from '../components/MenuSeparator';
 import MenuSection from '../components/MenuSection';
 import ResponsiveLayout from '../components/ResponsiveLayout';
 
+import useApp from '../hooks/useApp';
+
 const Settings = () => {
+  const {
+    githubLink,
+    websiteLink,
+    changelogs,
+    faqItems
+  } = useApp();
+
+  const settingsItem = [
+    [
+      DistanceUnitForm,
+      NotificationForm,
+      ColorSchemeForm,
+      ChatModeForm
+    ],
+    [
+      MaximumDistanceForm,
+      HideCityForm,
+      HideLikesForm,
+      ShareOnlineStatusForm,
+      HideNotCommonGroupsForm
+    ],
+    [
+      BlockedUsersForm
+    ],
+    [
+      LogoutLink,
+      RemoveAccountLink
+    ],
+    [
+      SessionsLink,
+      DataConservationLink
+    ],
+    [
+      TermsAndConditionsLink,
+      PrivacyPolicyLink
+    ],
+    [
+      faqItems.length > 0 && FaqLink,
+      changelogs.length > 0 && ChangelogLink,
+      githubLink && SourceCodeLink,
+      websiteLink && WebsiteLink
+    ]
+  ].map((section) => compact(section));
+
   return (
     <>
       <ScreenTopNavigation title="Settings" />
@@ -44,73 +93,27 @@ const Settings = () => {
       >
         <ResponsiveLayout>
           <MenuSeparator />
-
-          <MenuSection>
-            <DistanceUnitForm />
-            <Divider />
-            <NotificationForm />
-            <Divider />
-            <ColorSchemeForm />
-            <Divider />
-            <ChatModeForm />
-          </MenuSection>
-
-          <MenuSeparator />
-
-          <MenuSection>
-            <MaximumDistanceForm />
-            <Divider />
-            <HideCityForm />
-            <Divider />
-            <HideLikesForm />
-            <Divider />
-            <ShareOnlineStatusForm />
-            <Divider />
-            <HideNotCommonGroupsForm />
-          </MenuSection>
-
-          <MenuSeparator />
-
-          <MenuSection>
-            <BlockedUsersForm />
-          </MenuSection>
-
-          <MenuSeparator />
-
-          <MenuSection>
-            <LogoutLink />
-            <Divider />
-            <RemoveAccountLink />
-          </MenuSection>
-
-          <MenuSeparator />
-
-          <MenuSection>
-            <SessionsLink />
-            <Divider />
-            <DataConservationLink />
-          </MenuSection>
-
-          <MenuSeparator />
-
-          <MenuSection>
-            <TermsAndConditionsLink />
-            <Divider />
-            <PrivacyPolicyLink />
-          </MenuSection>
-
-          <MenuSeparator />
-
-          <Divider />
-          <FaqLink />
-          <Divider />
-          <ChangelogLink />
-          <Divider />
-          <SourceCodeLink />
-          <Divider />
-          <WebsiteLink />
-          <Divider />
-          <MenuSeparator />
+          {
+            settingsItem.map((section, index) => (
+              section.length > 0 ? (
+                <React.Fragment key={index}>
+                  <MenuSection>
+                    {
+                      section.map((item, index) => (
+                        <React.Fragment key={index}>
+                          {React.createElement(item)}
+                          {index < section.length - 1 ? <Divider /> : <View />}
+                        </React.Fragment>
+                      ))
+                    }
+                  </MenuSection>
+                  <MenuSeparator />
+                </React.Fragment>
+              ) : (
+                <View />
+              )
+            ))
+          }
         </ResponsiveLayout>
       </Menu>
     </>

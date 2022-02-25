@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { View, StyleSheet, KeyboardAvoidingView, TouchableOpacity, Platform, Keyboard } from 'react-native';
-import { Text, Input, Button, Avatar, CheckBox, useTheme } from '@ui-kitten/components';
+import { Text, Input, Button, CheckBox, useTheme } from '@ui-kitten/components';
 import { trim } from 'lodash';
 import AppLink from 'react-native-app-link';
 import { useNavigation } from '@react-navigation/native';
@@ -20,7 +20,7 @@ const Login = () => {
   const [ agreedToTerms, setAgreedToTerms ] = useState(false);
   const [ showDetails, setShowDetails ] = useState(true);
 
-  const { minimumAge, name, codeBotUsername, logo } = useApp();
+  const { minimumAge, name, codeBotUsername } = useApp();
 
   const [ setToken ] = useSetToken();
 
@@ -125,10 +125,6 @@ const Login = () => {
                     >
                       {`Welcome to ${name}!`}
                     </Text>
-                    <Avatar
-                      size={"giant"}
-                      source={{ uri: logo }}
-                    />
                   </View>
                   <TouchableOpacity
                     onPress={openConversation}

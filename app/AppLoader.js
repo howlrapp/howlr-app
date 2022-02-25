@@ -17,8 +17,6 @@ import useToken from '../hooks/useToken';
 import useCreateActionCableConsumer from '../hooks/useCreateActionCableConsumer';
 import { ActionCableConsumerContext } from '../hooks/useActionCableConsumer';
 
-import useReduxSessionTokenMigration from '../hooks/useReduxSessionTokenMigration';
-
 import ActivityIndicator from '../components/ActivityIndicator';
 import EmptyList from '../components/EmptyList';
 import ProgressBar from '../components/ProgressBar';
@@ -35,9 +33,6 @@ const LoginNavigator = createStackNavigator();
 const AppLoader = ({ eva }) => {
   const theme = useTheme();
 
-  // handle legacy session token
-  const { loading: migrationLoading } = useReduxSessionTokenMigration();
-
   const { data: tokenData, loading: tokenLoading } = useToken();
 
   const navigationTheme = useMemo(() => ({
@@ -53,15 +48,12 @@ const AppLoader = ({ eva }) => {
      loading: appLoading,
      error: appError,
   } = useGetApp({
-    variables: {
-      id: Constants.manifest.extra.appId,
-    },
     pollInterval: APP_POLL_INTERVAL
   });
 
   const actionCableConsumer = useCreateActionCableConsumer(tokenData?.token);
 
-  if (migrationLoading || tokenLoading || appLoading || appError) {
+  if (tokenLoading || appLoading || appError) {
     return (
       <EmptyList
         title={null}
@@ -69,7 +61,6 @@ const AppLoader = ({ eva }) => {
       >
         <ProgressBar
           steps={[
-            !migrationLoading,
             !tokenLoading,
             !appLoading,
             false, false, false, false, false // four next steps

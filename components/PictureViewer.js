@@ -6,7 +6,6 @@ import { Platform, TouchableOpacity } from 'react-native';
 import { Icon } from '@ui-kitten/components';
 import * as Device from 'expo-device';
 import Constants from 'expo-constants';
-import FastImage from 'react-native-fast-image'
 
 import {
   useResponsiveScreenWidth,
@@ -21,6 +20,7 @@ import useDeviceType from '../hooks/useDeviceType';
 import ActivityIndicator from './ActivityIndicator';
 import ResponsiveModalize from './ResponsiveModalize';
 import ResponsiveViewPager from './ResponsiveViewPager';
+import Image from './Image';
 
 const PictureViewer = ({
   pictures,
@@ -100,7 +100,7 @@ const PictureViewer = ({
                   >
                     <ActivityIndicator />
                   </View>
-                  <FastImage
+                  <Image
                     source={{ uri: picture.pictureUrl }}
                     style={{
                       borderTopLeftRadius: index === 0 ? 11 : 0,

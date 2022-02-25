@@ -1,12 +1,11 @@
 import React, { useCallback, useMemo } from 'react';
 import { Card, Text, useTheme } from '@ui-kitten/components';
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { isEmpty } from 'lodash';
 import {
   useResponsiveScreenWidth,
 } from "react-native-responsive-dimensions";
 import { format, differenceInHours } from 'date-fns';
-import FastImage from 'react-native-fast-image';
 
 import { GET_CHATS } from '../../hooks/useGetChats';
 import { GET_CHAT } from '../../hooks/useGetChat';
@@ -15,6 +14,7 @@ import useViewer from '../../hooks/useViewer';
 import useRemoveMessage from '../../hooks/useRemoveMessage';
 import showTransactionLoader from '../../utils/showTransactionLoader';
 import EnrichedText from '../EnrichedText';
+import Image from '../Image';
 
 import useResponsiveActionSheet from '../../hooks/useResponsiveActionSheet';
 
@@ -116,7 +116,7 @@ const ChatBubble = React.memo(({
                 }
               ]}
             />
-            <FastImage
+            <Image
               style={{
                 width: pictureSize,
                 height: pictureSize,

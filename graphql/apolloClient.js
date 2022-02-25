@@ -235,7 +235,7 @@ let client = new ApolloClient({
           }
 
           if (message.match(/Not authorized/)) {
-            errorMessage = "Your account is temporarily limited";
+            errorMessage = "Not authorized";
           } else {
             errorMessage = "Unexpected error";
           }

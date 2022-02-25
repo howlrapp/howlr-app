@@ -8,14 +8,20 @@ enableScreens();
 
 import React from 'react';
 
-import * as SplashScreen from 'expo-splash-screen';
+import { StatusBar } from 'expo-status-bar';
+import { Platform } from 'react-native';
 
-import AppReduxLegacyStore from './app/AppReduxLegacyStore';
+import * as SplashScreen from 'expo-splash-screen';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
+import AppBootstrap from './app/AppBootstrap';
+
 const App = () => (
-  <AppReduxLegacyStore />
+  <>
+    {Platform.OS === 'ios' ? <StatusBar style={'light'} translucent={false} /> : null}
+    <AppBootstrap />
+  </>
 );
 
 export default App;

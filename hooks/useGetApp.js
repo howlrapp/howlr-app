@@ -24,10 +24,8 @@ export const APP_FRAGMENT = gql`
     eventsMaximumSearchableDistance
     eventsMaxPerWeek
     codeBotUsername
-    
     websiteLink
     githubLink
-    logo
     changelogs {
       id
       createdAt
@@ -103,12 +101,11 @@ export const APP_FRAGMENT = gql`
   }
 ${GROUP_FRAGMENT}`;
 
-export const GET_APP = gql`
-  query getApp($id: ID!) {
-    app(id: $id) {
-      ...AppFragment
-    }
+export const GET_APP = gql`{
+  app {
+    ...AppFragment
   }
+}
 ${APP_FRAGMENT}
 `;
 
