@@ -1,27 +1,6 @@
 # Howlr - *This application is unmaintained*
 
-This is the main repository for the Howlr app.
-
-
-### Which languages and/or framework does Howlr use?
-
-Howlr is written in Javascript, using React Native and the Expo framework. It uses Apollo GraphQL to communicate with the backend.
-
-### Why do you open-source it?
-
-Because there's no reason not to do it: Howlr is not a business, we made it to learn some React Native and to do something useful for our community, so really there's nothing preventing us for sharing the code.
-
-### Can I contribute?
-
-Sure thing! Please fork and post some pull requests, if you're thinking about adding some new features feel free to post a feature request in the issues before you start working on it, so we can talk about the best way to implement it.
-
-### I'm not happy with Howlr, can I fork it and distribute my own app?
-
-Of course! Two things though: you may want to wait until we open-source the backend code so you can run your own server.
-
-### How much does Howlr cost?
-
-It's currently pretty cheap, around 100€/month, and a good part of it is covered by our awesome contributors on Patreon. If you feel like donating a small amount you can [join our $2 tier](https://www.patreon.com/HowlrApp).
+This is the main repository for the Howlr app. Howlr is written in Javascript, using React Native and the Expo framework. It uses Apollo GraphQL to communicate with the backend. You server code is available here https://github.com/howlrapp/howlr-server.
 
 ## Philosophy
 
